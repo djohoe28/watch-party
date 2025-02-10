@@ -12,9 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
+        env:
+          VITE_APP_TITLE: ${{ secrets.VITE_APP_TITLE }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_TELHAI_PROJECT_316294321 }}
           channelId: live
           projectId: telhai-project-316294321
+          
