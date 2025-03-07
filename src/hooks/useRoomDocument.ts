@@ -7,15 +7,18 @@ import {
 } from "firebase/firestore";
 import firestoreDb from "../services/Firestore.service";
 import { useState, useEffect } from "react";
+import RoomDocument from "../models/Firestore/RoomDocument.model";
 
 export const useRoomDocument = (roomId: string) => {
-	// Get reference to the document in default ("rooms") collection
-	const roomsCollection = collection(
+	// Get reference to the room's document.
+	const roomDocumentRef = doc(
 		firestoreDb,
-		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID
-	);
+		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
+		roomId
+	); // TODO: Type this.
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | Error | null>(null);
+	const [roomData, setRoomData] = useState<RoomDocument | null>(null);
 
 	useEffect(() => {
 		if (!roomId) {
@@ -26,32 +29,16 @@ export const useRoomDocument = (roomId: string) => {
 		}
 		setLoading(true);
 		try {
-			const roomDocumentRef = doc(roomsCollection, roomId);
 			// Set up the real-time listener
 			const unsubscribe = onSnapshot(roomDocumentRef, (doc) => {
 				if (doc.exists()) {
-					console.log("Document data:", doc.data());
+					console.log("Document data:", doc.data() as RoomDocument);
+					setRoomData(doc.data() as RoomDocument);
 				}
 				setLoading(false);
 				setError(null);
 			});
 			return () => unsubscribe();
-			// const roomMessagesSubcollectionRef = collection(roomDocumentRef, "messages");
-			// const roomUsersSubcollectionRef = collection(roomDocumentRef, "users");
-			// // Create a query that orders messages by timestamp
-			// const messagesQuery = query(roomMessagesSubcollectionRef, orderBy("sentAt", "asc"));
-			// // Set up the real-time listener
-			// const unsubscribe = onSnapshot(messagesQuery,
-			//   (snapshot) => {
-			// 	// Transform the snapshot into a more usable array of messages
-			// 	const messageList = snapshot.docs.map(doc => ({
-			// 	  id: doc.id,	// Document ID
-			// 	  ...doc.data()	// Document Data
-			// 	}));
-			// 	setMessages(messageList);
-			// 	setLoading(false);
-			// 	setError(null);
-			// });
 		} catch (err: Error | any) {
 			console.error("Error setting up chat listener:", err);
 			setError(`Failed to set up chat listener: ${err.message}`);
@@ -59,7 +46,7 @@ export const useRoomDocument = (roomId: string) => {
 		}
 	}, [roomId]);
 
-	return { roomsCollection, loading, error };
+	return { roomDocumentRef, roomData, loading, error };
 };
 
 // TODO: Add SDKs for Firebase products that you want to use
