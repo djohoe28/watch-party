@@ -14,6 +14,8 @@ interface ImportMetaEnv {
 	readonly VITE_FIREBASE_FIRESTORE_EMULATOR_PORT: number;
 	// Environment Variables
 	readonly VITE_FIREBASE_ROOMS_COLLECTION_ID: string;
+	readonly VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID: string;
+	readonly VITE_FIREBASE_USERS_SUBCOLLECTION_ID: string;
 }
 
 interface ImportMeta {
