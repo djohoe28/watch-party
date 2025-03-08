@@ -1,6 +1,6 @@
 import Timestamp from "./Timestamp.model";
 
-export default interface MediaState {
+export default interface MediaStateMap {
 	currentTime: number;
 	description: string;
 	duration: number;
