@@ -1,8 +1,9 @@
+import Timestamp from "./Firestore/Timestamp.model";
 import type MediaState from "./MediaState.model";
 
 export default interface Packet {
 	senderId: string;
-	timestamp: number;
+	sentAt: Timestamp;
 }
 
 export interface MediaPacket extends Packet {
@@ -10,5 +11,5 @@ export interface MediaPacket extends Packet {
 }
 
 export interface ChatPacket extends Packet {
-	text: string;
+	content: string;
 }
