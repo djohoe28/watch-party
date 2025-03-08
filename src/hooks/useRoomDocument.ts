@@ -7,14 +7,14 @@ import RoomDocument, {
 
 export const useRoomDocument = (roomId: string) => {
 	// Get reference to the room's document.
-	const roomDocumentRef = doc(
+	const roomRef = doc(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
 		roomId
 	).withConverter(RoomDocumentConverter); // TODO: Type this.
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | Error | null>(null);
-	const [roomData, setRoomData] = useState<RoomDocument | null>(null);
+	const [roomData, setRoomData] = useState<RoomDocument | null>(null); // TODO: Use AppModel
 	// TODO: setDoc(reference, data, { merge: true })
 	// TODO: serverTimestamp() for lastUpdated?
 	useEffect(() => {
@@ -27,7 +27,7 @@ export const useRoomDocument = (roomId: string) => {
 		}
 		setLoading(true);
 		try {
-			const unsubscribe = onSnapshot(roomDocumentRef, (doc) => {
+			const unsubscribe = onSnapshot(roomRef, (doc) => {
 				if (doc.exists()) {
 					setRoomData(doc.data());
 				}
@@ -41,5 +41,5 @@ export const useRoomDocument = (roomId: string) => {
 		}
 	}, [roomId]);
 
-	return { roomDocumentRef, roomData, loading, error };
+	return { roomRef, roomData, loading, error }; // TODO: Return roomRef?
 };
