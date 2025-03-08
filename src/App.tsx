@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import ProTip from './ProTip';
 import { useRoomDocument } from './hooks/useRoomDocument';
+import { Skeleton } from '@mui/material';
 
 function Copyright() {
   return (
@@ -16,8 +17,8 @@ function Copyright() {
       }}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://telhai.tech/">
+        Tel Hai Tech
       </Link>{' '}
       {new Date().getFullYear()}.
     </Typography>
@@ -25,18 +26,15 @@ function Copyright() {
 }
 
 export default function App() {
-  const { roomsCollection, loading: roomsLoading, error: roomsError } = useRoomDocument("RoomIDGoesHere");
-  React.useEffect(() => {
-    console.log("roomsCollection:", roomsCollection);
-  }, [roomsCollection]);
+  const { roomData, loading: roomDataLoading, error: roomDataError } = useRoomDocument("RoomIDGoesHere");
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-          Material UI Vite.js example in TypeScript
+          CoVid Player
         </Typography>
-        <Typography>
-          {roomsLoading ? "Loading..." : roomsError ? `Error: ${roomsError}` : "Room data loaded"}
+        <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
+          {roomDataLoading ? <Skeleton /> : roomDataError ? roomDataError.toString() : roomData?.title}
         </Typography>
         <ProTip />
         <Copyright />
