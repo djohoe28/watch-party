@@ -1,14 +1,22 @@
-import MediaState from "./MediaState.model";
-import MessagesSubcollection from "./MessagesSubcollection.model";
+import { DocumentData } from "firebase/firestore";
+import MediaStateMap from "./MediaStateMap.model";
 import Timestamp from "./Timestamp.model";
-import UsersSubcollection from "./UsersSubcollection.model";
+import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
+import Room from "../Room.model";
+import MessagesCollection from "./MessagesCollection.model";
+import UsersCollection from "./UsersCollection.model";
 
-export default interface RoomDocument {
+export default interface RoomDocument extends DocumentData {
 	// Subcollections
-	messages: MessagesSubcollection;
-	users: UsersSubcollection;
+	messages?: MessagesCollection | null;
+	users?: UsersCollection | null;
 	// Fields
 	createdAt: Timestamp;
 	title: string;
-	media: MediaState;
+	media: MediaStateMap;
 }
+
+export const RoomDocumentConverter = new GenericFirestoreConverter<
+	RoomDocument, // TODO: Change this to Room
+	RoomDocument
+>();
