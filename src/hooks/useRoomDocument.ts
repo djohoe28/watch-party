@@ -6,15 +6,14 @@ import RoomDocument, {
 } from "../models/Firestore/RoomDocument.model";
 
 export const useRoomDocument = (roomId: string) => {
-	// Get reference to the room's document.
-	const roomRef = doc(
+	const ref = doc(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
 		roomId
 	).withConverter(RoomDocumentConverter); // TODO: Type this.
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | Error | null>(null);
-	const [roomData, setRoomData] = useState<RoomDocument | null>(null); // TODO: Use AppModel
+	const [data, setRoomData] = useState<RoomDocument | null>(null); // TODO: Use AppModel
 	// TODO: setDoc(reference, data, { merge: true })
 	// TODO: serverTimestamp() for lastUpdated?
 	useEffect(() => {
@@ -27,7 +26,7 @@ export const useRoomDocument = (roomId: string) => {
 		}
 		setLoading(true);
 		try {
-			const unsubscribe = onSnapshot(roomRef, (doc) => {
+			const unsubscribe = onSnapshot(ref, (doc) => {
 				if (doc.exists()) {
 					setRoomData(doc.data());
 				}
@@ -36,10 +35,14 @@ export const useRoomDocument = (roomId: string) => {
 			});
 			return () => unsubscribe();
 		} catch (err: Error | any) {
-			setError(`Failed to set up chat listener: ${err.message}`);
+			setError(
+				`Error setting up ${
+					import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID
+				}[${roomId}] listener: ${err.message}`
+			);
 			setLoading(false);
 		}
 	}, [roomId]);
 
-	return { roomRef, roomData, loading, error }; // TODO: Return roomRef?
+	return { ref, data, loading, error }; // TODO: Return roomRef?
 };
