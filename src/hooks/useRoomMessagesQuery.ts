@@ -31,6 +31,7 @@ export const useRoomMessagesQuery = (
 		setLoading(true);
 		try {
 			const unsubscribe = onSnapshot(queryRef, (snapshot) => {
+				// TODO: Add id to AppModelType?
 				const messageList = snapshot.docs.map((doc) => {
 					return { ...doc.data(), id: doc.id }; // TODO: id only used as key for future mapping.
 				});
