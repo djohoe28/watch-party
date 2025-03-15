@@ -4,8 +4,11 @@ import { useState, useEffect } from "react";
 import RoomDocument, {
 	RoomDocumentConverter,
 } from "../models/Firestore/RoomDocument.model";
+import { FirestoreDocumentContextType } from "../types/FirestoreContextType";
 
-export const useRoomDocument = (roomId: string) => {
+export const useRoomDocument = (
+	roomId: string
+): FirestoreDocumentContextType<RoomDocument, RoomDocument> => {
 	const ref = doc(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
