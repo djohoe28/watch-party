@@ -1,12 +1,12 @@
 import { MessageItem } from "./MessageItem";
 import { useRoomMessagesQuery } from "../hooks/useRoomMessagesQuery";
-import { useEffect } from "react";
+import { useContext } from "react";
+import { RoomIdContext } from "../contexts/RoomIdContext";
 
-export const MessageList = ({ roomId }: { roomId: string }) => {
-	const { data, loading, error } = useRoomMessagesQuery(roomId);
-	useEffect(() => {
-		console.log(data?.map((message) => message.id));
-	}, [data])
+export const MessageList = () => {
+	// Properties
+	const roomId = useContext(RoomIdContext);
+	const { data, loading, error } = useRoomMessagesQuery(roomId); // TODO: Replace with useContext.
 	return (
 		<div>
 			{loading && <div>Loading...</div>}
