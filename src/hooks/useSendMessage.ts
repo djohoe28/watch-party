@@ -1,55 +1,46 @@
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
-import { useRoomDocument } from "./useRoomDocument";
+import firestoreDb from "../services/Firestore.service";
 
 export const useSendMessage = (roomId: string) => {
-	// TODO: IMPLEMENT THIS!!!!
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// Properties
-	const {
-		ref: roomRef,
-		data: _,
-		loading: roomLoading,
-		error: roomError,
-	} = useRoomDocument(roomId);
-	const messagesCollectionRef = collection(
-		roomRef,
+	const ref = collection(
+		firestoreDb,
+		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
+		roomId,
 		import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
 	).withConverter(MessageDocumentConverter); // TODO: Check if MessageCollectionConverter is needed.
 	// States
-	const [sending, setSending] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | Error | null>(null);
+	const [sending, setSending] = useState<boolean>(false);
 	// Methods
 	const sendMessage = useCallback(
 		async (message: string, senderId: string) => {
-			if (!roomId) return; // TODO: Check if Room ID is URL safe?
-			if (roomLoading) {
-				setSending(true);
-				return;
-			}
-			if (roomError) {
-				setError(roomError);
-				setSending(false);
+			// TODO: Add senderName?
+			if (!roomId) {
+				// TODO: Check if Room ID is URL safe?
+				setError("No Room ID provided");
+				setLoading(false);
 				return;
 			}
 			setSending(true);
 			try {
-				console.log("Sending message", message, senderId);
-				await addDoc(messagesCollectionRef, {
+				await addDoc(ref, {
 					sentAt: serverTimestamp(),
 					content: message,
 					senderId: senderId,
 				});
-				console.log("Message sent");
 				setSending(false);
 				setError(null);
-			} catch (e: Error | any) {
-				setError(e);
+			} catch (err: Error | any) {
+				setError(err);
 				setSending(false);
 			}
 		},
-		[roomId, roomLoading, roomError, messagesCollectionRef]
+		[roomId, ref]
 	);
-	return { sending, error, sendMessage };
+	return { sendMessage, sending, loading, error };
 };
