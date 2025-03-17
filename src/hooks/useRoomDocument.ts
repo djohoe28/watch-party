@@ -9,6 +9,7 @@ import { FirestoreDocumentContextType } from "../types/FirestoreContextType";
 export const useRoomDocument = (
 	roomId: string
 ): FirestoreDocumentContextType<RoomDocument, RoomDocument> => {
+	// TODO: What if roomId doesn't exist yet?
 	const ref = doc(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
