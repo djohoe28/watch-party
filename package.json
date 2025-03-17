@@ -7,9 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "emulate-firestore": "firebase emulators:start --only firestore",
-    "emulate-firestore:import": "firebase emulators:start --only firestore --import ./firestore.local",
-    "emulate-firestore:export": "firebase emulators:start --only firestore --import ./firestore.local --export-on-exit firestore.local"
+    "emulate-firestore": "firebase emulators:start --only auth,firestore",
+    "emulate-firestore:import": "firebase emulators:start --only auth,firestore --import ./firestore.local",
+    "emulate-firestore:export": "firebase emulators:start --only auth,firestore --import ./firestore.local --export-on-exit firestore.local"
   },
   "dependencies": {
     "@emotion/react": "latest",
