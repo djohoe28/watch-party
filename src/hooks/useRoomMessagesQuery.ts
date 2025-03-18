@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import {
+	collection,
+	query,
+	orderBy,
+	onSnapshot,
+	DocumentReference,
+} from "firebase/firestore";
 import MessageDocument, {
 	MessageDocumentConverter,
 } from "../models/Firestore/MessageDocument.model";
 import { FirestoreQueryContextType } from "../types/FirestoreContextType";
-import firestoreDb from "../services/Firestore.service";
 
 export const useRoomMessagesQuery = (
-	roomId: string
+	roomRef: DocumentReference
 ): FirestoreQueryContextType<MessageDocument, MessageDocument> => {
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	const collectionRef = collection(
-		firestoreDb,
-		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
-		roomId,
+		roomRef,
 		import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
 	).withConverter(MessageDocumentConverter);
 	const queryRef = query(collectionRef, orderBy("sentAt", "asc"));
@@ -22,7 +25,7 @@ export const useRoomMessagesQuery = (
 	const [data, setData] = useState<MessageDocument[] | null>(null);
 
 	useEffect(() => {
-		if (!roomId) {
+		if (!roomRef) {
 			// TODO: Check if Room ID is URL safe?
 			setError("No Room ID provided");
 			setLoading(false);
@@ -48,7 +51,7 @@ export const useRoomMessagesQuery = (
 			);
 			setLoading(false);
 		}
-	}, [roomId]);
+	}, [roomRef]);
 
 	return { ref: queryRef, data, loading, error };
 };

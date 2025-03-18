@@ -1,15 +1,17 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+	addDoc,
+	collection,
+	DocumentReference,
+	serverTimestamp,
+} from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
-import firestoreDb from "../services/Firestore.service";
 
-export const useSendMessage = (roomId: string) => {
+export const useSendMessage = (roomRef: DocumentReference) => {
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// Properties
 	const ref = collection(
-		firestoreDb,
-		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
-		roomId,
+		roomRef,
 		import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
 	).withConverter(MessageDocumentConverter); // TODO: Check if MessageCollectionConverter is needed.
 	// States
@@ -20,9 +22,9 @@ export const useSendMessage = (roomId: string) => {
 	const sendMessage = useCallback(
 		async (message: string, senderId: string) => {
 			// TODO: Add senderName?
-			if (!roomId) {
+			if (!roomRef) {
 				// TODO: Check if Room ID is URL safe?
-				setError("No Room ID provided");
+				setError("No Room Document provided");
 				setLoading(false);
 				return;
 			}
@@ -40,7 +42,7 @@ export const useSendMessage = (roomId: string) => {
 				setSending(false);
 			}
 		},
-		[roomId, ref]
+		[roomRef, ref]
 	);
 	return { sendMessage, sending, loading, error };
 };

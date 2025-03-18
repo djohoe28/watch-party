@@ -1,20 +1,17 @@
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, DocumentReference, onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import UserDocument, {
 	UserDocumentConverter,
 } from "../models/Firestore/UserDocument.model";
 import User from "../models/User.model";
-import firestoreDb from "../services/Firestore.service";
 import { FirestoreCollectionContextType } from "../types/FirestoreContextType";
 
 export const useRoomUsersCollection = (
-	roomId: string
+	roomRef: DocumentReference
 ): FirestoreCollectionContextType<UserDocument, UserDocument> => {
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	const ref = collection(
-		firestoreDb,
-		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
-		roomId,
+		roomRef,
 		import.meta.env.VITE_FIREBASE_USERS_SUBCOLLECTION_ID
 	).withConverter(UserDocumentConverter);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -22,7 +19,7 @@ export const useRoomUsersCollection = (
 	const [data, setData] = useState<User[] | null>(null);
 
 	useEffect(() => {
-		if (!roomId) {
+		if (!roomRef) {
 			// TODO: Check if Room ID is URL safe?
 			setError("No Room ID provided");
 			setLoading(false);
@@ -50,7 +47,7 @@ export const useRoomUsersCollection = (
 			);
 			setLoading(false);
 		}
-	}, [roomId]);
+	}, [roomRef]);
 
 	return { ref, data, loading, error };
 };
