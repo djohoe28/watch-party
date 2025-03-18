@@ -1,0 +1,3 @@
+[ ] Use hooks to get DB state
+[ ] Use Providers to hold DB state
+[ ] Use Context(s) to retrieve Provider state
