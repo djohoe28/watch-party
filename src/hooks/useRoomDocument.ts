@@ -5,6 +5,7 @@ import RoomDocument, {
 	RoomDocumentConverter,
 } from "../models/Firestore/RoomDocument.model";
 import { FirestoreDocumentContextType } from "../types/FirestoreContextType";
+import { ErrorType } from "../types/AsyncContext";
 
 export const useRoomDocument = (
 	roomId: string
@@ -16,7 +17,7 @@ export const useRoomDocument = (
 		roomId
 	).withConverter(RoomDocumentConverter); // TODO: Type this.
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | Error | null>(null);
+	const [error, setError] = useState<ErrorType>(null);
 	const [data, setRoomData] = useState<RoomDocument | null>(null); // TODO: Use AppModel
 	// TODO: setDoc(reference, data, { merge: true })
 	// TODO: serverTimestamp() for lastUpdated?
@@ -48,5 +49,5 @@ export const useRoomDocument = (
 		}
 	}, [roomId]);
 
-	return { ref, data, loading, error }; // TODO: Return roomRef?
+	return { payload: ref, data, loading, error }; // TODO: Return roomRef?
 };

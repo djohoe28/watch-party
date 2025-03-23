@@ -49,5 +49,5 @@ export const useRoomUsersCollection = (
 		}
 	}, [roomRef]);
 
-	return { ref, data, loading, error };
+	return { payload: ref, data, loading, error };
 };

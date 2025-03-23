@@ -10,6 +10,7 @@ import MessageDocument, {
 	MessageDocumentConverter,
 } from "../models/Firestore/MessageDocument.model";
 import { FirestoreQueryContextType } from "../types/FirestoreContextType";
+import { ErrorType } from "../types/AsyncContext";
 
 export const useRoomMessagesQuery = (
 	roomRef: DocumentReference
@@ -21,7 +22,7 @@ export const useRoomMessagesQuery = (
 	).withConverter(MessageDocumentConverter);
 	const queryRef = query(collectionRef, orderBy("sentAt", "asc"));
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | Error | null>(null);
+	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<MessageDocument[] | null>(null);
 
 	useEffect(() => {
@@ -53,5 +54,5 @@ export const useRoomMessagesQuery = (
 		}
 	}, [roomRef]);
 
-	return { ref: queryRef, data, loading, error };
+	return { payload: queryRef, data, loading, error };
 };
