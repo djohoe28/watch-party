@@ -18,11 +18,13 @@
     "@mui/material": "next",
     "firebase": "^11.3.0",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "video.js": "^8.22.0"
   },
   "devDependencies": {
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/video.js": "^7.3.58",
     "@vitejs/plugin-react": "latest",
     "typescript": "latest",
     "vite": "^6.2.0"
