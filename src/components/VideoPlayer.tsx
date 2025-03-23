@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { RoomContext } from "../contexts/RoomContext";
 import { TimestampConverter } from "../models/Firestore/Timestamp.model";
-import { set } from "video.js/dist/types/tech/middleware";
 
 export const VideoPlayer = () => {
 	const roomContext = useContext(RoomContext);
