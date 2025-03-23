@@ -5,7 +5,7 @@ import { useRoomDocument } from "../hooks/useRoomDocument";
 import { RoomContextProvider } from "../contexts/RoomContext";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
-import { MediaPlayer } from "./MediaPlayer";
+import { VideoPlayer } from "./VideoPlayer";
 
 export const Room = ({ roomId }: { roomId: string }) => {
 	const roomDocument = useRoomDocument(roomId); // TODO: Use Context?
@@ -17,7 +17,7 @@ export const Room = ({ roomId }: { roomId: string }) => {
 			{userContext.payload && ` (${userContext.payload?.uid})`}
 		</Typography>
 		<Stack direction="row" spacing={2}>
-			<MediaPlayer />
+			<VideoPlayer />
 			<Stack direction="column" spacing={2}>
 				<MessageList />
 				<MessageField />
