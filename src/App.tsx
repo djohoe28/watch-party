@@ -33,13 +33,13 @@ export default function App() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
-        {/* <UserContextProvider>
+        <UserContextProvider>
           <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
             CoVid Player
           </Typography>
           <Room roomId={roomId} />
-        </UserContextProvider> */}
-        <Temp />
+        </UserContextProvider>
+        {/* <Temp /> */}
         <ProTip />
         <Copyright />
       </Box>
