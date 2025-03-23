@@ -7,22 +7,22 @@ import { RoomContext } from "../contexts/RoomContext";
 
 export const MessageField = () => {
 	// Properties
-	const roomRef = useContext(RoomContext);
-	const user = useContext(UserContext);
-	if (!roomRef) {
+	const roomContext = useContext(RoomContext);
+	const userContext = useContext(UserContext);
+	if (!roomContext) {
 		return <div>No Room ID provided</div>;
 	}
-	const { sendMessage, sending, error } = useSendMessage(roomRef.payload)
+	const { sendMessage, sending, error } = useSendMessage(roomContext.payload)
 	// States
 	const [message, setMessage] = useState<string>("");
 	// Callbacks
 	const handleKeyDown = useCallback((event: ReactKeyboardEvent<HTMLDivElement>) => {
 		if (event.key === "Enter" && event.shiftKey === false) {
 			event.preventDefault();
-			sendMessage(message, user.payload?.uid || "");
+			sendMessage(message, userContext.payload?.uid || "");
 			setMessage("");
 		}
-	}, [message, sendMessage, user]);
+	}, [message, sendMessage, userContext]);
 	const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setMessage(event.target.value);
 	}, [setMessage]);
