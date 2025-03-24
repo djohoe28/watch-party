@@ -4,6 +4,8 @@ import {
 	SnapshotOptions,
 } from "firebase/firestore";
 
+export const DEFAULT_SNAPSHOT_OPTIONS: SnapshotOptions = { serverTimestamps: "estimate" };
+
 /**
  * Generic converter to & from Firestore.
  *
@@ -24,6 +26,7 @@ export default class GenericFirestoreConverter<
 		options: SnapshotOptions
 	): AppModelType {
 		// TODO: id: snapshot.id
+		// TODO: Convert any Timestamp fields to Date.
 		return snapshot.data(options)! as AppModelType;
 	}
 }
