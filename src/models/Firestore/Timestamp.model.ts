@@ -21,7 +21,7 @@ function toDisplayString(timestamp: number | Date | Timestamp): string {
 	} else if (typeof timestamp === "number") {
 		date = new Date(timestamp);
 	} else {
-		date = fromFirestore(timestamp);
+		date = timestamp.toDate();
 	}
 	return date.toISOString().replace("T"," ").substring(0, 19);
 }
