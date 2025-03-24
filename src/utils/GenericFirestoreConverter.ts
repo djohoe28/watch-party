@@ -21,8 +21,8 @@ export default class GenericFirestoreConverter<
 	AppModelType,
 	DbModelType extends DocumentData
 > implements FirestoreDataConverter<AppModelType, DbModelType> {
+
 	toFirestore(data: AppModelType): DbModelType {
-		console.log("toFirestore", data);
 		// TODO: Convert Timestamp? Is this currently used?
 		// TODO: Hard Casting Conversion! Fix this!
 		return data as unknown as DbModelType;
