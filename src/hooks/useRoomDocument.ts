@@ -6,6 +6,7 @@ import RoomDocument, {
 } from "../models/Firestore/RoomDocument.model";
 import { FirestoreDocumentContextType } from "../types/FirestoreContextType";
 import { ErrorType } from "../types/AsyncContext";
+import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 
 export const useRoomDocument = (
 	roomId: string
@@ -33,7 +34,7 @@ export const useRoomDocument = (
 		try {
 			const unsubscribe = onSnapshot(ref, (doc) => {
 				if (doc.exists()) {
-					setRoomData(doc.data());
+					setRoomData(doc.data(DEFAULT_SNAPSHOT_OPTIONS));
 				}
 				setLoading(false);
 				setError(null);

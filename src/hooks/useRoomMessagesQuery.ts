@@ -11,6 +11,7 @@ import MessageDocument, {
 } from "../models/Firestore/MessageDocument.model";
 import { FirestoreQueryContextType } from "../types/FirestoreContextType";
 import { ErrorType } from "../types/AsyncContext";
+import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 
 export const useRoomMessagesQuery = (
 	roomRef: DocumentReference
@@ -37,7 +38,7 @@ export const useRoomMessagesQuery = (
 			const unsubscribe = onSnapshot(queryRef, (snapshot) => {
 				// TODO: Add id to AppModelType?
 				const messageList = snapshot.docs.map((doc) => {
-					return { ...doc.data(), id: doc.id }; // TODO: id only used as key for future mapping.
+					return { ...doc.data(DEFAULT_SNAPSHOT_OPTIONS), id: doc.id }; // TODO: id only used as key for future mapping.
 				});
 				setData(messageList);
 				setLoading(false);
