@@ -15,7 +15,7 @@ export const MessageList = () => {
 	const usersContext = useContext(UsersContext);
 	const { data, loading, error } = useRoomMessagesQuery(roomContext.payload); // TODO: Replace with useContext.
 	return (
-		<div>
+		<div style={{ overflowY: "auto", maxHeight: "50vh" }}>
 			{loading && <div>Loading...</div>}
 			{error && <div>Error: {error.toString()}</div>}
 			{data?.map((message) => (

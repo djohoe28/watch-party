@@ -52,5 +52,5 @@ export const VideoPlayer = () => {
 			}
 		}
 	}, [roomContext?.data?.media, videoRef.current]); // TODO: Add isLoaded etc. as dependencies?
-	return <video ref={videoRef}></video>
+	return <video ref={videoRef} style={{ maxWidth: "50%" }}></video>
 };
