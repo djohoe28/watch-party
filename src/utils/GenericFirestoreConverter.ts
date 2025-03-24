@@ -5,7 +5,9 @@ import {
 	Timestamp,
 } from "firebase/firestore";
 
-export const DEFAULT_SNAPSHOT_OPTIONS: SnapshotOptions = { serverTimestamps: "estimate" };
+export const DEFAULT_SNAPSHOT_OPTIONS: SnapshotOptions = {
+	serverTimestamps: "estimate",
+};
 
 /**
  * Generic converter to & from Firestore.
@@ -19,7 +21,7 @@ export default class GenericFirestoreConverter<
 	DbModelType extends DocumentData
 > {
 	toFirestore(data: AppModelType): DbModelType {
-		console.log("toFirestore", data);
+		// TODO: Convert Timestamp? Is this currently used?
 		return data as DbModelType;
 	}
 
@@ -28,14 +30,14 @@ export default class GenericFirestoreConverter<
 		options: SnapshotOptions
 	): AppModelType {
 		const data = snapshot.data(options);
-		
+
 		// Convert Timestamp fields to Date objects
+		// TODO: Performance hit could be circumvented with specific converters.
 		const convertedData = this.convertTimestampsToDate(data);
 		
-		console.log("fromFirestore", convertedData);
-		return convertedData as AppModelType;
+		return { id: snapshot.id, ...convertedData } as AppModelType;
 	}
-	
+
 	/**
 	 * Recursively converts all Timestamp instances to Date objects
 	 */
@@ -43,25 +45,25 @@ export default class GenericFirestoreConverter<
 		if (obj === null || obj === undefined) {
 			return obj;
 		}
-		
+
 		if (obj instanceof Timestamp) {
 			return obj.toDate();
 		}
-		
+
 		if (Array.isArray(obj)) {
-			return obj.map(item => this.convertTimestampsToDate(item));
+			return obj.map((item) => this.convertTimestampsToDate(item));
 		}
-		
-		if (typeof obj === 'object') {
+
+		if (typeof obj === "object") {
 			const result: Record<string, any> = {};
-			
+
 			for (const [key, value] of Object.entries(obj)) {
 				result[key] = this.convertTimestampsToDate(value);
 			}
-			
+
 			return result;
 		}
-		
+
 		return obj;
 	}
 }
