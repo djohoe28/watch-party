@@ -6,7 +6,7 @@ import { DocumentReference } from "firebase/firestore";
 
 export const UsersContext = createContext<FirestoreCollectionContextType<UserDocument, UserDocument> | null>(null);
 
-export const MessagesContextProvider = ({ children, roomRef }: { children: ReactNode, roomRef: DocumentReference }) => {
+export const UsersContextProvider = ({ children, roomRef }: { children: ReactNode, roomRef: DocumentReference }) => {
 	const usersContext = useRoomUsersCollection(roomRef);
 	return <UsersContext.Provider value={usersContext}>{children}</UsersContext.Provider>
 };
