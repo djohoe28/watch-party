@@ -1,6 +1,5 @@
-import { DocumentData } from "firebase/firestore";
+import { DocumentData, Timestamp } from "firebase/firestore";
 import MediaStateMap from "./MediaStateMap.model";
-import Timestamp from "./Timestamp.model";
 import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
 import Room from "../Room.model";
 import MessagesCollection from "./MessagesCollection.model";

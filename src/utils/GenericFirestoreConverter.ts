@@ -1,8 +1,14 @@
 import {
 	DocumentData,
+	FirestoreDataConverter,
 	QueryDocumentSnapshot,
 	SnapshotOptions,
 } from "firebase/firestore";
+
+export const DEFAULT_SNAPSHOT_OPTIONS: SnapshotOptions = {
+	serverTimestamps: "estimate",
+};
+
 
 /**
  * Generic converter to & from Firestore.
@@ -12,18 +18,22 @@ import {
  * @returns Typed Firestore converter.
  */
 export default class GenericFirestoreConverter<
-	AppModelType extends DbModelType,
+	AppModelType,
 	DbModelType extends DocumentData
-> {
+> implements FirestoreDataConverter<AppModelType, DbModelType> {
+
 	toFirestore(data: AppModelType): DbModelType {
-		return data as DbModelType;
+		// TODO: Convert Timestamp? Is this currently used?
+		// TODO: Hard Casting Conversion! Fix this!
+		return data as unknown as DbModelType;
 	}
 
 	fromFirestore(
 		snapshot: QueryDocumentSnapshot,
 		options: SnapshotOptions
 	): AppModelType {
-		// TODO: id: snapshot.id
-		return snapshot.data(options)! as AppModelType;
+		const data = snapshot.data(options);
+		// TODO: Performance hit could be circumvented with specific converters.
+		return { id: snapshot.id, ...data } as AppModelType;
 	}
 }

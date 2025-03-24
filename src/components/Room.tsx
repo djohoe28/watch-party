@@ -6,6 +6,7 @@ import { RoomContextProvider } from "../contexts/RoomContext";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { VideoPlayer } from "./VideoPlayer";
+import { UsersContextProvider } from "../contexts/UsersContext";
 
 export const Room = ({ roomId }: { roomId: string }) => {
 	const roomDocument = useRoomDocument(roomId); // TODO: Use Context?
@@ -19,7 +20,9 @@ export const Room = ({ roomId }: { roomId: string }) => {
 		<Stack direction="row" spacing={2}>
 			<VideoPlayer />
 			<Stack direction="column" spacing={2}>
-				<MessageList />
+				<UsersContextProvider roomRef={roomDocument.payload}>
+					<MessageList />
+				</UsersContextProvider>
 				<MessageField />
 			</Stack>
 		</Stack>

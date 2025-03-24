@@ -5,6 +5,7 @@ import UserDocument, {
 } from "../models/Firestore/UserDocument.model";
 import User from "../models/User.model";
 import { FirestoreCollectionContextType } from "../types/FirestoreContextType";
+import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 
 export const useRoomUsersCollection = (
 	roomRef: DocumentReference
@@ -29,11 +30,7 @@ export const useRoomUsersCollection = (
 		try {
 			// Set up the real-time listener
 			const unsubscribe = onSnapshot(ref, (snapshot) => {
-				// TODO: Add id to AppModelType?
-				const userList = snapshot.docs.map((doc) => ({
-					...doc.data(), // Document Data
-					id: doc.id, // Document ID // TODO: Override ID in UserDocument model?
-				}));
+				const userList = snapshot.docs.map((doc) => doc.data(DEFAULT_SNAPSHOT_OPTIONS));
 				setData(userList);
 				setLoading(false);
 				setError(null);
