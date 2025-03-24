@@ -1,4 +1,4 @@
-import Timestamp from "./Firestore/Timestamp.model";
+import { Timestamp } from "firebase/firestore";
 import type MediaState from "./MediaState.model";
 
 export default interface Packet {

@@ -1,5 +1,4 @@
-import { DocumentData } from "firebase/firestore";
-import Timestamp from "./Timestamp.model";
+import { DocumentData, Timestamp } from "firebase/firestore";
 import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
 
 export default interface MessageDocument extends DocumentData {

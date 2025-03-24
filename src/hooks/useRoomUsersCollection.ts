@@ -30,11 +30,7 @@ export const useRoomUsersCollection = (
 		try {
 			// Set up the real-time listener
 			const unsubscribe = onSnapshot(ref, (snapshot) => {
-				// TODO: Add id to AppModelType?
-				const userList = snapshot.docs.map((doc) => ({
-					...doc.data(DEFAULT_SNAPSHOT_OPTIONS), // Document Data
-					id: doc.id, // Document ID
-				} as User)); // TODO: Override ID in UserDocument model?
+				const userList = snapshot.docs.map((doc) => doc.data(DEFAULT_SNAPSHOT_OPTIONS));
 				setData(userList);
 				setLoading(false);
 				setError(null);

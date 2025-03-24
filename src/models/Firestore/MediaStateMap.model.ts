@@ -1,4 +1,4 @@
-import Timestamp from "./Timestamp.model";
+import { Timestamp } from "firebase/firestore";
 
 export default interface MediaStateMap {
 	currentTime: number;
