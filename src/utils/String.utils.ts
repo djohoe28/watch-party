@@ -20,5 +20,14 @@ export function stringToColor(string: string) {
 }
 
 export function stringToInitials(name: string) {
-	return `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
+	if (name === DEFAULT_NAME) return null;
+	const nameParts = name.split(" ");
+	if (nameParts.length === 1) {
+		return name[0];
+	}
+	return `${name.split(" ")[0][0]}${
+		name.split(" ")[nameParts.length - 1][0]
+	}`;
 }
+
+export const DEFAULT_NAME = "(anon)";
