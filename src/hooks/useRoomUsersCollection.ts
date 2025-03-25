@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import UserDocument, {
 	UserDocumentConverter,
 } from "../models/Firestore/UserDocument.model";
-import User from "../models/User.model";
+import UserModel from "../models/User.model";
 import { FirestoreCollectionContextType } from "../types/FirestoreContextType";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 
 export const useRoomUsersCollection = (
 	roomRef: DocumentReference
-): FirestoreCollectionContextType<UserDocument, UserDocument> => {
+): FirestoreCollectionContextType<UserModel, UserDocument> => {
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	const ref = collection(
 		roomRef,
@@ -17,7 +17,7 @@ export const useRoomUsersCollection = (
 	).withConverter(UserDocumentConverter);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | Error | null>(null);
-	const [data, setData] = useState<User[] | null>(null);
+	const [data, setData] = useState<UserModel[] | null>(null);
 
 	useEffect(() => {
 		if (!roomRef) {
