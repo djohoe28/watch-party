@@ -7,10 +7,13 @@ import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { UsersContextProvider } from "../contexts/UsersContext";
 import { UsersDrawer } from "./UsersDrawer";
+import UserSettings from "./UserSettings";
 
 export const Room = ({ roomId }: { roomId: string }) => {
-	const roomDocument = useRoomDocument(roomId); // TODO: Use Context?
+	// Contexts
 	const authContext = useContext(AuthContext); // TODO: Use User instead of UserID?
+	// Hooks
+	const roomDocument = useRoomDocument(roomId); // TODO: Use Context?
 	// return <RoomIdContext.Provider value={roomId}>{...}</RoomIdContext.Provider>
 	return <RoomContextProvider roomId={roomId}>
 		<Typography variant="h5" component="h2" sx={{ mb: 2 }}>
@@ -19,10 +22,13 @@ export const Room = ({ roomId }: { roomId: string }) => {
 		</Typography>
 		<Stack direction="row" spacing={2}>
 			<Stack direction="column" spacing={2}>
-				<UsersContextProvider roomRef={roomDocument.payload}>
-					<UsersDrawer />
-					<MessageList />
-				</UsersContextProvider>
+				{roomDocument.payload
+					? <UsersContextProvider roomRef={roomDocument.payload}>
+						<UserSettings />
+						<UsersDrawer />
+						<MessageList />
+					</UsersContextProvider>
+					: null}
 				<MessageField />
 			</Stack>
 		</Stack>

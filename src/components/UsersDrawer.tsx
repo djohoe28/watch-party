@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import UsersList from "./UsersList";
 
 export const UsersDrawer = () => {
+	// States
 	const [open, setOpen] = useState(true);
 	const handleToggle = () => setOpen(!open);
 	const handleClose = () => setOpen(false);

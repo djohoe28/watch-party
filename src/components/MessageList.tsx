@@ -7,14 +7,12 @@ import { UsersContext } from "../contexts/UsersContext";
 import { List, Skeleton } from "@mui/material";
 
 export const MessageList = () => {
-	// Properties
+	// Contexts
 	const roomContext = useContext(RoomContext);
-	if (!roomContext) {
-		return <div>No Room ID provided</div>;
-	}
 	const authContext = useContext(AuthContext);
 	const usersContext = useContext(UsersContext);
-	const { data, loading, error } = useRoomMessagesQuery(roomContext.payload); // TODO: Replace with useContext.
+	// Hooks
+	const { data, loading, error } = useRoomMessagesQuery(roomContext); // TODO: Replace with useContext.
 	if (error) return <div>Error: {error.toString()}</div>;
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper" }}>

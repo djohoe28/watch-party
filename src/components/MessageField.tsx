@@ -6,16 +6,14 @@ import AuthContext from "../contexts/AuthContext";
 import { RoomContext } from "../contexts/RoomContext";
 
 export const MessageField = () => {
+	// States
+	const [message, setMessage] = useState<string>("");
 	// Properties
 	const roomContext = useContext(RoomContext);
 	const authContext = useContext(AuthContext);
-	if (!roomContext) {
-		return <div>No Room ID provided</div>;
-	}
-	const { sendMessage, sending, error } = useSendMessage(roomContext.payload)
-	// States
-	const [message, setMessage] = useState<string>("");
+	const { sendMessage, sending, error } = useSendMessage(roomContext);
 	// Callbacks
+	// TODO: Remove `useCallback` since React requires hook order.
 	const handleKeyDown = useCallback((event: ReactKeyboardEvent<HTMLDivElement>) => {
 		if (event.key === "Enter" && event.shiftKey === false) {
 			event.preventDefault();
