@@ -1,4 +1,4 @@
-import { Typography, Skeleton, Stack } from "@mui/material";
+import { Typography, Skeleton, Stack, Drawer } from "@mui/material";
 import { MessageField } from "./MessageField";
 import { MessageList } from "./MessageList";
 import { useRoomDocument } from "../hooks/useRoomDocument";
@@ -6,6 +6,7 @@ import { RoomContextProvider } from "../contexts/RoomContext";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { UsersContextProvider } from "../contexts/UsersContext";
+import { UsersDrawer } from "./UsersDrawer";
 
 export const Room = ({ roomId }: { roomId: string }) => {
 	const roomDocument = useRoomDocument(roomId); // TODO: Use Context?
@@ -19,6 +20,7 @@ export const Room = ({ roomId }: { roomId: string }) => {
 		<Stack direction="row" spacing={2}>
 			<Stack direction="column" spacing={2}>
 				<UsersContextProvider roomRef={roomDocument.payload}>
+					<UsersDrawer />
 					<MessageList />
 				</UsersContextProvider>
 				<MessageField />
