@@ -3,7 +3,7 @@ import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
 import UserModel from "../User.model";
 
 export default interface UserDocument extends DocumentData {
-	name: string;
+	name?: string;
 	color?: string;
 }
 
