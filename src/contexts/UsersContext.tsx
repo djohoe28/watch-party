@@ -5,7 +5,9 @@ import { useRoomUsersCollection } from "../hooks/useRoomUsersCollection";
 import { DocumentReference } from "firebase/firestore";
 import UserModel from "../models/User.model";
 
-export const UsersContext = createContext<FirestoreCollectionContextType<UserModel, UserDocument> | null>(null);
+export type UsersContextType = FirestoreCollectionContextType<UserModel, UserDocument>;
+
+export const UsersContext = createContext<UsersContextType | null>(null);
 
 export const UsersContextProvider = ({ children, roomRef }: { children: ReactNode, roomRef: DocumentReference }) => {
 	const usersContext = useRoomUsersCollection(roomRef);
