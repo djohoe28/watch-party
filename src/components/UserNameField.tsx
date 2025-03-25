@@ -2,7 +2,7 @@ import { TextField } from "@mui/material"
 import { type ChangeEvent, useState } from "react";
 
 export const UserNameField = () => {
-	const [userName, setUserName] = useState<string>("");
+	const [userName, setUserName] = useState<string>("(anon)");
 	return <TextField
 		label="User Name"
 		variant="outlined"
