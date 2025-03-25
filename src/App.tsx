@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import ProTip from './ProTip';
 import { Room } from './components/Room';
-import { UserContextProvider } from './contexts/UserContext';
+import { AuthContextProvider } from './contexts/AuthContext';
 import { Temp } from './components/Temp';
 
 
@@ -33,12 +33,12 @@ export default function App() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
-        <UserContextProvider>
+        <AuthContextProvider>
           <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
             CoVid Player
           </Typography>
           <Room roomId={roomId} />
-        </UserContextProvider>
+        </AuthContextProvider>
         {/* <Temp /> */}
         <ProTip />
         <Copyright />

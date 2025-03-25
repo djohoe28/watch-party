@@ -1,15 +1,15 @@
 import { useContext } from "react";
-import UserContext, { UserContextProvider } from "../contexts/UserContext";
+import AuthContext, { AuthContextProvider } from "../contexts/AuthContext";
 
 const Internal = () => {
-	const user = useContext(UserContext);
+	const user = useContext(AuthContext);
 	return <>{user.payload?.uid}</>
 }
 
 export const Temp = () => {
 	return (
-		<UserContextProvider>
+		<AuthContextProvider>
 			<Internal />
-		</UserContextProvider>
+		</AuthContextProvider>
 	);
 }
