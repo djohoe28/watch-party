@@ -1,4 +1,4 @@
-import { Typography, Skeleton, Stack, Drawer } from "@mui/material";
+import { Typography, Skeleton, Stack, Drawer, Grid } from "@mui/material";
 import { MessageField } from "./MessageField";
 import { MessageList } from "./MessageList";
 import { useRoomDocument } from "../hooks/useRoomDocument";
@@ -7,7 +7,7 @@ import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { UsersContextProvider } from "../contexts/UsersContext";
 import { UsersDrawer } from "./UsersDrawer";
-import UserSettings from "./UserSettings";
+import { UserDrawer } from "./UserDrawer";
 
 export const Room = ({ roomId }: { roomId: string }) => {
 	// Contexts
@@ -24,8 +24,14 @@ export const Room = ({ roomId }: { roomId: string }) => {
 			<Stack direction="column" spacing={2}>
 				{roomDocument.payload
 					? <UsersContextProvider roomRef={roomDocument.payload}>
-						<UserSettings />
-						<UsersDrawer />
+						<Grid container spacing={2} textAlign='center'>
+							<Grid size='grow'>
+								<UserDrawer />
+							</Grid>
+							<Grid size='grow'>
+								<UsersDrawer />
+							</Grid>
+						</Grid>
 						<MessageList />
 					</UsersContextProvider>
 					: null}
