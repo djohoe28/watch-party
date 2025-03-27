@@ -1,11 +1,11 @@
-export function stringToColor(string: string) {
+export function stringToColor(str: string) {
 	// TODO: Dark Mode compatibility?
 	let hash = 0;
 	let i;
 
 	/* eslint-disable no-bitwise */
-	for (i = 0; i < string.length; i += 1) {
-		hash = string.charCodeAt(i) + ((hash << 5) - hash);
+	for (i = 0; i < str.length; i += 1) {
+		hash = str.charCodeAt(i) + ((hash << 5) - hash);
 	}
 
 	let color = "#";
@@ -28,6 +28,13 @@ export function stringToInitials(name: string) {
 	return `${name.split(" ")[0][0]}${
 		name.split(" ")[nameParts.length - 1][0]
 	}`;
+}
+
+export function isColor(strColor: string) {
+	// SEE: https://stackoverflow.com/questions/48484767/javascript-check-if-string-is-valid-css-color
+	const s = new Option().style;
+	s.color = strColor;
+	return s.color !== "";
 }
 
 export const DEFAULT_NAME = "(anon)";
