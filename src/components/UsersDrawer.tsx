@@ -1,4 +1,4 @@
-import { Drawer, IconButton } from "@mui/material"
+import { Drawer, IconButton, Tooltip } from "@mui/material"
 import { Fragment, useState } from "react";
 import PeopleIcon from '@mui/icons-material/People';
 import CloseIcon from '@mui/icons-material/Close';
@@ -10,13 +10,15 @@ export const UsersDrawer = () => {
 	const handleToggle = () => setOpen(!open);
 	const handleClose = () => setOpen(false);
 	return <Fragment>
-		<IconButton
-			onClick={handleToggle}
-			sx={{ borderRadius: 1 }}
-			aria-label="Toggle Users List"
-		>
-			<PeopleIcon />
-		</IconButton>
+		<Tooltip title="Users List">
+			<IconButton
+				onClick={handleToggle}
+				sx={{ borderRadius: 1, width: '100%' }}
+				aria-label="Toggle Users List"
+			>
+				<PeopleIcon />
+			</IconButton>
+		</Tooltip>
 		<Drawer variant="persistent" anchor="right" open={open}>
 			<IconButton
 				onClick={handleClose}
