@@ -4,14 +4,13 @@ import { UserDocumentConverter } from "../models/Firestore/UserDocument.model";
 import UserModel from "../models/User.model";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { User } from "firebase/auth";
-import { stringToColor } from "../utils/String.utils";
 import { AsyncContext } from "../types/AsyncContext";
 import { UsersContextType } from "../contexts/UsersContext";
 import { RoomUserContextType } from "../contexts/RoomUserContext";
 
 function createUserDocument(auth: User): UserModel {
 	// TODO: Duplicate `id` field in UserDocument.
-	return { id: auth.uid, color: stringToColor(auth.uid) } as UserModel;
+	return { id: auth.uid } as UserModel;
 }
 
 export const useRoomUserDocument = (
