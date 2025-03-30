@@ -69,13 +69,18 @@ export default function UserSettings() {
 				onChange={(e) => setName(e.target.value)}
 			/>
 			<Tooltip title="Restore Name">
-				<IconButton
-					onClick={() => handleNameReset(true)}
-					aria-label="Restore Name"
-					disabled={!isChangedName}
-				>
-					<RestoreIcon />
-				</IconButton>
+				<span>
+					{/** MUI: You are providing a disabled `button` child to the Tooltip component.
+A disabled element does not fire events.
+Tooltip needs to listen to the child element's events to display the title. */}
+					<IconButton
+						onClick={() => handleNameReset(true)}
+						aria-label="Restore Name"
+						disabled={!isChangedName}
+					>
+						<RestoreIcon />
+					</IconButton>
+				</span>
 			</Tooltip>
 		</Stack>
 		<Stack direction="row" spacing={2} alignItems="center">
@@ -88,13 +93,18 @@ export default function UserSettings() {
 				onChange={(e) => setColor(e.target.value)}
 			/>
 			<Tooltip title="Restore Color">
-				<IconButton
-					onClick={() => handleColorReset(true)}
-					aria-label="Restore Color"
-					disabled={!isChangedColor}
-				>
-					<RestoreIcon />
-				</IconButton>
+				<span>
+					{/** MUI: You are providing a disabled `button` child to the Tooltip component.
+A disabled element does not fire events.
+Tooltip needs to listen to the child element's events to display the title. */}
+					<IconButton
+						onClick={() => handleColorReset(true)}
+						aria-label="Restore Color"
+						disabled={!isChangedColor}
+					>
+						<RestoreIcon />
+					</IconButton>
+				</span>
 			</Tooltip>
 		</Stack>
 		<Grid container textAlign='center'>
