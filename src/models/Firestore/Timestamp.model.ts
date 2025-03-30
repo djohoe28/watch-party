@@ -26,6 +26,11 @@ function toDisplayString(timestamp: number | Date | Timestamp): string {
 	return date.toISOString().replace("T"," ").substring(0, 19);
 }
 
+export function toTimespanString(seconds: number, showHours: boolean = false): string {
+	const date = new Date(seconds * 1000);
+	return new Date(seconds * 1000).toISOString().slice(seconds > 3600 || showHours ? 11 : 14, 19);
+}
+
 const TimestampConverter = {
 	toFirestore,
 	fromFirestore,
