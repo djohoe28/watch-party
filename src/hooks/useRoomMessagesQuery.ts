@@ -1,35 +1,46 @@
 import { useEffect, useState } from "react";
-import {
-	collection,
-	query,
-	orderBy,
-	onSnapshot,
-	DocumentReference,
-} from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import MessageDocument, {
 	MessageDocumentConverter,
 } from "../models/Firestore/MessageDocument.model";
-import { FirestoreQueryContextType } from "../types/FirestoreContextType";
 import { ErrorType } from "../types/AsyncContext";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
+import { MessagesContextType } from "../contexts/MessagesContext";
+import { RoomContextType } from "../contexts/RoomContext";
 
 export const useRoomMessagesQuery = (
-	roomRef: DocumentReference
-): FirestoreQueryContextType<MessageDocument, MessageDocument> => {
-	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
-	const collectionRef = collection(
-		roomRef,
-		import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
-	).withConverter(MessageDocumentConverter);
-	const queryRef = query(collectionRef, orderBy("sentAt", "asc"));
+	roomContext: RoomContextType | null
+): MessagesContextType => {
+	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<MessageDocument[] | null>(null);
-
+	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
+	// Properties
+	const collectionRef = roomContext?.payload
+		? collection(
+				roomContext.payload,
+				import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
+		  ).withConverter(MessageDocumentConverter)
+		: null;
+	const queryRef = collectionRef
+		? query(collectionRef, orderBy("sentAt", "asc"))
+		: null;
+	// Effects
 	useEffect(() => {
-		if (!roomRef) {
+		if (!roomContext) {
 			// TODO: Check if Room ID is URL safe?
 			setError("No Room ID provided");
+			setLoading(false);
+			return;
+		}
+		if (!collectionRef) {
+			setError("No Room Messages collection provided");
+			setLoading(false);
+			return;
+		}
+		if (!queryRef) {
+			setError("No Room Messages collection query provided");
 			setLoading(false);
 			return;
 		}
@@ -37,7 +48,9 @@ export const useRoomMessagesQuery = (
 		try {
 			const unsubscribe = onSnapshot(queryRef, (snapshot) => {
 				// TODO: Add id to AppModelType?
-				const messageList = snapshot.docs.map((doc) => doc.data(DEFAULT_SNAPSHOT_OPTIONS));
+				const messageList = snapshot.docs.map((doc) =>
+					doc.data(DEFAULT_SNAPSHOT_OPTIONS)
+				);
 				setData(messageList);
 				setLoading(false);
 				setError(null);
@@ -51,7 +64,7 @@ export const useRoomMessagesQuery = (
 			);
 			setLoading(false);
 		}
-	}, [roomRef]);
+	}, [roomContext]);
 
 	return { payload: queryRef, data, loading, error };
 };

@@ -12,10 +12,10 @@
     "emulate-firestore:export": "firebase emulators:start --only auth,firestore --import ./firestore.local --export-on-exit firestore.local"
   },
   "dependencies": {
-    "@emotion/react": "latest",
-    "@emotion/styled": "latest",
-    "@mui/icons-material": "next",
-    "@mui/material": "next",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.0.0-rc.0",
+    "@mui/material": "^7.0.0-rc.0",
     "firebase": "^11.3.0",
     "react": "latest",
     "react-dom": "latest"

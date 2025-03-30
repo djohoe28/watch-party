@@ -1,28 +1,42 @@
-import { Typography, Skeleton, Stack } from "@mui/material";
+import { Typography, Skeleton, Stack, Drawer, Grid } from "@mui/material";
 import { MessageField } from "./MessageField";
 import { MessageList } from "./MessageList";
 import { useRoomDocument } from "../hooks/useRoomDocument";
 import { RoomContextProvider } from "../contexts/RoomContext";
 import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import AuthContext from "../contexts/AuthContext";
 import { VideoPlayer } from "./VideoPlayer";
 import { UsersContextProvider } from "../contexts/UsersContext";
+import { UsersDrawer } from "./UsersDrawer";
+import { UserDrawer } from "./UserDrawer";
 
 export const Room = ({ roomId }: { roomId: string }) => {
+	// Contexts
+	const authContext = useContext(AuthContext); // TODO: Use User instead of UserID?
+	// Hooks
 	const roomDocument = useRoomDocument(roomId); // TODO: Use Context?
-	const userContext = useContext(UserContext); // TODO: Use User instead of UserID?
 	// return <RoomIdContext.Provider value={roomId}>{...}</RoomIdContext.Provider>
 	return <RoomContextProvider roomId={roomId}>
 		<Typography variant="h5" component="h2" sx={{ mb: 2 }}>
 			{roomDocument.loading ? <Skeleton /> : roomDocument.error ? roomDocument.error.toString() : roomDocument.data?.title}
-			{userContext.payload && ` (${userContext.payload?.uid})`}
+			{authContext.payload && ` (${authContext.payload?.uid})`}
 		</Typography>
 		<Stack direction="row" spacing={2}>
 			<VideoPlayer />
 			<Stack direction="column" spacing={2}>
-				<UsersContextProvider roomRef={roomDocument.payload}>
-					<MessageList />
-				</UsersContextProvider>
+				{roomDocument.payload
+					? <UsersContextProvider roomRef={roomDocument.payload}>
+						<Grid container spacing={2} textAlign='center'>
+							<Grid size='grow'>
+								<UserDrawer />
+							</Grid>
+							<Grid size='grow'>
+								<UsersDrawer />
+							</Grid>
+						</Grid>
+						<MessageList />
+					</UsersContextProvider>
+					: null}
 				<MessageField />
 			</Stack>
 		</Stack>

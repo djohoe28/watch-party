@@ -9,7 +9,6 @@ export const DEFAULT_SNAPSHOT_OPTIONS: SnapshotOptions = {
 	serverTimestamps: "estimate",
 };
 
-
 /**
  * Generic converter to & from Firestore.
  *
@@ -20,11 +19,15 @@ export const DEFAULT_SNAPSHOT_OPTIONS: SnapshotOptions = {
 export default class GenericFirestoreConverter<
 	AppModelType,
 	DbModelType extends DocumentData
-> implements FirestoreDataConverter<AppModelType, DbModelType> {
-
+> implements FirestoreDataConverter<AppModelType, DbModelType>
+{
 	toFirestore(data: AppModelType): DbModelType {
 		// TODO: Convert Timestamp? Is this currently used?
 		// TODO: Hard Casting Conversion! Fix this!
+		if (data instanceof Object && Object.hasOwn(data, "id")) {
+			const { id, ...rest } = data as any;
+			return rest as unknown as DbModelType;
+		}
 		return data as unknown as DbModelType;
 	}
 

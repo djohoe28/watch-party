@@ -1,4 +1,5 @@
-export default interface User {
+export default interface UserModel {
 	id: string;
-	name: string;
+	name?: string;
+	color?: string;
 }

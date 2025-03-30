@@ -4,24 +4,25 @@ import { useState, useEffect } from "react";
 import RoomDocument, {
 	RoomDocumentConverter,
 } from "../models/Firestore/RoomDocument.model";
-import { FirestoreDocumentContextType } from "../types/FirestoreContextType";
 import { ErrorType } from "../types/AsyncContext";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
+import { RoomContextType } from "../contexts/RoomContext";
 
-export const useRoomDocument = (
-	roomId: string
-): FirestoreDocumentContextType<RoomDocument, RoomDocument> => {
+export const useRoomDocument = (roomId: string): RoomContextType => {
+	// States
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<ErrorType>(null);
+	const [data, setRoomData] = useState<RoomDocument | null>(null); // TODO: Use AppModel
+	// Properties
 	// TODO: What if roomId doesn't exist yet?
 	const ref = doc(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
 		roomId
 	).withConverter(RoomDocumentConverter); // TODO: Type this.
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<ErrorType>(null);
-	const [data, setRoomData] = useState<RoomDocument | null>(null); // TODO: Use AppModel
 	// TODO: setDoc(reference, data, { merge: true })
 	// TODO: serverTimestamp() for lastUpdated?
+	// Effects
 	useEffect(() => {
 		if (!roomId) {
 			// TODO: Check if Room ID is URL safe?
