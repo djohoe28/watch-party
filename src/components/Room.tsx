@@ -9,6 +9,7 @@ import { VideoPlayer } from "./VideoPlayer";
 import { UsersContextProvider } from "../contexts/UsersContext";
 import { UsersDrawer } from "./UsersDrawer";
 import { UserDrawer } from "./UserDrawer";
+import { VideoPlayerReact } from "./VideoPlayerReact";
 
 export const Room = ({ roomId }: { roomId: string }) => {
 	// Contexts
@@ -22,7 +23,7 @@ export const Room = ({ roomId }: { roomId: string }) => {
 			{authContext.payload && ` (${authContext.payload?.uid})`}
 		</Typography>
 		<Stack direction="row" spacing={2}>
-			<VideoPlayer />
+			<VideoPlayerReact />
 			<Stack direction="column" spacing={2}>
 				{roomDocument.payload
 					? <UsersContextProvider roomRef={roomDocument.payload}>
