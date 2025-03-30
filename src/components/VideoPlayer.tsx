@@ -25,7 +25,7 @@ export const VideoPlayer = () => {
 				videoRef.current.ontimeupdate = null
 			}
 		}
-	}, [videoRef]);
+	}, [videoRef.current]);
 	useEffect(() => {
 		if (roomContext?.data?.media && videoRef.current) {
 			const mediaState = roomContext?.data?.media;
