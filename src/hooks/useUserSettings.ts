@@ -1,9 +1,9 @@
 import { setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
-import { RoomUserContextType } from "../contexts/RoomUserContext";
 import UserModel from "../models/User.model";
 import { isColor, stringToColor } from "../utils/String.utils";
 import { ErrorType } from "../types/AsyncContext";
+import { RoomUserContextType } from "./useRoomUserDocument";
 
 export const useUserSettings = (roomUserContext: RoomUserContextType) => {
 	// TODO: Refactor to Reference? Needs data?

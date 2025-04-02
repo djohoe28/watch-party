@@ -1,12 +1,19 @@
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { UserDocumentConverter } from "../models/Firestore/UserDocument.model";
+import UserDocument, {
+	UserDocumentConverter,
+} from "../models/Firestore/UserDocument.model";
 import UserModel from "../models/User.model";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { User } from "firebase/auth";
 import { AsyncContext, ErrorType } from "../types/AsyncContext";
-import { RoomUserContextType } from "../contexts/RoomUserContext";
 import { UsersCollectionReference } from "../models/Firestore/UsersCollection.model";
+import { FirestoreDocumentContextType } from "../types/FirestoreContextType";
+
+export type RoomUserContextType = FirestoreDocumentContextType<
+	UserModel,
+	UserDocument
+>;
 
 function createUserDocument(auth: User): UserModel {
 	// TODO: Duplicate `id` field in UserDocument.

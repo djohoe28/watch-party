@@ -5,8 +5,13 @@ import MessageDocument, {
 } from "../models/Firestore/MessageDocument.model";
 import { ErrorType } from "../types/AsyncContext";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
-import { MessagesContextType } from "../contexts/MessagesContext";
 import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
+import { FirestoreQueryContextType } from "../types/FirestoreContextType";
+
+export type MessagesContextType = FirestoreQueryContextType<
+	MessageDocument,
+	MessageDocument
+>;
 
 export const useRoomMessagesQuery = (
 	roomRef: RoomDocumentReference | null | undefined
