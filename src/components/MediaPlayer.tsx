@@ -39,10 +39,12 @@ export const MediaPlayer = () => {
 	// UI Event Handlers
 	const handlePlayingToggle = useCallback(() => {
 		setPlaying(playing => {
-			sendRoomMediaState({ isPaused: !playing }); // TODO: Handle strict mode.
+			sendRoomMediaState({ isPaused: !!playing, currentTime: playerRef.current?.getCurrentTime() });
+			// TODO: Handle strict mode w/ DB effect correctly.
+			// FIXME: Time slider update is a bit lagged. Pause also goes back 1 frame. Connected?
 			return !playing;
 		});
-	}, [playing, setPlaying, sendRoomMediaState]);
+	}, [playing, setPlaying, sendRoomMediaState, playerRef.current]);
 	const handleMutedToggle = useCallback(() => {
 		setMuted(muted => !muted);
 	}, [muted, setMuted]);
