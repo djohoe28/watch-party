@@ -14,7 +14,7 @@ export const useSendRoomMediaState = (roomContext: RoomContextType | null) => {
 	const ref = roomContext?.payload;
 	// Callbacks
 	const sendRoomMediaState = useCallback(
-		(settings: MediaStateMap) => {
+		(settings: Partial<MediaStateMap>) => {
 			if (!roomContext) {
 				// TODO: Check if Room ID is URL safe?
 				setError("No Room Document context provided");
@@ -47,5 +47,5 @@ export const useSendRoomMediaState = (roomContext: RoomContextType | null) => {
 		},
 		[roomContext, ref]
 	);
-	return { sendUserSettings: sendRoomMediaState, sending, loading, error };
+	return { sendRoomMediaState, sending, loading, error };
 };
