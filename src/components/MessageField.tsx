@@ -3,15 +3,15 @@ import { type ChangeEvent, useCallback, useContext, useState } from "react";
 import { useSendMessage } from "../hooks/useSendMessage";
 import { KeyboardEvent as ReactKeyboardEvent } from "react";
 import AuthContext from "../contexts/AuthContext";
-import { RoomContext } from "../contexts/RoomContext";
+import { RoomDocumentReferenceContext } from "../contexts/RoomDocumentReferenceContext";
 
 export const MessageField = () => {
 	// States
 	const [message, setMessage] = useState<string>("");
 	// Properties
-	const roomContext = useContext(RoomContext);
+	const roomRefContext = useContext(RoomDocumentReferenceContext);
 	const authContext = useContext(AuthContext);
-	const { sendMessage, sending, error } = useSendMessage(roomContext?.payload);
+	const { sendMessage, sending, error } = useSendMessage(roomRefContext);
 	// Callbacks
 	// TODO: Remove `useCallback` since React requires hook order.
 	const handleKeyDown = useCallback((event: ReactKeyboardEvent<HTMLDivElement>) => {

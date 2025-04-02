@@ -1,19 +1,19 @@
 import { MessageItem } from "./MessageItem";
 import { useRoomMessagesQuery } from "../hooks/useRoomMessagesQuery";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { RoomContext } from "../contexts/RoomContext";
 import AuthContext from "../contexts/AuthContext";
 import { UsersContext } from "../contexts/UsersContext";
 import { Box, Divider, Fab, List, Skeleton } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RoomDocumentReferenceContext } from "../contexts/RoomDocumentReferenceContext";
 
 export const MessageList = () => {
 	// Contexts
-	const roomContext = useContext(RoomContext);
+	const roomRefContext = useContext(RoomDocumentReferenceContext);
 	const authContext = useContext(AuthContext);
 	const usersContext = useContext(UsersContext);
 	// Hooks
-	const { data, loading, error } = useRoomMessagesQuery(roomContext?.payload); // TODO: Replace with useContext.
+	const { data, loading, error } = useRoomMessagesQuery(roomRefContext); // TODO: Replace with useContext.
 	// References
 	const bottomRef = useRef<HTMLLIElement>(null);
 	// States
