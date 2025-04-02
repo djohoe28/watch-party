@@ -7,7 +7,7 @@ import UserSettings from "./UserSettings";
 export const UserDrawer = () => {
 	// States
 	const [open, setOpen] = useState(true);
-	const handleToggle = () => setOpen(!open);
+	const handleToggle = () => setOpen(open => !open);
 	const handleClose = () => setOpen(false);
 	return <Fragment>
 		<Tooltip title="User Settings">

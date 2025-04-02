@@ -7,7 +7,7 @@ import UsersList from "./UsersList";
 export const UsersDrawer = () => {
 	// States
 	const [open, setOpen] = useState(true);
-	const handleToggle = () => setOpen(!open);
+	const handleToggle = () => setOpen(open => !open);
 	const handleClose = () => setOpen(false);
 	return <Fragment>
 		<Tooltip title="Users List">
