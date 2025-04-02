@@ -1,17 +1,20 @@
-import { serverTimestamp, setDoc } from "firebase/firestore";
+import { setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { RoomContextType } from "../contexts/RoomContext";
 import MediaStateMap from "../models/Firestore/MediaStateMap.model";
 import { ErrorType } from "../types/AsyncContext";
 
-export const useSendRoomMediaState = (roomContext: RoomContextType | null) => {
+export const useSendRoomMediaState = (
+	// TODO: Refactor to RoomDocumentReference? Needs data!
+	roomContext: RoomContextType | null | undefined
+) => {
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [sending, setSending] = useState<boolean>(false);
 	// Properties
-	const ref = roomContext?.payload;
+	const ref = roomContext ? roomContext.payload : null;
 	// Callbacks
 	const sendRoomMediaState = useCallback(
 		(settings: Partial<MediaStateMap>) => {
@@ -34,7 +37,7 @@ export const useSendRoomMediaState = (roomContext: RoomContextType | null) => {
 			const newValue = {
 				...roomContext.data?.media,
 				...settings,
-				lastUpdated: serverTimestamp(),
+				lastUpdated: new Date(), // TODO: serverTimestamp received twice (nanoseconds)!
 			};
 			console.log("Sending", newValue);
 			setDoc(
