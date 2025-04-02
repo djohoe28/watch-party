@@ -4,7 +4,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { RoomContext } from "../contexts/RoomContext";
 import AuthContext from "../contexts/AuthContext";
 import { UsersContext } from "../contexts/UsersContext";
-import { Box, Divider, Fab, List, ListItem, Skeleton } from "@mui/material";
+import { Box, Divider, Fab, List, Skeleton } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const MessageList = () => {
@@ -49,7 +49,7 @@ export const MessageList = () => {
 					component="li"
 					ref={bottomRef}
 					sx={{ width: "0px" }}
-				// TODO: Overkill, but could follow last viewed message.
+				// TODO: Overkill, but could follow last viewed message...
 				/>
 			</List>
 			<Fab
@@ -59,7 +59,6 @@ export const MessageList = () => {
 					position: "absolute",
 					bottom: 16,
 					right: 16,
-					// Only show when not at bottom
 					display: bottomed ? "none" : "flex"
 				}}
 				size="small"
