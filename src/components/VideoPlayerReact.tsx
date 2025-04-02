@@ -8,10 +8,13 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { toTimespanString } from '../models/Firestore/Timestamp.model';
 import { OnProgressProps } from 'react-player/base';
+import { useSendRoomMediaState } from '../hooks/useSendRoomMediaState';
 
 export const VideoPlayerReact = () => {
 	// Contexts
 	const roomContext = useContext(RoomContext);
+	// Hooks
+	const sendRoomMediaState = useSendRoomMediaState(roomContext);
 	// References
 	const playerRef = useRef<ReactPlayer>(null);
 	// States
