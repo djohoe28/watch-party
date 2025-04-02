@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import {
+	collection,
+	query,
+	orderBy,
+	onSnapshot,
+	DocumentReference,
+} from "firebase/firestore";
 import MessageDocument, {
 	MessageDocumentConverter,
 } from "../models/Firestore/MessageDocument.model";
 import { ErrorType } from "../types/AsyncContext";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { MessagesContextType } from "../contexts/MessagesContext";
-import { RoomContextType } from "../contexts/RoomContext";
+import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
 
 export const useRoomMessagesQuery = (
-	roomContext: RoomContextType | null
+	roomRef: RoomDocumentReference | null | undefined
 ): MessagesContextType => {
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
@@ -17,9 +23,9 @@ export const useRoomMessagesQuery = (
 	const [data, setData] = useState<MessageDocument[] | null>(null);
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	// Properties
-	const collectionRef = roomContext?.payload
+	const collectionRef = roomRef
 		? collection(
-				roomContext.payload,
+				roomRef,
 				import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
 		  ).withConverter(MessageDocumentConverter)
 		: null;
@@ -28,19 +34,19 @@ export const useRoomMessagesQuery = (
 		: null;
 	// Effects
 	useEffect(() => {
-		if (!roomContext) {
+		if (!roomRef) {
 			// TODO: Check if Room ID is URL safe?
-			setError("No Room ID provided");
+			setError("No Room Document Reference provided");
 			setLoading(false);
 			return;
 		}
 		if (!collectionRef) {
-			setError("No Room Messages collection provided");
+			setError("Failed to get Room Messages collection reference");
 			setLoading(false);
 			return;
 		}
 		if (!queryRef) {
-			setError("No Room Messages collection query provided");
+			setError("Failed to get Room Messages collection query");
 			setLoading(false);
 			return;
 		}
@@ -64,7 +70,7 @@ export const useRoomMessagesQuery = (
 			);
 			setLoading(false);
 		}
-	}, [roomContext]);
+	}, [roomRef]);
 
 	return { payload: queryRef, data, loading, error };
 };

@@ -12,7 +12,7 @@ export const MessageList = () => {
 	const authContext = useContext(AuthContext);
 	const usersContext = useContext(UsersContext);
 	// Hooks
-	const { data, loading, error } = useRoomMessagesQuery(roomContext); // TODO: Replace with useContext.
+	const { data, loading, error } = useRoomMessagesQuery(roomContext?.payload); // TODO: Replace with useContext.
 	if (error) return <div>Error: {error.toString()}</div>;
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper", overflowY: "scroll", maxHeight: "40vh" }}>
