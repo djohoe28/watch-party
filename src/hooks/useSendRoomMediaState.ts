@@ -1,8 +1,8 @@
 import { setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
-import { RoomContextType } from "../contexts/RoomContext";
 import MediaStateMap from "../models/Firestore/MediaStateMap.model";
 import { ErrorType } from "../types/AsyncContext";
+import { RoomContextType } from "./useRoomDocumentData";
 
 export const useSendRoomMediaState = (
 	// TODO: Refactor to RoomDocumentReference? Needs data!
