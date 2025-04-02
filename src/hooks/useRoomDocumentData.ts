@@ -7,7 +7,10 @@ import { ErrorType } from "../types/AsyncContext";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { FirestoreDocumentContextType } from "../types/FirestoreContextType";
 
-export type RoomContextType = FirestoreDocumentContextType<RoomDocument, RoomDocument>;
+export type RoomContextType = FirestoreDocumentContextType<
+	RoomDocument,
+	RoomDocument
+>;
 
 export const useRoomDocumentData = (
 	roomRef: RoomDocumentReference | null

@@ -6,7 +6,8 @@ import type {
 } from "firebase/firestore";
 import { AsyncContext } from "./AsyncContext";
 
-interface FirestoreContextType extends AsyncContext<Query | CollectionReference | DocumentReference> {
+interface FirestoreContextType
+	extends AsyncContext<Query | CollectionReference | DocumentReference> {
 	/** Reference to the desired Query / Collection / Document. */
 	payload: Query | CollectionReference | DocumentReference | null;
 	/** The data last received via Snapshot. Optional. */
