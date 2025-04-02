@@ -12,7 +12,7 @@ export default function UserSettings() {
 	const usersContext = useContext(UsersContext);
 	const authContext = useContext(AuthContext);
 	// Hooks
-	const userRoomContext = useRoomUserDocument(usersContext, authContext);
+	const userRoomContext = useRoomUserDocument(usersContext?.payload, authContext);
 	const { sendUserSettings, sending } = useUserSettings(userRoomContext);
 	// Defaults
 	const defaultName = "";

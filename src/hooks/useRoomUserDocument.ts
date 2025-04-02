@@ -7,6 +7,7 @@ import { User } from "firebase/auth";
 import { AsyncContext, ErrorType } from "../types/AsyncContext";
 import { UsersContextType } from "../contexts/UsersContext";
 import { RoomUserContextType } from "../contexts/RoomUserContext";
+import { UsersCollectionReference } from "../models/Firestore/UsersCollection.model";
 
 function createUserDocument(auth: User): UserModel {
 	// TODO: Duplicate `id` field in UserDocument.
@@ -14,8 +15,8 @@ function createUserDocument(auth: User): UserModel {
 }
 
 export const useRoomUserDocument = (
-	usersContext: UsersContextType | null,
-	auth: AsyncContext<User>
+	usersRef: UsersCollectionReference | null | undefined,
+	auth: AsyncContext<User> // TODO: Replace with User?
 ): RoomUserContextType => {
 	// States
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
@@ -24,8 +25,8 @@ export const useRoomUserDocument = (
 	const [data, setData] = useState<UserModel | null | undefined>(null); // TODO: Why is undefined required here?
 	// Properties
 	const ref =
-		auth.payload?.uid && usersContext?.payload
-			? doc(usersContext.payload, auth.payload?.uid).withConverter(
+		auth.payload?.uid && usersRef
+			? doc(usersRef, auth.payload?.uid).withConverter(
 					UserDocumentConverter
 			  )
 			: null;
@@ -36,7 +37,7 @@ export const useRoomUserDocument = (
 			setLoading(false);
 			return;
 		}
-		if (!usersContext) {
+		if (!usersRef) {
 			setError("No Users collection provided");
 			setLoading(false);
 			return;
@@ -72,7 +73,7 @@ export const useRoomUserDocument = (
 			);
 			setLoading(false);
 		}
-	}, [usersContext, auth]);
+	}, [usersRef, auth]);
 
 	return { payload: ref, data, setData, loading, error };
 };
