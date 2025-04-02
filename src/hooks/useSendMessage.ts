@@ -7,7 +7,6 @@ import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
 export const useSendMessage = (
 	roomRef: RoomDocumentReference | null | undefined
 ) => {
-	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
@@ -18,13 +17,12 @@ export const useSendMessage = (
 				roomRef,
 				import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
 		  ).withConverter(MessageDocumentConverter)
-		: null; // TODO: Check if MessageCollectionConverter is needed.
+		: null;
 	// Callbacks
 	const sendMessage = useCallback(
 		(message: string, senderId: string) => {
 			// TODO: Add senderName?
 			if (!roomRef) {
-				// TODO: Check if Room ID is URL safe?
 				setError("No Room Document provided");
 				setLoading(false);
 				return;

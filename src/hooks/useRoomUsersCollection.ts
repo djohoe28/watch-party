@@ -11,7 +11,6 @@ export const useRoomUsersCollection = (
 	roomRef: RoomDocumentReference | null | undefined
 ): UsersContextType => {
 	// States
-	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<UserModel[] | null>(null);
@@ -37,7 +36,6 @@ export const useRoomUsersCollection = (
 		}
 		setLoading(true);
 		try {
-			// Set up the real-time listener
 			const unsubscribe = onSnapshot(ref, (snapshot) => {
 				const userList = snapshot.docs.map((doc) =>
 					doc.data(DEFAULT_SNAPSHOT_OPTIONS)

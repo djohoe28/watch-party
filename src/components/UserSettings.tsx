@@ -47,7 +47,7 @@ export default function UserSettings() {
 			setColor(userRoomContext.data.color || defaultColor);
 		}
 	}, [userRoomContext.data, defaultColor]);
-	// TODO: Profile Image?
+	// FEATURE: Profile Image?
 	return userRoomContext.loading ? <Skeleton /> : <Stack
 		component="form"
 		spacing={2}

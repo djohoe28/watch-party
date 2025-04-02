@@ -7,7 +7,6 @@ import { RoomUserContextType } from "./useRoomUserDocument";
 
 export const useUserSettings = (roomUserContext: RoomUserContextType) => {
 	// TODO: Refactor to Reference? Needs data?
-	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
@@ -18,7 +17,6 @@ export const useUserSettings = (roomUserContext: RoomUserContextType) => {
 	const sendUserSettings = useCallback(
 		(settings: Partial<Omit<UserModel, "id">>, merge: boolean = true) => {
 			if (!roomUserContext) {
-				// TODO: Check if Room ID is URL safe?
 				setError("No (Room) User Document context provided");
 				setLoading(false);
 				return;

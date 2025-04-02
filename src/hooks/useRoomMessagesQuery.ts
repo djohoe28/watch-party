@@ -20,7 +20,6 @@ export const useRoomMessagesQuery = (
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<MessageDocument[] | null>(null);
-	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	// Properties
 	const collectionRef = roomRef
 		? collection(

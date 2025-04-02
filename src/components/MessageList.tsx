@@ -13,7 +13,7 @@ export const MessageList = () => {
 	const authContext = useContext(AuthContext);
 	const usersContext = useContext(UsersContext);
 	// Hooks
-	const { data, loading, error } = useRoomMessagesQuery(roomRefContext); // TODO: Replace with useContext.
+	const { data, loading, error } = useRoomMessagesQuery(roomRefContext); // NOTE: Refactor to Context if necessary!
 	// References
 	const bottomRef = useRef<HTMLLIElement>(null);
 	// States
@@ -49,7 +49,7 @@ export const MessageList = () => {
 					component="li"
 					ref={bottomRef}
 					sx={{ width: "0px" }}
-				// TODO: Overkill, but could follow last viewed message...
+				// FEATURE: Overkill, but could follow last viewed message...
 				/>
 			</List>
 			<Fab

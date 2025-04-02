@@ -8,7 +8,6 @@ export const useSendRoomMediaState = (
 	// TODO: Refactor to RoomDocumentReference? Needs data!
 	roomContext: RoomContextType | null | undefined
 ) => {
-	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
@@ -19,7 +18,6 @@ export const useSendRoomMediaState = (
 	const sendRoomMediaState = useCallback(
 		(settings: Partial<MediaStateMap>) => {
 			if (!roomContext) {
-				// TODO: Check if Room ID is URL safe?
 				setError("No Room Document context provided");
 				setLoading(false);
 				return;

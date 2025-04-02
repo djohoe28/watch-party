@@ -13,7 +13,6 @@ export const MessageField = () => {
 	const authContext = useContext(AuthContext);
 	const { sendMessage, sending, error } = useSendMessage(roomRefContext);
 	// Callbacks
-	// TODO: Remove `useCallback` since React requires hook order.
 	const handleKeyDown = useCallback((event: ReactKeyboardEvent<HTMLDivElement>) => {
 		if (event.key === "Enter" && event.shiftKey === false) {
 			event.preventDefault();

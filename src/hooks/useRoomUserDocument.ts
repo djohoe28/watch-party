@@ -25,7 +25,6 @@ export const useRoomUserDocument = (
 	auth: AsyncContext<User> // TODO: Replace with User?
 ): RoomUserContextType => {
 	// States
-	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<UserModel | null | undefined>(null); // TODO: Why is undefined required here?
@@ -55,19 +54,24 @@ export const useRoomUserDocument = (
 		}
 		setLoading(true);
 		try {
-			// Set up the real-time listener
 			const unsubscribe = onSnapshot(ref, (snapshot) => {
 				if (!snapshot.exists() && auth.payload) {
 					const userDocument = createUserDocument(auth.payload);
-					setDoc(ref, userDocument);
 					setData(userDocument); // TODO: Redundant? Snapshot will re-trigger.
-					setLoading(false);
-					setError(null);
+					setDoc(ref, userDocument)
+						.then(() => {
+							setLoading(false);
+							setError(null);
+						})
+						.catch((err) => {
+							setLoading(false);
+							setError(err);
+						});
 					return;
 				}
 				const userDoc = snapshot.data(DEFAULT_SNAPSHOT_OPTIONS);
 				setData(userDoc);
-				setLoading(false);
+				setLoading(false); // TODO: Shouldn't this be in a .then()/.catch()?
 				setError(null);
 			});
 			return () => unsubscribe();
