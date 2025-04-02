@@ -12,20 +12,20 @@ export const useAuthState = (): AsyncContext<User> => {
 	useEffect(() => {
 		// NOTE: Using `onAuthStateChanged` instead of hard-coding `signInAnonymously` to allow future expansion.
 		// TODO: Append user to database if new user.
-		const unsubscribe = onAuthStateChanged(auth,
-			(user) => {
-				if (user === null) {
-					signInAnonymously(auth).then((credential) => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (user === null) {
+				signInAnonymously(auth)
+					.then((credential) => {
 						setLoading(false);
 						setUser(credential.user);
-					}).catch((error) => setError(error));
-					return;
-				}
-				setUser(user);
-				setLoading(false);
-			},
-		);
+					})
+					.catch((error) => setError(error));
+				return;
+			}
+			setUser(user);
+			setLoading(false);
+		});
 		return unsubscribe;
 	}, []);
 	return { payload: user, loading, error };
-}
+};

@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-	collection,
-	query,
-	orderBy,
-	onSnapshot,
-	DocumentReference,
-} from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import MessageDocument, {
 	MessageDocumentConverter,
 } from "../models/Firestore/MessageDocument.model";

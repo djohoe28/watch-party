@@ -1,4 +1,4 @@
-import { collection, DocumentReference, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { UserDocumentConverter } from "../models/Firestore/UserDocument.model";
 import UserModel from "../models/User.model";

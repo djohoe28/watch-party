@@ -4,7 +4,9 @@ import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.mo
 import { ErrorType } from "../types/AsyncContext";
 import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
 
-export const useSendMessage = (roomRef: RoomDocumentReference | null | undefined) => {
+export const useSendMessage = (
+	roomRef: RoomDocumentReference | null | undefined
+) => {
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);

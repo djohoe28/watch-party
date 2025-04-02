@@ -5,7 +5,6 @@ import UserModel from "../models/User.model";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { User } from "firebase/auth";
 import { AsyncContext, ErrorType } from "../types/AsyncContext";
-import { UsersContextType } from "../contexts/UsersContext";
 import { RoomUserContextType } from "../contexts/RoomUserContext";
 import { UsersCollectionReference } from "../models/Firestore/UsersCollection.model";
 

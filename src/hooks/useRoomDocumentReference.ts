@@ -5,7 +5,9 @@ import {
 	RoomDocumentReference,
 } from "../models/Firestore/RoomDocument.model";
 
-export const useRoomDocumentReference = (roomId: string): RoomDocumentReference | null => {
+export const useRoomDocumentReference = (
+	roomId: string
+): RoomDocumentReference | null => {
 	const ref = doc(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
