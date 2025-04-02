@@ -4,7 +4,7 @@ import { UserDocumentConverter } from "../models/Firestore/UserDocument.model";
 import UserModel from "../models/User.model";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { User } from "firebase/auth";
-import { AsyncContext } from "../types/AsyncContext";
+import { AsyncContext, ErrorType } from "../types/AsyncContext";
 import { UsersContextType } from "../contexts/UsersContext";
 import { RoomUserContextType } from "../contexts/RoomUserContext";
 
@@ -20,7 +20,7 @@ export const useRoomUserDocument = (
 	// States
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | Error | null>(null);
+	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<UserModel | null | undefined>(null); // TODO: Why is undefined required here?
 	// Properties
 	const ref =

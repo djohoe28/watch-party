@@ -4,6 +4,7 @@ import { UserDocumentConverter } from "../models/Firestore/UserDocument.model";
 import UserModel from "../models/User.model";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { UsersContextType } from "../contexts/UsersContext";
+import { ErrorType } from "../types/AsyncContext";
 
 export const useRoomUsersCollection = (
 	roomRef: DocumentReference
@@ -11,7 +12,7 @@ export const useRoomUsersCollection = (
 	// States
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | Error | null>(null);
+	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<UserModel[] | null>(null);
 	// Properties
 	const ref = collection(

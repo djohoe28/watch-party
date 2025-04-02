@@ -3,12 +3,13 @@ import { useCallback, useState } from "react";
 import { RoomUserContextType } from "../contexts/RoomUserContext";
 import UserModel from "../models/User.model";
 import { isColor, stringToColor } from "../utils/String.utils";
+import { ErrorType } from "../types/AsyncContext";
 
 export const useUserSettings = (roomUserContext: RoomUserContextType) => {
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | Error | null>(null);
+	const [error, setError] = useState<ErrorType>(null);
 	const [sending, setSending] = useState<boolean>(false);
 	// Properties
 	const ref = roomUserContext?.payload;

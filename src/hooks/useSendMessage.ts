@@ -2,12 +2,13 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
 import { RoomContextType } from "../contexts/RoomContext";
+import { ErrorType } from "../types/AsyncContext";
 
 export const useSendMessage = (roomContext: RoomContextType | null) => {
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | Error | null>(null);
+	const [error, setError] = useState<ErrorType>(null);
 	const [sending, setSending] = useState<boolean>(false);
 	// Properties
 	const ref = roomContext?.payload
