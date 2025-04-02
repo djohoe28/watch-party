@@ -9,7 +9,7 @@ export type UsersContextType = FirestoreCollectionContextType<UserModel, UserDoc
 
 export const UsersContext = createContext<UsersContextType | null>(null);
 
-export const UsersContextProvider = ({ children, roomRef }: { children: ReactNode, roomRef: RoomDocumentReference }) => {
+export const UsersContextProvider = ({ children, roomRef }: { children: ReactNode, roomRef: RoomDocumentReference | null }) => {
 	const usersContext = useRoomUsersCollection(roomRef);
 	return <UsersContext.Provider value={usersContext}>{children}</UsersContext.Provider>
 };
