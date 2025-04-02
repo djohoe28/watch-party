@@ -11,7 +11,7 @@ export const MessageField = () => {
 	// Properties
 	const roomContext = useContext(RoomContext);
 	const authContext = useContext(AuthContext);
-	const { sendMessage, sending, error } = useSendMessage(roomContext);
+	const { sendMessage, sending, error } = useSendMessage(roomContext?.payload);
 	// Callbacks
 	// TODO: Remove `useCallback` since React requires hook order.
 	const handleKeyDown = useCallback((event: ReactKeyboardEvent<HTMLDivElement>) => {

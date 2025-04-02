@@ -1,19 +1,19 @@
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
-import { RoomContextType } from "../contexts/RoomContext";
 import { ErrorType } from "../types/AsyncContext";
+import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
 
-export const useSendMessage = (roomContext: RoomContextType | null) => {
+export const useSendMessage = (roomRef: RoomDocumentReference | null | undefined) => {
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [sending, setSending] = useState<boolean>(false);
 	// Properties
-	const ref = roomContext?.payload
+	const ref = roomRef
 		? collection(
-				roomContext.payload,
+				roomRef,
 				import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
 		  ).withConverter(MessageDocumentConverter)
 		: null; // TODO: Check if MessageCollectionConverter is needed.
@@ -21,7 +21,7 @@ export const useSendMessage = (roomContext: RoomContextType | null) => {
 	const sendMessage = useCallback(
 		(message: string, senderId: string) => {
 			// TODO: Add senderName?
-			if (!roomContext) {
+			if (!roomRef) {
 				// TODO: Check if Room ID is URL safe?
 				setError("No Room Document provided");
 				setLoading(false);
@@ -47,7 +47,7 @@ export const useSendMessage = (roomContext: RoomContextType | null) => {
 					setError(err);
 				});
 		},
-		[roomContext, ref]
+		[roomRef, ref]
 	);
 	return { sendMessage, sending, loading, error };
 };
