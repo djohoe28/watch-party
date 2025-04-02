@@ -1,4 +1,4 @@
-import { setDoc } from "firebase/firestore";
+import { serverTimestamp, setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { RoomContextType } from "../contexts/RoomContext";
 import MediaStateMap from "../models/Firestore/MediaStateMap.model";
@@ -33,7 +33,13 @@ export const useSendRoomMediaState = (roomContext: RoomContextType | null) => {
 			// Send
 			setDoc(
 				ref,
-				{ media: { ...roomContext.data?.media, ...settings } },
+				{
+					media: {
+						...roomContext.data?.media,
+						...settings,
+						lastUpdated: serverTimestamp(),
+					},
+				},
 				{ merge: true }
 			)
 				.then(() => {
