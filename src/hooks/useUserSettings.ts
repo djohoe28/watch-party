@@ -6,6 +6,7 @@ import { isColor, stringToColor } from "../utils/String.utils";
 import { ErrorType } from "../types/AsyncContext";
 
 export const useUserSettings = (roomUserContext: RoomUserContextType) => {
+	// TODO: Refactor to Reference? Needs data?
 	// TODO: Reference is null *only* when roomId is invalid; Leverage this to reuse hooks!
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
