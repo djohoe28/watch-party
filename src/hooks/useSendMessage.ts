@@ -18,7 +18,7 @@ export const useSendMessage = (roomContext: RoomContextType | null) => {
 		: null; // TODO: Check if MessageCollectionConverter is needed.
 	// Callbacks
 	const sendMessage = useCallback(
-		async (message: string, senderId: string) => {
+		(message: string, senderId: string) => {
 			// TODO: Add senderName?
 			if (!roomContext) {
 				// TODO: Check if Room ID is URL safe?
@@ -32,18 +32,19 @@ export const useSendMessage = (roomContext: RoomContextType | null) => {
 				return;
 			}
 			setSending(true);
-			try {
-				await addDoc(ref, {
-					sentAt: serverTimestamp(),
-					content: message,
-					senderId: senderId,
+			addDoc(ref, {
+				sentAt: serverTimestamp(),
+				content: message,
+				senderId: senderId,
+			})
+				.then(() => {
+					setSending(false);
+					setError(null);
+				})
+				.catch((err) => {
+					setSending(false);
+					setError(err);
 				});
-				setSending(false);
-				setError(null);
-			} catch (err: Error | any) {
-				setError(err);
-				setSending(false);
-			}
 		},
 		[roomContext, ref]
 	);
