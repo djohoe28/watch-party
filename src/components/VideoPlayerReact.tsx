@@ -1,4 +1,4 @@
-import { SyntheticEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import ReactPlayer from 'react-player/lazy'
 import { RoomContext } from '../contexts/RoomContext';
 import { IconButton, Slider, Stack, Typography } from '@mui/material';
@@ -46,7 +46,7 @@ export const VideoPlayerReact = () => {
 	const handlePlayingToggle = useCallback(() => {
 		setPlaying(!playing); // TODO: Handle strict mode.
 		sendRoomMediaState({ isPaused: !playing });
-	}, [playing, setPlaying]);
+	}, [playing, setPlaying, sendRoomMediaState]);
 	const handleMutedToggle = useCallback(() => {
 		setMuted(!muted);
 	}, [muted, setMuted]);
@@ -57,19 +57,21 @@ export const VideoPlayerReact = () => {
 		setSeeking(true);
 		// setCurrentTime(newValue as number); // TODO: Race Condition..?
 		playerRef.current?.seekTo(newValue as number); // See handleSeek.
-	}, [setCurrentTime]);
-	const handleTimeSliderChangeCommitted = useCallback((_: SyntheticEvent | Event, newValue: number) => {
-		setCurrentTime(newValue);
+	}, [playerRef.current, setSeeking]);
+	const handleTimeSliderChangeCommitted = useCallback(() => {
+		// TODO: If playing, use getCurrentTime()?
+		const value = playerRef.current?.getCurrentTime();
+		setCurrentTime(value);
 		setSeeking(false);
-		sendRoomMediaState({ currentTime: newValue });
-	}, [setCurrentTime]);
+		sendRoomMediaState({ currentTime: value });
+	}, [playerRef.current, setCurrentTime, setSeeking, sendRoomMediaState]);
 	// Video Event Handlers
 	const handleDuration = useCallback((value: number) => {
 		setDuration(value);
 	}, [setDuration]);
 	const handleProgress = useCallback((value: OnProgressProps) => {
-		if (!seeking) setCurrentTime(value.playedSeconds);
-	}, [seeking, setCurrentTime]);
+		/* if (!seeking) */ setCurrentTime(value.playedSeconds); // TODO: see handleTimeSliderChangeCommitted.
+	}, [setCurrentTime]);
 	const handleSeek = useCallback((value: number) => {
 		setCurrentTime(value); // TODO: Is this correct?
 	}, [setCurrentTime]);
