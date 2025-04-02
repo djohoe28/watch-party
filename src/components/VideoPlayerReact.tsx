@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { SyntheticEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import ReactPlayer from 'react-player/lazy'
 import { RoomContext } from '../contexts/RoomContext';
 import { IconButton, Slider, Stack, Typography } from '@mui/material';
@@ -14,7 +14,7 @@ export const VideoPlayerReact = () => {
 	// Contexts
 	const roomContext = useContext(RoomContext);
 	// Hooks
-	const sendRoomMediaState = useSendRoomMediaState(roomContext);
+	const { sendRoomMediaState } = useSendRoomMediaState(roomContext);
 	// References
 	const playerRef = useRef<ReactPlayer>(null);
 	// States
@@ -25,6 +25,7 @@ export const VideoPlayerReact = () => {
 	const [currentTime, setCurrentTime] = useState<number | undefined>(0);
 	const [duration, setDuration] = useState<number | undefined>(0);
 	const [maxDelta, setMaxDelta] = useState<number>(0);
+	const [seeking, setSeeking] = useState<boolean>(false);
 	// Memos
 	const volumeAsFraction = useMemo(() => volume / 100, [volume]);
 	const showHours = useMemo(() => (duration && duration > 3600) || false, [duration]);
@@ -43,8 +44,8 @@ export const VideoPlayerReact = () => {
 	// Callbacks
 	// UI Event Handlers
 	const handlePlayingToggle = useCallback(() => {
-		setPlaying(!playing);
-		// TODO: Update Firestore Document.
+		setPlaying(!playing); // TODO: Handle strict mode.
+		sendRoomMediaState({ isPaused: !playing });
 	}, [playing, setPlaying]);
 	const handleMutedToggle = useCallback(() => {
 		setMuted(!muted);
@@ -53,16 +54,22 @@ export const VideoPlayerReact = () => {
 		setVolume(newValue as number);
 	}, [setVolume]);
 	const handleTimeSliderChange = useCallback((_: Event, newValue: number | number[]) => {
-		setCurrentTime(newValue as number);
-		// TODO: Update Firestore Document.
+		setSeeking(true);
+		// setCurrentTime(newValue as number); // TODO: Race Condition..?
+		playerRef.current?.seekTo(newValue as number); // See handleSeek.
+	}, [setCurrentTime]);
+	const handleTimeSliderChangeCommitted = useCallback((_: SyntheticEvent | Event, newValue: number) => {
+		setCurrentTime(newValue);
+		setSeeking(false);
+		sendRoomMediaState({ currentTime: newValue });
 	}, [setCurrentTime]);
 	// Video Event Handlers
 	const handleDuration = useCallback((value: number) => {
 		setDuration(value);
 	}, [setDuration]);
 	const handleProgress = useCallback((value: OnProgressProps) => {
-		setCurrentTime(value.playedSeconds);
-	}, [setCurrentTime]);
+		if (!seeking) setCurrentTime(value.playedSeconds);
+	}, [seeking, setCurrentTime]);
 	const handleSeek = useCallback((value: number) => {
 		setCurrentTime(value); // TODO: Is this correct?
 	}, [setCurrentTime]);
@@ -75,7 +82,7 @@ export const VideoPlayerReact = () => {
 	}, []);
 	// Effects
 	useEffect(() => {
-		console.log(roomContext?.data?.media);
+		console.log("Media Effect", roomContext?.data?.media);
 		// TODO: Compartmentalize effects by prop changes?
 		// TODO: Handle source change (source is set in ReactPlayer prop; add buffer?)
 		if (playerRef.current && roomContext?.data) {
@@ -125,9 +132,10 @@ export const VideoPlayerReact = () => {
 				max={duration || 0} // TODO: Memo? Remove undefined?
 				step={0.1} // TODO: Make configurable? Percent of Duration?
 				onChange={handleTimeSliderChange}
+				onChangeCommitted={handleTimeSliderChangeCommitted}
 				valueLabelDisplay='auto'
 				valueLabelFormat={timeValueLabelFormatter}
-				disabled
+			// disabled
 			/>
 			<Typography>{durationString}</Typography>
 		</Stack>

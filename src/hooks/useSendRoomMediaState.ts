@@ -31,14 +31,16 @@ export const useSendRoomMediaState = (roomContext: RoomContextType | null) => {
 			// TODO: Enforce settings to include *only* MediaStateMap properties?
 			// TODO: Prevent if settings is same as server?
 			// Send
+			const newValue = {
+				...roomContext.data?.media,
+				...settings,
+				lastUpdated: serverTimestamp(),
+			};
+			console.log("Sending", newValue);
 			setDoc(
 				ref,
 				{
-					media: {
-						...roomContext.data?.media,
-						...settings,
-						lastUpdated: serverTimestamp(),
-					},
+					media: newValue,
 				},
 				{ merge: true }
 			)
