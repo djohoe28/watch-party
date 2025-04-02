@@ -120,7 +120,7 @@ export const VideoPlayerReact = () => {
 				value={currentTime || 0} // TODO: Memo? Remove undefined?
 				min={0}
 				max={duration || 0} // TODO: Memo? Remove undefined?
-				step={0.1} // TODO: Make configurable?
+				step={0.1} // TODO: Make configurable? Percent of Duration?
 				onChange={handleTimeSliderChange}
 				valueLabelDisplay='auto'
 				valueLabelFormat={timeValueLabelFormatter}
