@@ -35,8 +35,8 @@ export const VideoPlayerReact = () => {
 			? toTimespanString(duration, showHours)
 			: showHours ? "??:??:??" : "??:??",
 		[duration, showHours]);
-	const playingButton = useMemo(() => playing ? <PauseIcon /> : <PlayArrowIcon />, [playing]);
-	const mutedButton = useMemo(() => muted ? <VolumeOffIcon /> : <VolumeUpIcon />, [muted]);
+	const playingIcon = useMemo(() => playing ? <PauseIcon /> : <PlayArrowIcon />, [playing]);
+	const mutedIcon = useMemo(() => muted ? <VolumeOffIcon /> : <VolumeUpIcon />, [muted]);
 	// Callbacks
 	// UI Event Handlers
 	const handlePlayingToggle = useCallback(() => {
@@ -102,10 +102,10 @@ export const VideoPlayerReact = () => {
 		/>
 		<Stack direction="row" spacing={2} alignItems="center">
 			<IconButton onClick={handlePlayingToggle}>
-				{playingButton}
+				{playingIcon}
 			</IconButton>
 			<IconButton onClick={handleMutedToggle}>
-				{mutedButton}
+				{mutedIcon}
 			</IconButton>
 			<Slider
 				value={volume}
