@@ -5,9 +5,10 @@ import UserModel from "../models/User.model";
 import { DEFAULT_SNAPSHOT_OPTIONS } from "../utils/GenericFirestoreConverter";
 import { UsersContextType } from "../contexts/UsersContext";
 import { ErrorType } from "../types/AsyncContext";
+import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
 
 export const useRoomUsersCollection = (
-	roomRef: DocumentReference
+	roomRef: RoomDocumentReference | null | undefined
 ): UsersContextType => {
 	// States
 	// TODO: Use RoomContext to get the roomRef? Account for loading/error/null!
@@ -15,15 +16,22 @@ export const useRoomUsersCollection = (
 	const [error, setError] = useState<ErrorType>(null);
 	const [data, setData] = useState<UserModel[] | null>(null);
 	// Properties
-	const ref = collection(
-		roomRef,
-		import.meta.env.VITE_FIREBASE_USERS_SUBCOLLECTION_ID
-	).withConverter(UserDocumentConverter);
+	const ref = roomRef
+		? collection(
+				roomRef,
+				import.meta.env.VITE_FIREBASE_USERS_SUBCOLLECTION_ID
+		  ).withConverter(UserDocumentConverter)
+		: null;
 	// Effects
 	useEffect(() => {
 		if (!roomRef) {
 			// TODO: Check if Room ID is URL safe?
 			setError("No Room ID provided");
+			setLoading(false);
+			return;
+		}
+		if (!ref) {
+			setError("Failed to get Room Users collection reference");
 			setLoading(false);
 			return;
 		}
