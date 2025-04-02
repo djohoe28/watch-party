@@ -1,4 +1,4 @@
-import { DocumentData, Timestamp } from "firebase/firestore";
+import { DocumentData, DocumentReference, Timestamp } from "firebase/firestore";
 import MediaStateMap from "./MediaStateMap.model";
 import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
 import Room from "../Room.model";
@@ -19,3 +19,5 @@ export const RoomDocumentConverter = new GenericFirestoreConverter<
 	RoomDocument, // TODO: Change this to Room
 	RoomDocument
 >();
+
+export type RoomDocumentReference = DocumentReference<RoomDocument, RoomDocument>;
