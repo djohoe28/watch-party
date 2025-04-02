@@ -34,7 +34,7 @@ export const useSendMessage = (roomRef: RoomDocumentReference | null | undefined
 			}
 			setSending(true);
 			addDoc(ref, {
-				sentAt: serverTimestamp(),
+				sentAt: serverTimestamp(), // TODO: Refactor as new Date()?
 				content: message,
 				senderId: senderId,
 			})
