@@ -1,32 +1,25 @@
-import { Typography, Skeleton, Stack, Drawer, Grid } from "@mui/material";
+import { Stack, Grid } from "@mui/material";
 import { MessageField } from "./MessageField";
 import { MessageList } from "./MessageList";
-import { useRoomDocument } from "../hooks/useRoomDocument";
-import { RoomContextProvider } from "../contexts/RoomContext";
-import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
-import { VideoPlayer } from "./VideoPlayer";
 import { UsersContextProvider } from "../contexts/UsersContext";
 import { UsersDrawer } from "./UsersDrawer";
 import { UserDrawer } from "./UserDrawer";
 import { VideoPlayerReact } from "./VideoPlayerReact";
+import { RoomDocumentReferenceContextProvider } from "../contexts/RoomDocumentReferenceContext";
+import { RoomIdContext } from "../contexts/RoomIdContext";
+import { useRoomDocumentReference } from "../hooks/useRoomDocumentReference";
+import { RoomTitle } from "./RoomTitle";
 
 export const Room = ({ roomId }: { roomId: string }) => {
-	// Contexts
-	const authContext = useContext(AuthContext); // TODO: Use User instead of UserID?
 	// Hooks
-	const roomDocument = useRoomDocument(roomId); // TODO: Use Context?
-	// return <RoomIdContext.Provider value={roomId}>{...}</RoomIdContext.Provider>
-	return <RoomContextProvider roomId={roomId}>
-		<Typography variant="h5" component="h2" sx={{ mb: 2 }}>
-			{roomDocument.loading ? <Skeleton /> : roomDocument.error ? roomDocument.error.toString() : roomDocument.data?.title}
-			{authContext.payload && ` (${authContext.payload?.uid})`}
-		</Typography>
-		<Stack direction="row" spacing={2}>
-			<VideoPlayerReact />
-			<Stack direction="column" spacing={2}>
-				{roomDocument.payload
-					? <UsersContextProvider roomRef={roomDocument.payload}>
+	const roomDocument = useRoomDocumentReference(roomId); // TODO: Use Context?
+	return <RoomIdContext.Provider value={roomId}>
+		<RoomDocumentReferenceContextProvider roomId={roomId}>
+			<RoomTitle />
+			<Stack direction="row" spacing={2}>
+				<VideoPlayerReact />
+				<Stack direction="column" spacing={2}>
+					<UsersContextProvider roomRef={roomDocument}>
 						<Grid container spacing={2} textAlign='center'>
 							<Grid size='grow'>
 								<UserDrawer />
@@ -37,9 +30,9 @@ export const Room = ({ roomId }: { roomId: string }) => {
 						</Grid>
 						<MessageList />
 					</UsersContextProvider>
-					: null}
-				<MessageField />
+					<MessageField />
+				</Stack>
 			</Stack>
-		</Stack>
-	</RoomContextProvider>
+		</RoomDocumentReferenceContextProvider>
+	</RoomIdContext.Provider>
 };

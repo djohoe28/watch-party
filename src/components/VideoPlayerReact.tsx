@@ -1,6 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import ReactPlayer from 'react-player/lazy'
-import { RoomContext } from '../contexts/RoomContext';
 import { IconButton, Slider, Stack, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -9,10 +8,13 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { toTimespanString } from '../models/Firestore/Timestamp.model';
 import { OnProgressProps } from 'react-player/base';
 import { useSendRoomMediaState } from '../hooks/useSendRoomMediaState';
+import { useRoomDocumentData } from '../hooks/useRoomDocumentData';
+import { RoomDocumentReferenceContext } from '../contexts/RoomDocumentReferenceContext';
 
 export const VideoPlayerReact = () => {
 	// Contexts
-	const roomContext = useContext(RoomContext);
+	const roomRef = useContext(RoomDocumentReferenceContext);
+	const roomContext = useRoomDocumentData(roomRef);
 	// Hooks
 	const { sendRoomMediaState } = useSendRoomMediaState(roomContext);
 	// References
@@ -44,11 +46,13 @@ export const VideoPlayerReact = () => {
 	// Callbacks
 	// UI Event Handlers
 	const handlePlayingToggle = useCallback(() => {
-		setPlaying(!playing); // TODO: Handle strict mode.
-		sendRoomMediaState({ isPaused: !playing });
+		setPlaying(playing => {
+			sendRoomMediaState({ isPaused: !playing }); // TODO: Handle strict mode.
+			return !playing;
+		});
 	}, [playing, setPlaying, sendRoomMediaState]);
 	const handleMutedToggle = useCallback(() => {
-		setMuted(!muted);
+		setMuted(muted => !muted);
 	}, [muted, setMuted]);
 	const handleVolumeChange = useCallback((_: Event, newValue: number | number[]) => {
 		setVolume(newValue as number);
