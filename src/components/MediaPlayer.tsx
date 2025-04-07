@@ -27,10 +27,11 @@ export const MediaPlayer = () => {
 	const [playing, setPlaying] = useState<boolean>(false);
 	const [muted, setMuted] = useState<boolean>(true);
 	const [volume, setVolume] = useState<number>(0); // NOTE: 0-100!
-	const [currentTime, setCurrentTime] = useState<number | undefined>(0);
+	const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
 	const [duration, setDuration] = useState<number | undefined>(0);
 	const [maxDelta, setMaxDelta] = useState<number>(0);
 	const [seeking, setSeeking] = useState<boolean>(false);
+	const [initialized, setInitialized] = useState<boolean>(false);
 	// Memos (Derivative States)
 	const volumeAsFraction = useMemo(() => volume / 100, [volume]);
 	const showHours = useMemo(() => (duration && duration > 3600) || false, [duration]);
@@ -76,6 +77,25 @@ export const MediaPlayer = () => {
 	const handleSeek = useCallback((value: number) => {
 		setCurrentTime(value); // TODO: Is this correct?
 	}, [setCurrentTime]);
+	const handleReady = useCallback((player: ReactPlayer) => {
+		// TODO: Handle strict mode w/ DB effect correctly.
+		// if (initialized) return;
+		if (!initialized && documentData) {
+			setInitialized(true); // TODO: Fix race condition.
+			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
+			const isDelayed = documentData.media.isPaused === false && documentData.media.currentTime - (currentTime || 0) + delta > maxDelta;
+			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
+			// TODO: See alert in useEffect.
+			player.seekTo(targetTime, "seconds");
+		}
+	}, [documentData?.media, currentTime]);
+	const handleEnded = useCallback(() => {
+		// FIXME: Hack to work around race condition infinite recursion.
+		// TODO: What happens if no player was available to trigger this?
+		if(documentData?.media.isPaused === false) {
+			sendRoomMediaState({ isPaused: true, currentTime: documentData?.media.duration });
+		}
+	}, [sendRoomMediaState, documentData?.media.isPaused, documentData?.media.duration]);
 	// Formatters
 	const timeValueLabelFormatter = useCallback((value: number) => {
 		return toTimespanString(value, showHours);
@@ -92,10 +112,13 @@ export const MediaPlayer = () => {
 			setUrl(documentData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
 			setPlaying(documentData.media.isPaused === false);
 			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
-			if (documentData.media.isPaused === true || (currentTime && documentData.media.currentTime - currentTime > maxDelta))
-				playerRef.current.seekTo(documentData.media.currentTime, "seconds");
-			else
-				playerRef.current.seekTo(documentData.media.currentTime - delta / 1000, "seconds");
+			const isDelayed = documentData.media.isPaused === false && documentData.media.currentTime - (currentTime || 0) + delta > maxDelta;
+			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
+			if(targetTime > documentData.media.duration) {
+				// NOTE: This happens *only* if media was supposed to end but no player was available to trigger onEnded.
+				alert("Media ended.");
+			}
+			playerRef.current?.seekTo(targetTime, "seconds");
 		}
 	}, [documentData?.media]);
 
@@ -113,6 +136,8 @@ export const MediaPlayer = () => {
 				onDuration={handleDuration}
 				onProgress={handleProgress}
 				onSeek={handleSeek}
+				onReady={handleReady}
+				onEnded={handleEnded}
 				// Style
 				width="100%"
 				controls={false} // NOTE: Controls are handled below.
