@@ -35,7 +35,7 @@ export const useRoomReferences = (
 	).withConverter(MessageDocumentConverter);
 	const membersCollectionRef = collection(
 		roomDocumentRef,
-		import.meta.env.VITE_FIREBASE_USERS_SUBCOLLECTION_ID
+		import.meta.env.VITE_FIREBASE_MEMBERS_SUBCOLLECTION_ID
 	).withConverter(MemberDocumentConverter);
 	const memberDocumentRef = memberId
 		? doc(membersCollectionRef, memberId).withConverter(MemberDocumentConverter)
