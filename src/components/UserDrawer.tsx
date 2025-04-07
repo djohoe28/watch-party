@@ -7,7 +7,7 @@ import UserSettings from "./UserSettings";
 export const UserDrawer = () => {
 	// TODO: Merge with UsersDrawer ?
 	// States
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 	// Callbacks
 	const handleToggle = useCallback(() => setOpen(open => !open), [setOpen]);
 	const handleClose = useCallback(() => setOpen(false), [setOpen]);
