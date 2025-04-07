@@ -1,5 +1,5 @@
 import { Drawer, IconButton, Tooltip } from "@mui/material"
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import PeopleIcon from '@mui/icons-material/People';
 import CloseIcon from '@mui/icons-material/Close';
 import UsersList from "./UsersList";
@@ -7,8 +7,10 @@ import UsersList from "./UsersList";
 export const UsersDrawer = () => {
 	// States
 	const [open, setOpen] = useState(true);
-	const handleToggle = () => setOpen(open => !open);
-	const handleClose = () => setOpen(false);
+	// Callbacks
+	const handleToggle = useCallback(() => setOpen(open => !open), [setOpen]);
+	const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
 	return <Fragment>
 		<Tooltip title="Users List">
 			<IconButton
