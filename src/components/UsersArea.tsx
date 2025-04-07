@@ -2,10 +2,13 @@ import { Stack, Grid } from "@mui/material"
 import { UsersContextProvider } from "../contexts/UsersContext"
 import { MessageField } from "./MessageField"
 import { MessageList } from "./MessageList"
-import { UserDrawer } from "./UserDrawer"
-import { UsersDrawer } from "./UsersDrawer"
 import { useContext, useMemo } from "react"
 import { RoomReferencesContext } from "../contexts/RoomReferencesContext"
+import { DrawerWithToggle } from "./DrawerWithToggle"
+import SettingsIcon from '@mui/icons-material/Settings';
+import PeopleIcon from '@mui/icons-material/People';
+import UserSettings from "./UserSettings"
+import UsersList from "./UsersList"
 
 export const UsersArea = () => {
 	// Contexts
@@ -17,10 +20,25 @@ export const UsersArea = () => {
 		<UsersContextProvider usersRef={usersRef}>
 			<Grid container spacing={2} textAlign='center'>
 				<Grid size='grow'>
-					<UserDrawer />
+					<DrawerWithToggle
+						icon={<SettingsIcon />}
+						tooltip="User Settings"
+						anchor="left"
+						ariaLabel="Toggle User Settings"
+					>
+						<UserSettings />
+					</DrawerWithToggle>
+
 				</Grid>
 				<Grid size='grow'>
-					<UsersDrawer />
+					<DrawerWithToggle
+						icon={<PeopleIcon />}
+						tooltip="Users List"
+						anchor="right"
+						ariaLabel="Toggle Users List"
+					>
+						<UsersList />
+					</DrawerWithToggle>
 				</Grid>
 			</Grid>
 			<MessageList />
