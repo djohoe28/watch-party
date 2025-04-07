@@ -5,12 +5,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import UserSettings from "./UserSettings";
 
 export const UserDrawer = () => {
+	// TODO: Merge with UsersDrawer ?
 	// States
 	const [open, setOpen] = useState(true);
 	// Callbacks
 	const handleToggle = useCallback(() => setOpen(open => !open), [setOpen]);
 	const handleClose = useCallback(() => setOpen(false), [setOpen]);
-	
+
 	return <Fragment>
 		<Tooltip title="User Settings">
 			<IconButton

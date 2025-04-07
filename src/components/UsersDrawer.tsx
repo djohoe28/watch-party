@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import UsersList from "./UsersList";
 
 export const UsersDrawer = () => {
+	// TODO: Merge with UserDrawer?
 	// States
 	const [open, setOpen] = useState(true);
 	// Callbacks

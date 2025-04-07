@@ -23,6 +23,7 @@ export const useRoomReferences = (
 	roomId: string,
 	userId?: string
 ): RoomReferences | null => {
+	// TODO: Use Memos?
 	const roomDocumentRef = doc(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,

@@ -37,4 +37,5 @@ export function isColor(strColor: string) {
 	return s.color !== "";
 }
 
+// Refactor to `DEFAULT_DISPLAY_NAME` ? (see `UserSettings.defaultName`)
 export const DEFAULT_NAME = "(anon)";

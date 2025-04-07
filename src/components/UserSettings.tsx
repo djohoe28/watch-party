@@ -16,7 +16,7 @@ export default function UserSettings() {
 	// FIXME: Use memo to have hooks update when userRoomContext loads?
 	const { sendUserSettings, sending: hookSending, loading: hookLoading, error: hookError } = useUserSettings(roomUser);
 	// Memos (Default Values)
-	const defaultName = useMemo(() => "", []);
+	const defaultName = useMemo(() => "", []); // TODO: Leverage `DEFAULT_NAME` (see String.utils.ts)
 	const defaultColor = useMemo(() => documentData ? stringToColor(documentData.id) : "", [documentData?.id]);
 	// States
 	const [name, setName] = useState<string>(documentData?.name || "");
@@ -49,7 +49,7 @@ export default function UserSettings() {
 		}
 	}, [documentData, defaultColor]);
 	// FEATURE: Profile Image?
-	
+
 	// TODO: Error order? Return both?
 	if (documentError) return <Alert severity="error">{documentError.toString()}</Alert>;
 	if (hookError) return <Alert severity="error">{hookError.toString()}</Alert>;
