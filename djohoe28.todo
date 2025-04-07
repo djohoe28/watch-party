@@ -1,11 +1,30 @@
+FEATURE
+[ ] Add Room management
+[ ] Add Source management
+[ ] Add local File support
+[ ] Add unit/integration tests (hooks, Firebase, components?)
+
+TODO
+[ ] Update README
+[ ] Remove commented-out code / unused imports
+[ ] .env Firebase configuration should be reconsidered
+[ ] Use actions/cache in workflow action(s)
+[ ] Avoid `any` in FirestoreContextType / GenericFirestoreConverter
+[ ] Move ErrorType, AsyncContext to types folder
+[ ] Streamline `useX(x: T | null | undefined)`, Error types.
+[ ] Streamline `if (error) return <Alert severity="error">{error.toString()}</Alert>`
+
+LINT
+[ ] Avoid excessive useMemo / useCallback - volumeAsFraction et al. (useRef?)
+[ ] Simplify state management (MediaPlayer - Zustand/Redux/MobX?)
+[ ] Debounce slider updates in MediaPlayer
+
+
 DB -> Hook -> Provider -> Context -> Component
 	1. Use hooks to get DB state
 	2. Use Providers to hold DB state
 	3. Use Context(s) to retrieve Provider state
 
 SEE: https://npmtrends.com/react-firebase-hooks-vs-reactfire
-
-LINT: Streamline `useX(x: T | null | undefined)`, Error types.
-LINT: Streamline `if (error) return <Alert severity="error">{error.toString()}</Alert>`
 
 TODO: Look into `memo` (dependency array) & `useRef` (dependency-less memo).
