@@ -7,8 +7,9 @@ import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 
 export const Room = ({ roomId }: { roomId: string }) => {
+	// Contexts
 	const userId = useContext(AuthContext).payload?.uid;
-	
+
 	return <RoomReferencesContextProvider roomId={roomId} userId={userId}>
 		<RoomTitle />
 		<Stack direction="row" spacing={2}>

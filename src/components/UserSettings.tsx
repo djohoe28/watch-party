@@ -5,6 +5,7 @@ import { DEFAULT_NAME, stringToColor } from "../utils/String.utils";
 import RestoreIcon from '@mui/icons-material/Restore';
 import { RoomReferencesContext } from "../contexts/RoomReferencesContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+
 export default function UserSettings() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);

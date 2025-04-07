@@ -25,23 +25,26 @@ export const useUserSettings = (
 			setDoc(ref, { id: ref.id } as UserModel)
 				.then(() => {
 					setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
-					setError(prev => prev || null);
+					setError((prev) => prev || null);
 				})
 				.catch((err) => {
 					setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
-					setError(prev => prev || err); // LINT: Should an existing Error be "chained"?
+					setError((prev) => prev || err); // LINT: Should an existing Error be "chained"?
 				});
 			// TODO: Make sure this doesn't cause a race condition, including Strict Mode!
 		} else {
 			setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
-			setError(prev => prev || null);
+			setError((prev) => prev || null);
 		}
 	}, [documentSnapshot]);
 	// Callbacks
 	const sendUserSettings = useCallback(
 		(settings: Partial<Omit<UserModel, "id">>, merge: boolean = true) => {
 			if (!ref) {
-				setError(prev => prev || "Failed to get (Room) User Document reference"); // LINT: Make sure this doesn't cause a race condition, including Strict Mode!
+				setError(
+					(prev) =>
+						prev || "Failed to get (Room) User Document reference"
+				); // LINT: Make sure this doesn't cause a race condition, including Strict Mode!
 				setLoading(false); // LINT: This is a bit misleading, but it's not a loading error.
 				return;
 			}

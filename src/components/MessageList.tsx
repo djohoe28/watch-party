@@ -34,6 +34,7 @@ export const MessageList = () => {
 	useEffect(() => {
 		if (bottomed && bottomRef.current) bottomRef.current.scrollIntoView({ behavior: "smooth" });
 	}, [bottomed, bottomRef.current, collectionData]);
+	
 	if (collectionError) return <Alert severity="error">{collectionError.toString()}</Alert>;
 	return (
 		<Box sx={{ position: "relative", width: "100%", height: "40vh" }}>

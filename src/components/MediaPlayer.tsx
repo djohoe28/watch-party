@@ -92,7 +92,7 @@ export const MediaPlayer = () => {
 	const handleEnded = useCallback(() => {
 		// FIXME: Hack to work around race condition infinite recursion.
 		// TODO: What happens if no player was available to trigger this?
-		if(documentData?.media.isPaused === false) {
+		if (documentData?.media.isPaused === false) {
 			sendRoomMediaState({ isPaused: true, currentTime: documentData?.media.duration });
 		}
 	}, [sendRoomMediaState, documentData?.media.isPaused, documentData?.media.duration]);
@@ -114,7 +114,7 @@ export const MediaPlayer = () => {
 			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
 			const isDelayed = documentData.media.isPaused === false && documentData.media.currentTime - (currentTime || 0) + delta > maxDelta;
 			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
-			if(targetTime > documentData.media.duration) {
+			if (targetTime > documentData.media.duration) {
 				// NOTE: This happens *only* if media was supposed to end but no player was available to trigger onEnded.
 				alert("Media ended.");
 			}
