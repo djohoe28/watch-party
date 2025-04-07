@@ -6,9 +6,6 @@ import Link from '@mui/material/Link';
 import ProTip from './ProTip';
 import { Room } from './components/Room';
 import { AuthContextProvider } from './contexts/AuthContext';
-import { Temp } from './components/Temp';
-
-
 
 function Copyright() {
   return (
