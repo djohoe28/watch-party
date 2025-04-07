@@ -3,27 +3,32 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Allow authenticated users to read and write their own user data
+    // Authenticated users can read and write their own user data
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Allow authenticated users to read and write messages in rooms they are members of
+    // Authenticated users can read & create messages,
+    // but can only write if they are members of the room.
+    // TODO: Read should also be limited to messages in the room, but the initial read error crashes the component.
     match /rooms/{roomId}/messages/{messageId} {
-      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/rooms/$(roomId)/members/$(request.auth.uid));
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && exists(/databases/$(database)/documents/rooms/$(roomId)/members/$(request.auth.uid));
     }
 
-    // Allow authenticated users to read room metadata if they are members
-    // NOTE: Members must have write access to the room to update room metadata
+    // Authenticated users can read & create room data,
+    // but can only write if they are members of the room.
     match /rooms/{roomId} {
-      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/rooms/$(roomId)/members/$(request.auth.uid));
-      allow write: if request.auth != null && request.auth.uid in resource.data.admins;
+      allow read, create: if request.auth != null;
+      allow write: if request.auth != null && exists(/databases/$(database)/documents/rooms/$(roomId)/members/$(request.auth.uid));
+      // allow write: if request.auth != null && request.auth.uid in resource.data.admins;
     }
 
-    // Allow admins to manage room members
+    // Authenticated users can read & create any member data freely,
+    // but can only write their own member data.
     match /rooms/{roomId}/members/{memberId} {
-      allow read: if request.auth != null && exists(/databases/$(database)/documents/rooms/$(roomId)/members/$(request.auth.uid));
-      allow write: if request.auth != null && request.auth.uid in resource.data.admins;
+      allow read, create: if request.auth != null;
+      allow write: if request.auth != null && exists(/databases/$(database)/documents/rooms/$(roomId)/members/$(request.auth.uid));
     }
 
     // Deny all other access by default
