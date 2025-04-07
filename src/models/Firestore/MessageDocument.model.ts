@@ -8,6 +8,6 @@ export default interface MessageDocument extends DocumentData {
 }
 
 export const MessageDocumentConverter = new GenericFirestoreConverter<
-	MessageDocument, // TODO: Change this to Message
+	MessageDocument, // TODO: Change this to MessageModel.
 	MessageDocument
 >();

@@ -16,7 +16,7 @@ export default interface RoomDocument extends DocumentData {
 }
 
 export const RoomDocumentConverter = new GenericFirestoreConverter<
-	RoomDocument, // TODO: Change this to Room
+	RoomDocument, // TODO: Change this to RoomModel.
 	RoomDocument
 >();
 
