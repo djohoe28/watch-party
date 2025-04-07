@@ -1,15 +1,20 @@
-import { Skeleton, Typography } from "@mui/material"
-import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
-import { useRoomDocumentData } from "../hooks/useRoomDocumentData";
-import { RoomDocumentReferenceContext } from "../contexts/RoomDocumentReferenceContext";
+import { Alert, Skeleton, Typography } from "@mui/material"
+import { useContext, useMemo } from "react";
+import { RoomReferencesContext } from "../contexts/RoomReferencesContext";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 export const RoomTitle = () => {
-	const authContext = useContext(AuthContext); // TODO: Use User instead of UserID?
-	const roomRef = useContext(RoomDocumentReferenceContext);
-	const roomDocument = useRoomDocumentData(roomRef);
-	return <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
-		{roomDocument.loading ? <Skeleton /> : roomDocument.error ? roomDocument.error.toString() : roomDocument.data?.title}
-		{authContext.payload && ` (${authContext.payload?.uid})`}
-	</Typography>
+	// Contexts
+	const roomRefsContext = useContext(RoomReferencesContext);
+	// Memos
+	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext]);
+	// Hooks
+	const [documentData, documentLoading, documentError, _] = useDocumentData(roomRef);
+
+	if (documentError) return <Alert severity="error">{documentError.toString()}</Alert>;
+	return documentLoading
+		? <Skeleton />
+		: <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
+			{documentData?.title}
+		</Typography>
 }
