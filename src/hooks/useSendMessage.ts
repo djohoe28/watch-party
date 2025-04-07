@@ -1,5 +1,5 @@
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
 import { ErrorType } from "../types/AsyncContext";
 import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
@@ -11,13 +11,17 @@ export const useSendMessage = (
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [sending, setSending] = useState<boolean>(false);
-	// Properties
-	const ref = roomRef
-		? collection(
-				roomRef,
-				import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
-		  ).withConverter(MessageDocumentConverter)
-		: null;
+	// Memos
+	const ref = useMemo(
+		() =>
+			roomRef
+				? collection(
+						roomRef,
+						import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
+				  ).withConverter(MessageDocumentConverter)
+				: null,
+		[roomRef] // NOTE: No need to include `MessageDocumentConverter` / Env Vars in deps here.
+	);
 	// Callbacks
 	const sendMessage = useCallback(
 		(message: string, senderId: string) => {
@@ -49,5 +53,6 @@ export const useSendMessage = (
 		},
 		[roomRef, ref]
 	);
+	
 	return { sendMessage, sending, loading, error };
 };
