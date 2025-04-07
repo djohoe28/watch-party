@@ -16,8 +16,14 @@ export const MessageList = () => {
 	// Memos (Derived Contexts)
 	const messagesRef = useMemo(() => roomRefsContext?.messages, [roomRefsContext?.messages]);
 	const queryRef = useMemo(() => messagesRef ? query(messagesRef, orderBy("sentAt", "asc")) : null, [messagesRef]);
+	const isMemberInRoom = useMemo(() => membersContext?.some((member) => member.id === authContext.payload?.uid), [membersContext, authContext.payload?.uid]);
 	// Hooks
-	const [collectionData, collectionLoading, collectionError, _] = useCollectionData(queryRef);
+	// FIXME: This causes an unrecoverable error when access is denied.
+	// The current workaround (isMemberInRoom) crashes on first error, but recovers on reload.
+	// (No 'list' permission, because member not in room yet.)
+	// FirebaseError: [code=permission-denied]: evaluation error at L16:29 for 'list' @ L16, false for 'list' @ L36, false for 'list' @ L16, false for 'list' @ L36
+	// SEE: firestore.rules: `match /rooms/{roomId}/messages/{messageId}`
+	const [collectionData, collectionLoading, collectionError, _] = useCollectionData(isMemberInRoom ? queryRef : undefined);
 	// References
 	const bottomRef = useRef<HTMLLIElement>(null);
 	// States
@@ -34,10 +40,10 @@ export const MessageList = () => {
 	useEffect(() => {
 		if (bottomed && bottomRef.current) bottomRef.current.scrollIntoView({ behavior: "smooth" });
 	}, [bottomed, bottomRef.current, collectionData]);
-	
 	if (collectionError) return <Alert severity="error">{collectionError.toString()}</Alert>;
-	return (
-		<Box sx={{ position: "relative", width: "100%", height: "40vh" }}>
+	return (collectionLoading
+		? <Skeleton />
+		: <Box sx={{ position: "relative", width: "100%", height: "40vh" }}>
 			<List
 				sx={{ width: "100%", bgcolor: "background.paper", overflowY: "scroll", height: "100%" }}
 				onScroll={handleScroll}
