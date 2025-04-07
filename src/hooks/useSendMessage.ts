@@ -9,7 +9,7 @@ export const useSendMessage = (
 ) => {
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<ErrorType>(null);
+	const [error, setError] = useState<ErrorType>(undefined);
 	const [sending, setSending] = useState<boolean>(false);
 	// Memos (Derived Props)
 	const ref = useMemo(

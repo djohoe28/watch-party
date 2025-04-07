@@ -5,9 +5,9 @@ import { AsyncContext, ErrorType } from "../types/AsyncContext";
 
 export const useAuthState = (): AsyncContext<User> => {
 	// States
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<User | null>(null); // LINT: undefined?
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<ErrorType>(null);
+	const [error, setError] = useState<ErrorType>(undefined);
 	// Effects
 	useEffect(() => {
 		// NOTE: Using `onAuthStateChanged` instead of hard-coding `signInAnonymously` to allow future expansion.
