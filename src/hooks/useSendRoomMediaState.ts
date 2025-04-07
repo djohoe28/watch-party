@@ -2,28 +2,25 @@ import { setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import MediaStateMap from "../models/Firestore/MediaStateMap.model";
 import { ErrorType } from "../types/AsyncContext";
-import { RoomContextType } from "./useRoomDocumentData";
+import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 export const useSendRoomMediaState = (
-	// TODO: Refactor to RoomDocumentReference? Needs data!
-	roomContext: RoomContextType | null | undefined
+	roomRef: RoomDocumentReference | null | undefined
 ) => {
+	// LINT: Is documentData necessary..?
+	// Hooks
+	const [documentData, documentLoading, documentError, _] =
+		useDocumentData(roomRef);
 	// States
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<ErrorType>(null);
+	const [loading, setLoading] = useState<boolean>(documentLoading || true);
+	const [error, setError] = useState<ErrorType>(documentError || null);
 	const [sending, setSending] = useState<boolean>(false);
-	// Properties
-	const ref = roomContext ? roomContext.payload : null;
 	// Callbacks
 	const sendRoomMediaState = useCallback(
 		(settings: Partial<MediaStateMap>) => {
-			if (!roomContext) {
+			if (!roomRef) {
 				setError("No Room Document context provided");
-				setLoading(false);
-				return;
-			}
-			if (!ref) {
-				setError("Failed to get Room Document reference");
 				setLoading(false);
 				return;
 			}
@@ -33,13 +30,13 @@ export const useSendRoomMediaState = (
 			// TODO: Prevent if settings is same as server?
 			// Send
 			const newValue = {
-				...roomContext.data?.media,
+				...documentData?.media,
 				...settings,
 				lastUpdated: new Date(), // TODO: serverTimestamp received twice (nanoseconds)!
 			};
 			console.log("Sending", newValue);
 			setDoc(
-				ref,
+				roomRef,
 				{
 					media: newValue,
 				},
@@ -54,7 +51,7 @@ export const useSendRoomMediaState = (
 					setError(err);
 				});
 		},
-		[roomContext, ref]
+		[roomRef]
 	);
 	return { sendRoomMediaState, sending, loading, error };
 };
