@@ -1,13 +1,13 @@
 import { setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
-import UserModel from "../models/User.model";
+import MemberModel from "../models/Member.model";
 import { isColor, stringToColor } from "../utils/String.utils";
 import { ErrorType } from "../types/AsyncContext";
-import { UserDocumentReference } from "../models/Firestore/UserDocument.model";
+import { MemberDocumentReference } from "../models/Firestore/MemberDocument.model";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export const useUserSettings = (
-	ref: UserDocumentReference | null | undefined
+export const useMemberSettings = (
+	ref: MemberDocumentReference | null | undefined
 	// TODO: Add AsyncContext<User> ? Assumes `ref` is correct, but doesn't exist.
 ) => {
 	// LINT: Is documentData necessary..?
@@ -22,7 +22,7 @@ export const useUserSettings = (
 	useEffect(() => {
 		// NOTE: Creates User Document if it doesn't exist.
 		if (ref && documentSnapshot?.exists() === false) {
-			setDoc(ref, { id: ref.id } as UserModel)
+			setDoc(ref, { id: ref.id } as MemberModel)
 				.then(() => {
 					setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
 					setError((prev) => prev || null);
@@ -38,8 +38,8 @@ export const useUserSettings = (
 		}
 	}, [documentSnapshot]);
 	// Callbacks
-	const sendUserSettings = useCallback(
-		(settings: Partial<Omit<UserModel, "id">>, merge: boolean = true) => {
+	const sendMemberSettings = useCallback(
+		(settings: Partial<Omit<MemberModel, "id">>, merge: boolean = true) => {
 			if (!ref) {
 				setError(
 					(prev) =>
@@ -70,5 +70,5 @@ export const useUserSettings = (
 		},
 		[documentData, ref]
 	);
-	return { sendUserSettings, sending, loading, error };
+	return { sendMemberSettings, sending, loading, error };
 };

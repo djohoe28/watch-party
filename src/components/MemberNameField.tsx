@@ -2,16 +2,16 @@ import { TextField } from "@mui/material"
 import { type ChangeEvent, useState } from "react";
 import { DEFAULT_NAME } from "../utils/String.utils";
 
-export const UserNameField = () => {
+export const MemberNameField = () => {
 	// States
-	const [userName, setUserName] = useState<string>(DEFAULT_NAME);
+	const [memberName, setMemberName] = useState<string>(DEFAULT_NAME);
 
 	return <TextField
-		label="User Name"
+		label="Member Name"
 		variant="outlined"
 		fullWidth
-		value={userName}
+		value={memberName}
 		onChange={(event: ChangeEvent<HTMLInputElement>) => {
-			setUserName(event.target.value)
+			setMemberName(event.target.value)
 		}} />
 };

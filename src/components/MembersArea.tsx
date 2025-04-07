@@ -1,5 +1,5 @@
 import { Stack, Grid } from "@mui/material"
-import { UsersContextProvider } from "../contexts/UsersContext"
+import { MembersContextProvider } from "../contexts/MembersContext"
 import { MessageField } from "./MessageField"
 import { MessageList } from "./MessageList"
 import { useContext, useMemo } from "react"
@@ -7,42 +7,42 @@ import { RoomReferencesContext } from "../contexts/RoomReferencesContext"
 import { DrawerWithToggle } from "./DrawerWithToggle"
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
-import UserSettings from "./UserSettings"
-import UsersList from "./UsersList"
+import MemberSettings from "./MemberSettings"
+import MembersList from "./MembersList"
 
-export const UsersArea = () => {
+export const MembersArea = () => {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)
-	const usersRef = useMemo(() => roomRefsContext?.users, [roomRefsContext?.users]);
+	const membersRef = useMemo(() => roomRefsContext?.members, [roomRefsContext?.members]);
 
 	return <Stack direction="column" spacing={2}>
-		<UsersContextProvider usersRef={usersRef}>
+		<MembersContextProvider membersRef={membersRef}>
 			<Grid container spacing={2} textAlign='center'>
 				<Grid size='grow'>
 					<DrawerWithToggle
 						icon={<SettingsIcon />}
-						tooltip="User Settings"
+						tooltip="Member Settings"
 						anchor="left"
-						ariaLabel="Toggle User Settings"
+						ariaLabel="Toggle Member Settings"
 					>
-						<UserSettings />
+						<MemberSettings />
 					</DrawerWithToggle>
 
 				</Grid>
 				<Grid size='grow'>
 					<DrawerWithToggle
 						icon={<PeopleIcon />}
-						tooltip="Users List"
+						tooltip="Members List"
 						anchor="right"
-						ariaLabel="Toggle Users List"
+						ariaLabel="Toggle Members List"
 					>
-						<UsersList />
+						<MembersList />
 					</DrawerWithToggle>
 				</Grid>
 			</Grid>
 			<MessageList />
-		</UsersContextProvider>
+		</MembersContextProvider>
 		<MessageField />
 	</Stack>
 }

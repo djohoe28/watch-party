@@ -1,20 +1,22 @@
 import { Stack } from "@mui/material";
 import { MediaPlayer } from "./MediaPlayer";
 import { RoomTitle } from "./RoomTitle";
-import { UsersArea } from "./UsersArea";
+import { MembersArea } from "./MembersArea";
 import { RoomReferencesContextProvider } from "../contexts/RoomReferencesContext";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import AuthContext from "../contexts/AuthContext";
 
 export const Room = ({ roomId }: { roomId: string }) => {
 	// Contexts
-	const userId = useContext(AuthContext).payload?.uid;
+	const authContext = useContext(AuthContext);
+	// Memos (Derived Contexts)
+	const memberId = useMemo(() => authContext?.payload?.uid, [authContext?.payload?.uid]);
 
-	return <RoomReferencesContextProvider roomId={roomId} userId={userId}>
+	return <RoomReferencesContextProvider roomId={roomId} memberId={memberId}>
 		<RoomTitle />
 		<Stack direction="row" spacing={2}>
 			<MediaPlayer />
-			<UsersArea />
+			<MembersArea />
 		</Stack>
 	</RoomReferencesContextProvider>
 };

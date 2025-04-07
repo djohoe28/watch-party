@@ -6,22 +6,22 @@ import {
 } from "../models/Firestore/RoomDocument.model";
 import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
 import {
-	UserDocumentConverter,
-	UserDocumentReference,
-} from "../models/Firestore/UserDocument.model";
+	MemberDocumentConverter,
+	MemberDocumentReference,
+} from "../models/Firestore/MemberDocument.model";
 import { MessagesCollectionReference } from "../models/Firestore/MessagesCollection.model";
-import { UsersCollectionReference } from "../models/Firestore/UsersCollection.model";
+import { MembersCollectionReference } from "../models/Firestore/MembersCollection.model";
 
 export type RoomReferences = {
 	room: RoomDocumentReference;
 	messages: MessagesCollectionReference;
-	users: UsersCollectionReference;
-	user?: UserDocumentReference | null;
+	members: MembersCollectionReference;
+	member?: MemberDocumentReference | null;
 };
 
 export const useRoomReferences = (
 	roomId: string,
-	userId?: string
+	memberId?: string
 ): RoomReferences | null => {
 	// TODO: Use Memos?
 	const roomDocumentRef = doc(
@@ -33,17 +33,17 @@ export const useRoomReferences = (
 		roomDocumentRef,
 		import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
 	).withConverter(MessageDocumentConverter);
-	const usersCollectionRef = collection(
+	const membersCollectionRef = collection(
 		roomDocumentRef,
 		import.meta.env.VITE_FIREBASE_USERS_SUBCOLLECTION_ID
-	).withConverter(UserDocumentConverter);
-	const userDocumentRef = userId
-		? doc(usersCollectionRef, userId).withConverter(UserDocumentConverter)
+	).withConverter(MemberDocumentConverter);
+	const memberDocumentRef = memberId
+		? doc(membersCollectionRef, memberId).withConverter(MemberDocumentConverter)
 		: null;
 	return {
 		room: roomDocumentRef,
 		messages: messagesCollectionRef,
-		users: usersCollectionRef,
-		user: userDocumentRef,
+		members: membersCollectionRef,
+		member: memberDocumentRef,
 	};
 };

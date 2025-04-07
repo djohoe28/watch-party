@@ -1,7 +1,7 @@
 import { MessageItem } from "./MessageItem";
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import AuthContext from "../contexts/AuthContext";
-import { UsersContext } from "../contexts/UsersContext";
+import { MembersContext } from "../contexts/MembersContext";
 import { Alert, Box, Divider, Fab, List, Skeleton } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RoomReferencesContext } from "../contexts/RoomReferencesContext";
@@ -11,7 +11,7 @@ import { orderBy, query } from "firebase/firestore";
 export const MessageList = () => {
 	// Contexts
 	const authContext = useContext(AuthContext);
-	const usersContext = useContext(UsersContext);
+	const membersContext = useContext(MembersContext);
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)
 	const messagesRef = useMemo(() => roomRefsContext?.messages, [roomRefsContext?.messages]);
@@ -47,7 +47,7 @@ export const MessageList = () => {
 						key={message.id}
 						message={message}
 						isSelf={authContext.payload?.uid === message.senderId}
-						userModel={usersContext?.find((user) => user.id === message.senderId)}
+						memberModel={membersContext?.find((member) => member.id === message.senderId)}
 					/>
 				})}
 				<Divider

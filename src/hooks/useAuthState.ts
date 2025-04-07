@@ -11,7 +11,7 @@ export const useAuthState = (): AsyncContext<User> => {
 	// Effects
 	useEffect(() => {
 		// NOTE: Using `onAuthStateChanged` instead of hard-coding `signInAnonymously` to allow future expansion.
-		// FEATURE: Append user to database if new user.
+		// FEATURE: Append user as member to database if new user.
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user === null) {
 				signInAnonymously(auth)

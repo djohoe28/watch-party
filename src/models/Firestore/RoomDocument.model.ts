@@ -3,12 +3,12 @@ import MediaStateMap from "./MediaStateMap.model";
 import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
 import Room from "../Room.model";
 import MessagesCollection from "./MessagesCollection.model";
-import UsersCollection from "./UsersCollection.model";
+import MembersCollection from "./MembersCollection.model";
 
 export default interface RoomDocument extends DocumentData {
 	// Subcollections
 	messages?: MessagesCollection | null;
-	users?: UsersCollection | null;
+	members?: MembersCollection | null;
 	// Fields
 	createdAt: Timestamp;
 	title: string;

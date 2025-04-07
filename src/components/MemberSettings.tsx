@@ -1,21 +1,21 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Alert, Button, CircularProgress, Grid, IconButton, Input, InputLabel, Skeleton, Stack, TextField, Tooltip, Typography } from "@mui/material";
-import { useUserSettings } from "../hooks/useUserSettings";
+import { useMemberSettings as useMemberSettings } from "../hooks/useMemberSettings";
 import { DEFAULT_NAME, stringToColor } from "../utils/String.utils";
 import RestoreIcon from '@mui/icons-material/Restore';
 import { RoomReferencesContext } from "../contexts/RoomReferencesContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export default function UserSettings() {
+export default function MemberSettings() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)
-	const roomUser = useMemo(() => roomRefsContext?.user, [roomRefsContext?.user]);
+	const roomMember = useMemo(() => roomRefsContext?.member, [roomRefsContext?.member]);
 	// Hooks
 	// LINT: Leverage loading, error?
-	const [documentData, documentLoading, documentError] = useDocumentData(roomUser);
-	// FIXME: Use memo to have hooks update when userRoomContext loads?
-	const { sendUserSettings, sending: hookSending, loading: hookLoading, error: hookError } = useUserSettings(roomUser);
+	const [documentData, documentLoading, documentError] = useDocumentData(roomMember);
+	// FIXME: Use memo to have hooks update when memberRoomContext loads?
+	const { sendMemberSettings, sending: hookSending, loading: hookLoading, error: hookError } = useMemberSettings(roomMember);
 	// Memos (Default Values)
 	const defaultName = useMemo(() => "", []); // TODO: Leverage `DEFAULT_NAME` (see String.utils.ts)
 	const defaultColor = useMemo(() => documentData ? stringToColor(documentData.id) : "", [documentData?.id]);
@@ -28,19 +28,19 @@ export default function UserSettings() {
 	// Callbacks
 	const handleNameReset = useCallback((send?: boolean) => {
 		setName(documentData?.name || defaultName);
-		if (send) sendUserSettings({ name: documentData?.name });
-	}, [documentData?.name, sendUserSettings]);
+		if (send) sendMemberSettings({ name: documentData?.name });
+	}, [documentData?.name, sendMemberSettings]);
 	const handleColorReset = useCallback((send?: boolean) => {
 		setColor(documentData?.color || defaultColor);
-		if (send) sendUserSettings({ color: documentData?.color });
-	}, [documentData?.color, sendUserSettings, defaultColor]);
+		if (send) sendMemberSettings({ color: documentData?.color });
+	}, [documentData?.color, sendMemberSettings, defaultColor]);
 	const handleReset = useCallback(() => {
 		// Reset each local state to default if respective server data is undefined.
 		// NOTE: If server data *is* defined for the state, it will be updated in the useEffect below.
 		if (!documentData?.name) setName(defaultName);
 		if (!documentData?.color) setColor(defaultColor);
-		sendUserSettings({}, false);
-	}, [sendUserSettings, documentData, defaultColor]);
+		sendMemberSettings({}, false);
+	}, [sendMemberSettings, documentData, defaultColor]);
 	// Effects
 	useEffect(() => {
 		// If data has been updated from the server, update local state to match (default if undefined).
@@ -61,7 +61,7 @@ export default function UserSettings() {
 		sx={{ p: 2 }}
 	>
 		<Typography variant="h6" component="h3" sx={{ mb: 2 }}>
-			User Settings
+			Member Settings
 		</Typography>
 		<Typography variant="body2" component="p" sx={{ mb: 2 }}>
 			ID: {documentData?.id}
@@ -129,7 +129,7 @@ Tooltip needs to listen to the child element's events to display the title. */}
 						? <CircularProgress />
 						: <Button
 							type="submit"
-							onClick={() => sendUserSettings({ name, color }, false)}
+							onClick={() => sendMemberSettings({ name, color }, false)}
 						>
 							Save
 						</Button>
