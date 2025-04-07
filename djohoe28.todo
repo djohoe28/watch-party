@@ -1,5 +1,11 @@
-[ ] Use hooks to get DB state
-[ ] Use Providers to hold DB state
-[ ] Use Context(s) to retrieve Provider state
+DB -> Hook -> Provider -> Context -> Component
+	1. Use hooks to get DB state
+	2. Use Providers to hold DB state
+	3. Use Context(s) to retrieve Provider state
 
-[ ] SEE: https://npmtrends.com/react-firebase-hooks-vs-reactfire
+SEE: https://npmtrends.com/react-firebase-hooks-vs-reactfire
+
+LINT: Streamline `useX(x: T | null | undefined)`, Error types.
+LINT: Streamline `if (error) return <Alert severity="error">{error.toString()}</Alert>`
+
+TODO: Look into `memo` (dependency array) & `useRef` (dependency-less memo).
