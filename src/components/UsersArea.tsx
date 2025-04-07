@@ -11,7 +11,7 @@ export const UsersArea = () => {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)
-	const usersRef = useMemo(() => roomRefsContext?.users, [roomRefsContext]);
+	const usersRef = useMemo(() => roomRefsContext?.users, [roomRefsContext?.users]);
 
 	return <Stack direction="column" spacing={2}>
 		<UsersContextProvider usersRef={usersRef}>

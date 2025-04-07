@@ -9,7 +9,7 @@ export default function UserSettings() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)
-	const roomUser = useMemo(() => roomRefsContext?.user, [roomRefsContext]);
+	const roomUser = useMemo(() => roomRefsContext?.user, [roomRefsContext?.user]);
 	// Hooks
 	// LINT: Leverage loading, error?
 	const [documentData, documentLoading, documentError] = useDocumentData(roomUser);

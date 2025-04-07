@@ -12,7 +12,7 @@ export const MessageField = () => {
 	// States
 	const [message, setMessage] = useState<string>("");
 	// Memos (Derived Contexts)
-	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext]);
+	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
 	// Hooks
 	const { sendMessage, sending, error } = useSendMessage(roomRef);
 	// Callbacks

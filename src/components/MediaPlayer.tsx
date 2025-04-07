@@ -15,7 +15,7 @@ export const MediaPlayer = () => {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)
-	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext]);
+	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
 	// Hooks
 	// LINT: Leverage sending, loading, error?
 	const [documentData, documentLoading, documentError, _] = useDocumentData(roomRef);

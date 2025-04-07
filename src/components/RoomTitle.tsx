@@ -7,7 +7,7 @@ export const RoomTitle = () => {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)
-	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext]);
+	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
 	// Hooks
 	const [documentData, documentLoading, documentError, _] = useDocumentData(roomRef);
 
