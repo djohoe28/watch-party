@@ -1,54 +1,59 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { UsersContext } from "../contexts/UsersContext";
-import AuthContext from "../contexts/AuthContext";
-import { useRoomUserDocument } from "../hooks/useRoomUserDocument";
-import { Button, CircularProgress, Grid, IconButton, Input, InputLabel, Skeleton, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Alert, Button, CircularProgress, Grid, IconButton, Input, InputLabel, Skeleton, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import { useUserSettings } from "../hooks/useUserSettings";
 import { DEFAULT_NAME, stringToColor } from "../utils/String.utils";
 import RestoreIcon from '@mui/icons-material/Restore';
-
+import { RoomReferencesContext } from "../contexts/RoomReferencesContext";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 export default function UserSettings() {
 	// Contexts
-	const usersContext = useContext(UsersContext);
-	const authContext = useContext(AuthContext);
+	const roomRefsContext = useContext(RoomReferencesContext);
+	// Memos (Derived Contexts)
+	const roomUser = useMemo(() => roomRefsContext?.user, [roomRefsContext]);
 	// Hooks
-	const userRoomContext = useRoomUserDocument(usersContext?.payload, authContext);
-	const { sendUserSettings, sending } = useUserSettings(userRoomContext);
-	// Defaults
-	const defaultName = "";
-	const defaultColor = useMemo(() => userRoomContext.data ? stringToColor(userRoomContext.data.id) : "", [userRoomContext.data?.id]);
+	// LINT: Leverage loading, error?
+	const [documentData, documentLoading, documentError] = useDocumentData(roomUser);
+	// FIXME: Use memo to have hooks update when userRoomContext loads?
+	const { sendUserSettings, sending: hookSending, loading: hookLoading, error: hookError } = useUserSettings(roomUser);
+	// Memos (Default Values)
+	const defaultName = useMemo(() => "", []);
+	const defaultColor = useMemo(() => documentData ? stringToColor(documentData.id) : "", [documentData?.id]);
 	// States
-	const [name, setName] = useState<string>(userRoomContext.data?.name || "");
-	const [color, setColor] = useState<string>(userRoomContext.data?.color || defaultColor);
-	// Memos
-	const isChangedColor = useMemo(() => (userRoomContext.data?.color || defaultColor) !== color, [userRoomContext.data?.color, color]);
-	const isChangedName = useMemo(() => (userRoomContext.data?.name || "") !== name, [userRoomContext.data?.name, name]);
+	const [name, setName] = useState<string>(documentData?.name || "");
+	const [color, setColor] = useState<string>(documentData?.color || defaultColor);
+	// Memos (Derived States)
+	const isChangedColor = useMemo(() => (documentData?.color || defaultColor) !== color, [documentData?.color, color]);
+	const isChangedName = useMemo(() => (documentData?.name || "") !== name, [documentData?.name, name]);
 	// Callbacks
 	const handleNameReset = useCallback((send?: boolean) => {
-		setName(userRoomContext.data?.name || defaultName);
-		if (send) sendUserSettings({ name: userRoomContext.data?.name });
-	}, [userRoomContext.data?.name, sendUserSettings]);
+		setName(documentData?.name || defaultName);
+		if (send) sendUserSettings({ name: documentData?.name });
+	}, [documentData?.name, sendUserSettings]);
 	const handleColorReset = useCallback((send?: boolean) => {
-		setColor(userRoomContext.data?.color || defaultColor);
-		if (send) sendUserSettings({ color: userRoomContext.data?.color });
-	}, [userRoomContext.data?.color, sendUserSettings, defaultColor]);
+		setColor(documentData?.color || defaultColor);
+		if (send) sendUserSettings({ color: documentData?.color });
+	}, [documentData?.color, sendUserSettings, defaultColor]);
 	const handleReset = useCallback(() => {
 		// Reset each local state to default if respective server data is undefined.
 		// NOTE: If server data *is* defined for the state, it will be updated in the useEffect below.
-		if (!userRoomContext.data?.name) setName(defaultName);
-		if (!userRoomContext.data?.color) setColor(defaultColor);
+		if (!documentData?.name) setName(defaultName);
+		if (!documentData?.color) setColor(defaultColor);
 		sendUserSettings({}, false);
-	}, [sendUserSettings, userRoomContext.data, defaultColor]);
+	}, [sendUserSettings, documentData, defaultColor]);
 	// Effects
 	useEffect(() => {
 		// If data has been updated from the server, update local state to match (default if undefined).
-		if (userRoomContext.data) {
-			setName(userRoomContext.data.name || defaultName);
-			setColor(userRoomContext.data.color || defaultColor);
+		if (documentData) {
+			setName(documentData.name || defaultName);
+			setColor(documentData.color || defaultColor);
 		}
-	}, [userRoomContext.data, defaultColor]);
+	}, [documentData, defaultColor]);
 	// FEATURE: Profile Image?
-	return userRoomContext.loading ? <Skeleton /> : <Stack
+	
+	// TODO: Error order? Return both?
+	if (documentError) return <Alert severity="error">{documentError.toString()}</Alert>;
+	if (hookError) return <Alert severity="error">{hookError.toString()}</Alert>;
+	return (documentLoading || hookLoading) ? <Skeleton /> : <Stack
 		component="form"
 		spacing={2}
 		onSubmit={(event) => event.preventDefault()}
@@ -58,7 +63,7 @@ export default function UserSettings() {
 			User Settings
 		</Typography>
 		<Typography variant="body2" component="p" sx={{ mb: 2 }}>
-			ID: {userRoomContext.data?.id}
+			ID: {documentData?.id}
 		</Typography>
 		<Stack direction="row" spacing={2} alignItems='center'>
 			<InputLabel htmlFor="name">Name{isChangedName ? "*" : ""}</InputLabel>
@@ -119,7 +124,7 @@ Tooltip needs to listen to the child element's events to display the title. */}
 			<Grid size='grow'>
 				{
 					// NOTE: Box wrapper to force CircularProgress alignItems='center' without breaking color input.
-					sending
+					hookSending
 						? <CircularProgress />
 						: <Button
 							type="submit"

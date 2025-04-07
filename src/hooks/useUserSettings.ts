@@ -1,26 +1,36 @@
 import { setDoc } from "firebase/firestore";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UserModel from "../models/User.model";
 import { isColor, stringToColor } from "../utils/String.utils";
 import { ErrorType } from "../types/AsyncContext";
-import { RoomUserContextType } from "./useRoomUserDocument";
+import { UserDocumentReference } from "../models/Firestore/UserDocument.model";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export const useUserSettings = (roomUserContext: RoomUserContextType) => {
-	// TODO: Refactor to Reference? Needs data?
+export const useUserSettings = (
+	ref: UserDocumentReference | null | undefined
+	// TODO: Add AsyncContext<User> ? Assumes `ref` is correct, but doesn't exist.
+) => {
+	// LINT: Is documentData necessary..?
+	// Hooks
+	const [documentData, documentLoading, documentError, documentSnapshot] =
+		useDocumentData(ref);
 	// States
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<ErrorType>(null);
+	const [loading, setLoading] = useState<boolean>(documentLoading || true);
+	const [error, setError] = useState<ErrorType>(documentError || null);
 	const [sending, setSending] = useState<boolean>(false);
-	// Properties
-	const ref = roomUserContext?.payload;
+	// Effects
+	useEffect(() => {
+		console.log(documentData);
+		// NOTE: Creates User Document if it doesn't exist.
+		if (ref && documentSnapshot?.exists() === false) {
+			setDoc(ref, { id: ref.id } as UserModel);
+			// TODO: Use .then() / .catch() ?
+			// TODO: Make sure this doesn't cause a race condition, including Strict Mode!
+		}
+	}, [documentSnapshot]);
 	// Callbacks
 	const sendUserSettings = useCallback(
 		(settings: Partial<Omit<UserModel, "id">>, merge: boolean = true) => {
-			if (!roomUserContext) {
-				setError("No (Room) User Document context provided");
-				setLoading(false);
-				return;
-			}
 			if (!ref) {
 				setError("Failed to get (Room) User Document reference");
 				setLoading(false);
@@ -29,8 +39,8 @@ export const useUserSettings = (roomUserContext: RoomUserContextType) => {
 			setSending(true);
 			// Data Validation
 			const isInvalidColor = settings.color && !isColor(settings.color);
-			const isDefaultColor = roomUserContext.data
-				? settings.color === stringToColor(roomUserContext.data?.id)
+			const isDefaultColor = documentData
+				? settings.color === stringToColor(documentData.id)
 				: false;
 			if (!settings.name?.trim()) delete settings.name;
 			if (isInvalidColor || isDefaultColor) delete settings.color;
@@ -46,7 +56,7 @@ export const useUserSettings = (roomUserContext: RoomUserContextType) => {
 					setError(err);
 				});
 		},
-		[roomUserContext, ref]
+		[documentData, ref]
 	);
 	return { sendUserSettings, sending, loading, error };
 };
