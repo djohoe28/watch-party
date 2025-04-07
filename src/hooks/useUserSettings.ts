@@ -20,20 +20,29 @@ export const useUserSettings = (
 	const [sending, setSending] = useState<boolean>(false);
 	// Effects
 	useEffect(() => {
-		console.log(documentData);
 		// NOTE: Creates User Document if it doesn't exist.
 		if (ref && documentSnapshot?.exists() === false) {
-			setDoc(ref, { id: ref.id } as UserModel);
-			// TODO: Use .then() / .catch() ?
+			setDoc(ref, { id: ref.id } as UserModel)
+				.then(() => {
+					setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
+					setError(prev => prev || null);
+				})
+				.catch((err) => {
+					setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
+					setError(prev => prev || err); // LINT: Should an existing Error be "chained"?
+				});
 			// TODO: Make sure this doesn't cause a race condition, including Strict Mode!
+		} else {
+			setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
+			setError(prev => prev || null);
 		}
 	}, [documentSnapshot]);
 	// Callbacks
 	const sendUserSettings = useCallback(
 		(settings: Partial<Omit<UserModel, "id">>, merge: boolean = true) => {
 			if (!ref) {
-				setError("Failed to get (Room) User Document reference");
-				setLoading(false);
+				setError(prev => prev || "Failed to get (Room) User Document reference"); // LINT: Make sure this doesn't cause a race condition, including Strict Mode!
+				setLoading(false); // LINT: This is a bit misleading, but it's not a loading error.
 				return;
 			}
 			setSending(true);
@@ -42,7 +51,7 @@ export const useUserSettings = (
 			const isDefaultColor = documentData
 				? settings.color === stringToColor(documentData.id)
 				: false;
-			if (!settings.name?.trim()) delete settings.name;
+			if (!settings.name?.trim()) delete settings.name; // TODO: Does this affect settings (if passed by reference)?
 			if (isInvalidColor || isDefaultColor) delete settings.color;
 			// TODO: Prevent if settings is same as server?
 			// Send
