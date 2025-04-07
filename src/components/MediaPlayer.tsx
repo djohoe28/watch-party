@@ -14,7 +14,7 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 export const MediaPlayer = () => {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
-	// Memos
+	// Memos (Derived Contexts)
 	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext]);
 	// Hooks
 	// LINT: Leverage sending, loading, error?

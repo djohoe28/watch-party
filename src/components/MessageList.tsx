@@ -13,7 +13,7 @@ export const MessageList = () => {
 	const authContext = useContext(AuthContext);
 	const usersContext = useContext(UsersContext);
 	const roomRefsContext = useContext(RoomReferencesContext);
-	// Memos
+	// Memos (Derived Contexts)
 	const messagesRef = useMemo(() => roomRefsContext?.messages, [roomRefsContext]);
 	const queryRef = useMemo(() => messagesRef ? query(messagesRef, orderBy("sentAt", "asc")) : null, [messagesRef]);
 	// Hooks

@@ -11,7 +11,7 @@ export const MessageField = () => {
 	const authContext = useContext(AuthContext);
 	// States
 	const [message, setMessage] = useState<string>("");
-	// Memos
+	// Memos (Derived Contexts)
 	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext]);
 	// Hooks
 	const { sendMessage, sending, error } = useSendMessage(roomRef);

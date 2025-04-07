@@ -11,7 +11,7 @@ export const useSendMessage = (
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(null);
 	const [sending, setSending] = useState<boolean>(false);
-	// Memos
+	// Memos (Derived Props)
 	const ref = useMemo(
 		() =>
 			roomRef
@@ -53,6 +53,6 @@ export const useSendMessage = (
 		},
 		[roomRef, ref]
 	);
-	
+
 	return { sendMessage, sending, loading, error };
 };

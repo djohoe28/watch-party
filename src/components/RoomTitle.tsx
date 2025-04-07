@@ -6,7 +6,7 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 export const RoomTitle = () => {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
-	// Memos
+	// Memos (Derived Contexts)
 	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext]);
 	// Hooks
 	const [documentData, documentLoading, documentError, _] = useDocumentData(roomRef);

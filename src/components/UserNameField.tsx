@@ -5,6 +5,7 @@ import { DEFAULT_NAME } from "../utils/String.utils";
 export const UserNameField = () => {
 	// States
 	const [userName, setUserName] = useState<string>(DEFAULT_NAME);
+	
 	return <TextField
 		label="User Name"
 		variant="outlined"

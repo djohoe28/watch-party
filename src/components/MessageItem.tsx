@@ -7,6 +7,7 @@ import { Fragment } from "react/jsx-runtime";
 
 export const MessageItem = ({ message, isSelf, userModel }: { message: MessageDocument, isSelf: boolean, userModel?: UserModel | null }) => {
 	const timestampDisplayString = TimestampConverter.toDisplayString(message.sentAt ?? Date.now()); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp).
+	
 	return <ListItem
 		alignItems="flex-start"
 		className={isSelf ? "sender-self" : "sender-other"}

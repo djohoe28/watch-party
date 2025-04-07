@@ -10,7 +10,7 @@ import { RoomReferencesContext } from "../contexts/RoomReferencesContext"
 export const UsersArea = () => {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
-	// Memos
+	// Memos (Derived Contexts)
 	const usersRef = useMemo(() => roomRefsContext?.users, [roomRefsContext]);
 
 	return <Stack direction="column" spacing={2}>
