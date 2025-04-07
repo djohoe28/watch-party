@@ -27,7 +27,7 @@ function toDisplayString(timestamp: number | Date | Timestamp): string {
 }
 
 export function toTimespanString(seconds: number | undefined | null, showHours: boolean = false): string {
-	if(!seconds) {
+	if(seconds === null || seconds === undefined) { // LINT: `!seconds` catches `seconds=0`...
 		return showHours ? "??:??:??" : "??:??";
 	}
 	return new Date(seconds * 1000).toISOString().slice(seconds > 3600 || showHours ? 11 : 14, 19);
