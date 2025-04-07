@@ -4,13 +4,17 @@ import { MessageField } from "./MessageField"
 import { MessageList } from "./MessageList"
 import { UserDrawer } from "./UserDrawer"
 import { UsersDrawer } from "./UsersDrawer"
-import { useContext } from "react"
-import { RoomDocumentReferenceContext } from "../contexts/RoomDocumentReferenceContext"
+import { useContext, useMemo } from "react"
+import { RoomReferencesContext } from "../contexts/RoomReferencesContext"
 
 export const UsersArea = () => {
-	const roomRef = useContext(RoomDocumentReferenceContext);
+	// Contexts
+	const roomRefsContext = useContext(RoomReferencesContext);
+	// Memos
+	const usersRef = useMemo(() => roomRefsContext?.users, [roomRefsContext]);
+
 	return <Stack direction="column" spacing={2}>
-		<UsersContextProvider roomRef={roomRef}>
+		<UsersContextProvider usersRef={usersRef}>
 			<Grid container spacing={2} textAlign='center'>
 				<Grid size='grow'>
 					<UserDrawer />

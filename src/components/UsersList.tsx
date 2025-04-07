@@ -13,7 +13,7 @@ export default function UsersList() {
 	const usersContext = useContext(UsersContext);
 	return (
 		<List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-			{usersContext?.data?.map((user) => (
+			{usersContext?.map((user) => (
 				<Fragment key={user.id}>
 					<ListItem alignItems="flex-start">
 						<ListItemAvatar>
@@ -24,6 +24,7 @@ export default function UsersList() {
 							secondary={user.id}
 						/>
 					</ListItem>
+					{/** LINT: Divider between users; Necessary? */}
 					<Divider variant="inset" component="li" />
 				</Fragment>
 			))}
