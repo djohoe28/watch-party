@@ -1,6 +1,6 @@
+import { MemberModel } from "@models/Member.model";
+import { GenericFirestoreConverter } from "@utils/GenericFirestoreConverter";
 import { DocumentData, DocumentReference } from "firebase/firestore";
-import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
-import MemberModel from "../Member.model";
 
 export interface MemberDocument extends DocumentData {
 	name?: string;

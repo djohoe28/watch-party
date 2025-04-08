@@ -1,6 +1,6 @@
-import { TextField } from "@mui/material"
-import { type ChangeEvent, useState } from "react";
-import { DEFAULT_NAME } from "../../../utils/String.utils";
+import { TextField } from "@mui/material";
+import { DEFAULT_NAME } from "@utils/String.utils";
+import { useState, ChangeEvent } from "react";
 
 export function MemberNameField() {
 	// States

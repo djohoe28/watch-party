@@ -1,9 +1,8 @@
+import { GenericFirestoreConverter } from "@utils/GenericFirestoreConverter";
 import { DocumentData, DocumentReference, Timestamp } from "firebase/firestore";
-import MediaStateMap from "./MediaStateMap.model";
-import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
-import Room from "../Room.model";
-import MessagesCollection from "./MessagesCollection.model";
-import MembersCollection from "./MembersCollection.model";
+import { MediaStateMap } from "./MediaStateMap.model";
+import { MembersCollection } from "./MembersCollection.model";
+import { MessagesCollection } from "./MessagesCollection.model";
 
 export interface RoomDocument extends DocumentData {
 	// Subcollections

@@ -1,7 +1,7 @@
 import { User, onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import { useState, useEffect } from "react";
-import auth from "../services/Auth.service";
-import { AsyncContext, ErrorType } from "../types/AsyncContext";
+import { AsyncContext, ErrorType } from "../types/AsyncContext"; // LINT: @types ?
+import { auth } from "@services/Auth.service";
 
 export function useAuthState(): AsyncContext<User> {
 	// States

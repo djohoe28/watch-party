@@ -1,14 +1,14 @@
-import { Stack, Grid } from "@mui/material"
-import { MembersContextProvider } from "../../../contexts/MembersContext"
-import { MessageList } from "../../Messages/Read/MessageList"
-import { useContext, useMemo } from "react"
-import { RoomReferencesContext } from "../../../contexts/RoomReferencesContext"
-import { DrawerWithToggle } from "../../DrawerWithToggle"
+import { DrawerWithToggle } from "@components/DrawerWithToggle";
+import { MessageList } from "@components/Messages/Read/MessageList";
+import { MessageField } from "@components/Messages/Write/MessageField";
+import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
+import { Stack, Grid } from "@mui/material";
+import { useContext, useMemo } from "react";
+import { MemberSettings } from "../Write/MemberSettings";
+import { MembersList } from "./MembersList";
+import { MembersProvider } from "@components/Providers/MembersProvider";
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
-import MemberSettings from "../Write/MemberSettings"
-import MembersList from "./MembersList"
-import { MessageField } from "../../Messages/Write/MessageField"
 
 export function MembersArea() {
 	// Contexts
@@ -17,7 +17,7 @@ export function MembersArea() {
 	const membersRef = useMemo(() => roomRefsContext?.members, [roomRefsContext?.members]);
 
 	return <Stack direction="column" spacing={2}>
-		<MembersContextProvider membersRef={membersRef}>
+		<MembersProvider membersRef={membersRef}>
 			<Grid container spacing={2} textAlign='center'>
 				<Grid size='grow'>
 					<DrawerWithToggle
@@ -42,7 +42,7 @@ export function MembersArea() {
 				</Grid>
 			</Grid>
 			<MessageList />
-		</MembersContextProvider>
+		</MembersProvider>
 		<MessageField />
 	</Stack>
 }

@@ -1,10 +1,11 @@
+import { MemberDocumentReference } from "@models/Firestore/MemberDocument.model";
+import { MemberModel } from "@models/Member.model";
+import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
+import { isColor, stringToColor } from "@utils/String.utils";
 import { setDoc } from "firebase/firestore";
-import { useCallback, useEffect, useState } from "react";
-import MemberModel from "../models/Member.model";
-import { isColor, stringToColor } from "../utils/String.utils";
-import { ErrorType } from "../types/AsyncContext";
-import { MemberDocumentReference } from "../models/Firestore/MemberDocument.model";
+import { useState, useEffect, useCallback } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+
 
 export function useMemberSettings (
 	ref: MemberDocumentReference | null | undefined

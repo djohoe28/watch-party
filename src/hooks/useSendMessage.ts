@@ -1,8 +1,8 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useCallback, useMemo, useState } from "react";
-import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
-import { ErrorType } from "../types/AsyncContext";
-import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
+import { MessageDocumentConverter } from "@models/Firestore/MessageDocument.model";
+import { RoomDocumentReference } from "@models/Firestore/RoomDocument.model";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useState, useMemo, useCallback } from "react";
+import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
 export function useSendMessage(
 	roomRef: RoomDocumentReference | null | undefined

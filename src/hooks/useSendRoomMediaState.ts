@@ -1,9 +1,9 @@
+import { MediaStateMap } from "@models/Firestore/MediaStateMap.model";
+import { RoomDocumentReference } from "@models/Firestore/RoomDocument.model";
 import { setDoc } from "firebase/firestore";
-import { useCallback, useState } from "react";
-import MediaStateMap from "../models/Firestore/MediaStateMap.model";
-import { ErrorType } from "../types/AsyncContext";
-import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
+import { useState, useCallback } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
 export function useSendRoomMediaState(
 	roomRef: RoomDocumentReference | null | undefined

@@ -1,12 +1,12 @@
-import { MessageItem } from "./MessageItem";
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import AuthContext from "../../../contexts/AuthContext";
-import { MembersContext } from "../../../contexts/MembersContext";
-import { Alert, Box, Divider, Fab, List, Skeleton } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { RoomReferencesContext } from "../../../contexts/RoomReferencesContext";
+import { AuthContext } from "@contexts/AuthContext";
+import { MembersContext } from "@contexts/MembersContext";
+import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
+import { Alert, Skeleton, Box, List, Divider, Fab } from "@mui/material";
+import { query, orderBy } from "firebase/firestore";
+import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { orderBy, query } from "firebase/firestore";
+import { MessageItem } from "./MessageItem";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export function MessageList() {
 	// Contexts

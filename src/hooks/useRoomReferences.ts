@@ -1,16 +1,10 @@
-import { collection, doc } from "firebase/firestore";
-import firestoreDb from "../services/Firestore.service";
-import {
-	RoomDocumentConverter,
-	RoomDocumentReference,
-} from "../models/Firestore/RoomDocument.model";
-import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.model";
-import {
-	MemberDocumentConverter,
-	MemberDocumentReference,
-} from "../models/Firestore/MemberDocument.model";
-import { MessagesCollectionReference } from "../models/Firestore/MessagesCollection.model";
-import { MembersCollectionReference } from "../models/Firestore/MembersCollection.model";
+import { MemberDocumentReference, MemberDocumentConverter } from "@models/Firestore/MemberDocument.model";
+import { MembersCollectionReference } from "@models/Firestore/MembersCollection.model";
+import { MessageDocumentConverter } from "@models/Firestore/MessageDocument.model";
+import { MessagesCollectionReference } from "@models/Firestore/MessagesCollection.model";
+import { RoomDocumentReference, RoomDocumentConverter } from "@models/Firestore/RoomDocument.model";
+import { firestoreDb } from "@services/Firestore.service";
+import { doc, collection } from "firebase/firestore";
 
 export type RoomReferences = {
 	room: RoomDocumentReference;

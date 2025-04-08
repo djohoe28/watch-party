@@ -1,4 +1,4 @@
-import type Source from "./Source.model";
+import { Source } from "./Source.model";
 
 export interface MediaState {
 	source: Source;

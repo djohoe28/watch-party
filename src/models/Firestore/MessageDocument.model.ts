@@ -1,5 +1,5 @@
+import { GenericFirestoreConverter } from "@utils/GenericFirestoreConverter";
 import { DocumentData, Timestamp } from "firebase/firestore";
-import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
 
 export interface MessageDocument extends DocumentData {
 	content: string;

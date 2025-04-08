@@ -1,5 +1,5 @@
-import type { ChatPacket, MediaPacket } from "./Packet.model";
-import type MemberModel from "./Member.model";
+import { MemberModel } from "./Member.model";
+import { ChatPacket, MediaPacket } from "./Packet.model";
 
 export interface Room {
 	id: string;

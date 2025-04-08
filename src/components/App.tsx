@@ -1,11 +1,9 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import ProTip from './ProTip';
+import { Link, Typography, Container, Box } from '@mui/material';
+import { ProTip } from './ProTip';
+import { AuthProvider } from './Providers/AuthProvider';
 import { Room } from './Room/Room';
-import { AuthContextProvider } from '../contexts/AuthContext';
+
 
 function Copyright() {
   return (
@@ -30,12 +28,12 @@ export function App() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
-        <AuthContextProvider>
+        <AuthProvider>
           <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
             CoVid Player
           </Typography>
           <Room roomId={roomId} />
-        </AuthContextProvider>
+        </AuthProvider>
         {/* <Temp /> */}
         <ProTip />
         <Copyright />
