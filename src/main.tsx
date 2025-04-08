@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import { App } from '@components/App';
 import { RoomWrapper } from '@components/Room/RoomWrapper';
 import { PageNotFound } from '@components/PageNotFound';
+import { Home } from '@components/Home/Home';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<App />}>
+            <Route index element={<Home />} />
             <Route path='room/:roomId' element={<RoomWrapper />} />
             <Route path='*' element={<PageNotFound />} />
           </Route>
