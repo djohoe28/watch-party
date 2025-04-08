@@ -1,7 +1,7 @@
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
 import { toTimespanString } from "@models/DB/Timestamp.model";
-import { Alert, Skeleton, Stack, IconButton, Slider, Typography } from "@mui/material";
+import { Skeleton, Stack, IconButton, Slider, Typography } from "@mui/material";
 import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { OnProgressProps } from "react-player/base";
@@ -10,6 +10,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import { ErrorDisplay } from "./ErrorDisplay";
 
 export function MediaPlayer() {
 	// Contexts
@@ -122,7 +123,7 @@ export function MediaPlayer() {
 		}
 	}, [documentData?.media]);
 
-	if (documentError) return <Alert severity="error">{documentError.toString()}</Alert>;
+	if (documentError) return <ErrorDisplay error={documentError} />;
 	return documentLoading
 		? <Skeleton />
 		: <Stack direction="column" spacing={2}>

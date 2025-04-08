@@ -1,12 +1,13 @@
 import { AuthContext } from "@contexts/AuthContext";
 import { MembersContext } from "@contexts/MembersContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
-import { Alert, Skeleton, Box, List, Divider, Fab } from "@mui/material";
+import { Skeleton, Box, List, Divider, Fab } from "@mui/material";
 import { query, orderBy } from "firebase/firestore";
 import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { MessageItem } from "./MessageItem";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ErrorDisplay } from "@components/ErrorDisplay";
 
 export function MessageList() {
 	// Contexts
@@ -40,7 +41,7 @@ export function MessageList() {
 	useEffect(() => {
 		if (bottomed && bottomRef.current) bottomRef.current.scrollIntoView({ behavior: "smooth" });
 	}, [bottomed, bottomRef.current, collectionData]);
-	if (collectionError) return <Alert severity="error">{collectionError.toString()}</Alert>;
+	if (collectionError) return <ErrorDisplay error={collectionError} />;
 	return (collectionLoading
 		? <Skeleton />
 		: <Box sx={{ position: "relative", width: "100%", height: "40vh" }}>

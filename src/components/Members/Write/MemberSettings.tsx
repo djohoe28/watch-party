@@ -1,10 +1,11 @@
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useMemberSettings } from "@hooks/useMemberSettings";
-import { Alert, Skeleton, Stack, Typography, InputLabel, TextField, Tooltip, IconButton, Input, Grid, Button, CircularProgress } from "@mui/material";
+import { Skeleton, Stack, Typography, InputLabel, TextField, Tooltip, IconButton, Input, Grid, Button, CircularProgress } from "@mui/material";
 import { stringToColor, DEFAULT_NAME } from "@utils/String.utils";
 import { useContext, useMemo, useState, useCallback, useEffect } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import RestoreIcon from '@mui/icons-material/Restore';
+import { ErrorDisplay } from "@components/ErrorDisplay";
 
 export function MemberSettings() {
 	// Contexts
@@ -52,8 +53,8 @@ export function MemberSettings() {
 	// FEATURE: Profile Image?
 
 	// TODO: Error order? Return both?
-	if (documentError) return <Alert severity="error">{documentError.toString()}</Alert>;
-	if (hookError) return <Alert severity="error">{hookError.toString()}</Alert>;
+	if (documentError) return <ErrorDisplay error={documentError} />;
+	if (hookError) return <ErrorDisplay error={hookError} />;
 	return (documentLoading || hookLoading) ? <Skeleton /> : <Stack
 		component="form"
 		spacing={2}

@@ -1,7 +1,8 @@
-import { Alert, Skeleton, Typography } from "@mui/material"
+import { Skeleton, Typography } from "@mui/material"
 import { useContext, useMemo } from "react";
 import { RoomReferencesContext } from "../../contexts/RoomReferencesContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import { ErrorDisplay } from "@components/ErrorDisplay";
 
 export function RoomTitle() {
 	// Contexts
@@ -11,7 +12,7 @@ export function RoomTitle() {
 	// Hooks
 	const [documentData, documentLoading, documentError, _] = useDocumentData(roomRef);
 
-	if (documentError) return <Alert severity="error">{documentError.toString()}</Alert>;
+	if (documentError) return <ErrorDisplay error={documentError} />;
 	return documentLoading
 		? <Skeleton />
 		: <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
