@@ -3,7 +3,7 @@ import { ReactNode, useState, useCallback } from "react";
 import { Fragment } from "react/jsx-runtime";
 import CloseIcon from "@mui/icons-material/Close";
 
-interface DrawerWithToggleProps {
+export interface DrawerWithToggleProps {
 	icon: ReactNode;
 	tooltip: string;
 	anchor: "left" | "right";
