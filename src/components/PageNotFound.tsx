@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
+import { Alert } from "@mui/material";
 
 export function PageNotFound() {
-	return <Typography variant="h5" textAlign="center">404: Page Not Found</Typography>;
+	return <Alert severity="error">404: Page Not Found</Alert>;
 }
