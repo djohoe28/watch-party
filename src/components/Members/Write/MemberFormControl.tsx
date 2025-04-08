@@ -1,6 +1,5 @@
 import { Stack, InputLabel, TextField, Input, Tooltip, IconButton } from "@mui/material";
 import RestoreIcon from "@mui/icons-material/Restore";
-import React from "react";
 
 interface MemberFormControlProps {
 	label: string;
@@ -12,15 +11,7 @@ interface MemberFormControlProps {
 	onReset: () => void;
 }
 
-export const MemberFormControl: React.FC<MemberFormControlProps> = ({
-	label,
-	value,
-	placeholder,
-	type = "text",
-	isChanged,
-	onChange,
-	onReset,
-}) => {
+export function MemberFormControl({ label, value, placeholder, type = "text", isChanged, onChange, onReset }: MemberFormControlProps) {
 	return (
 		<Stack direction="row" spacing={2} alignItems="center">
 			<InputLabel htmlFor={label.toLowerCase()}>{label}{isChanged ? "*" : ""}</InputLabel>
