@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export function MembersProvider({ children, membersRef }: { children: ReactNode, membersRef: MembersCollectionReference | null | undefined }) {
+	// Hooks
 	const [collectionData, collectionLoading, collectionError, _] = useCollectionData(membersRef);
 
 	if (collectionError) return <Alert severity="error">{collectionError.toString()}</Alert>;
