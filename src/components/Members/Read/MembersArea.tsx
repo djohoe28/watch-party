@@ -1,14 +1,14 @@
 import { Stack, Grid } from "@mui/material"
-import { MembersContextProvider } from "../contexts/MembersContext"
-import { MessageField } from "./MessageField"
-import { MessageList } from "./MessageList"
+import { MembersContextProvider } from "../../../contexts/MembersContext"
+import { MessageList } from "../../Messages/Read/MessageList"
 import { useContext, useMemo } from "react"
-import { RoomReferencesContext } from "../contexts/RoomReferencesContext"
-import { DrawerWithToggle } from "./DrawerWithToggle"
+import { RoomReferencesContext } from "../../../contexts/RoomReferencesContext"
+import { DrawerWithToggle } from "../../DrawerWithToggle"
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
-import MemberSettings from "./MemberSettings"
+import MemberSettings from "../Write/MemberSettings"
 import MembersList from "./MembersList"
+import { MessageField } from "../../Messages/Write/MessageField"
 
 export const MembersArea = () => {
 	// Contexts

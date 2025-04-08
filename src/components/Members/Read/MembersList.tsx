@@ -4,9 +4,9 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { Fragment, useContext } from 'react';
-import { MembersContext } from '../contexts/MembersContext';
+import { MembersContext } from '../../../contexts/MembersContext';
 import MemberAvatar from './MemberAvatar';
-import { DEFAULT_NAME } from '../utils/String.utils';
+import { DEFAULT_NAME } from '../../../utils/String.utils';
 
 export default function MembersList() {
 	// Contexts

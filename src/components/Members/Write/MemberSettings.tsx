@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Alert, Button, CircularProgress, Grid, IconButton, Input, InputLabel, Skeleton, Stack, TextField, Tooltip, Typography } from "@mui/material";
-import { useMemberSettings as useMemberSettings } from "../hooks/useMemberSettings";
-import { DEFAULT_NAME, stringToColor } from "../utils/String.utils";
+import { useMemberSettings as useMemberSettings } from "../../../hooks/useMemberSettings";
+import { DEFAULT_NAME, stringToColor } from "../../../utils/String.utils";
 import RestoreIcon from '@mui/icons-material/Restore';
-import { RoomReferencesContext } from "../contexts/RoomReferencesContext";
+import { RoomReferencesContext } from "../../../contexts/RoomReferencesContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
 export default function MemberSettings() {

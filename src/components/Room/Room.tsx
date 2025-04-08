@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material";
-import { MediaPlayer } from "./MediaPlayer";
-import { RoomTitle } from "./RoomTitle";
-import { MembersArea } from "./MembersArea";
-import { RoomReferencesContextProvider } from "../contexts/RoomReferencesContext";
+import { MediaPlayer } from "../MediaPlayer";
+import { MembersArea } from "../Members/Read/MembersArea";
+import { RoomReferencesContextProvider } from "../../contexts/RoomReferencesContext";
 import { useContext, useMemo } from "react";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext from "../../contexts/AuthContext";
+import { RoomTitle } from "./RoomTitle";
 
 export const Room = ({ roomId }: { roomId: string }) => {
 	// Contexts

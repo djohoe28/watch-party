@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import ProTip from './components/ProTip';
-import { Room } from './components/Room';
+import { Room } from './components/Room/Room';
 import { AuthContextProvider } from './contexts/AuthContext';
 
 function Copyright() {

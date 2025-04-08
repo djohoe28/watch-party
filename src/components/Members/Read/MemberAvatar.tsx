@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material";
-import MemberModel from "../models/Member.model";
-import { stringToColor, stringToInitials } from "../utils/String.utils";
+import MemberModel from "../../../models/Member.model";
+import { stringToColor, stringToInitials } from "../../../utils/String.utils";
 
 export default function MemberAvatar({ member }: { member: MemberModel }) {
 	return <Avatar sx={{ bgcolor: member.color ?? stringToColor(member.id) }}>
