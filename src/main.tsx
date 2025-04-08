@@ -5,6 +5,8 @@ import { CssBaseline } from '@mui/material';
 import theme from './theme';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { App } from '@components/App';
+import { RoomWrapper } from '@components/Room/RoomWrapper';
+import { PageNotFound } from '@components/PageNotFound';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -12,7 +14,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-          <Route index element={<App />} />
+          <Route path='/' element={<App />}>
+            <Route path='room/:roomId' element={<RoomWrapper />} />
+            <Route path='*' element={<PageNotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
