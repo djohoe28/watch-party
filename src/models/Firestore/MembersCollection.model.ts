@@ -2,7 +2,7 @@ import { CollectionReference } from "firebase/firestore";
 import MemberModel from "../Member.model";
 import MemberDocument from "./MemberDocument.model";
 
-export default interface MembersCollection {
+export interface MembersCollection {
 	[id: string]: MemberDocument;
 }
 

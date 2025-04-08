@@ -6,7 +6,7 @@ import { useContext, useMemo } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import { RoomTitle } from "./RoomTitle";
 
-export const Room = ({ roomId }: { roomId: string }) => {
+export function Room({ roomId }: { roomId: string }) {
 	// Contexts
 	const authContext = useContext(AuthContext);
 	// Memos (Derived Contexts)

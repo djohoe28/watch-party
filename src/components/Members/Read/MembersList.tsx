@@ -8,7 +8,7 @@ import { MembersContext } from '../../../contexts/MembersContext';
 import MemberAvatar from './MemberAvatar';
 import { DEFAULT_NAME } from '../../../utils/String.utils';
 
-export default function MembersList() {
+export function MembersList() {
 	// Contexts
 	const membersContext = useContext(MembersContext);
 

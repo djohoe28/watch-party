@@ -25,7 +25,7 @@ function Copyright() {
   );
 }
 
-export default function App() {
+export function App() {
   const roomId = "RoomIDGoesHere"; // window.location.href.split('room/')[1]; // TODO: Use Regex.
   return (
     <Container maxWidth="sm">

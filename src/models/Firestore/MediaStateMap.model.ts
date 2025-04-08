@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 
-export default interface MediaStateMap {
+export interface MediaStateMap {
 	currentTime: number;
 	description: string;
 	duration: number;

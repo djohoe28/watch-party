@@ -5,7 +5,7 @@ import Room from "../Room.model";
 import MessagesCollection from "./MessagesCollection.model";
 import MembersCollection from "./MembersCollection.model";
 
-export default interface RoomDocument extends DocumentData {
+export interface RoomDocument extends DocumentData {
 	// Subcollections
 	messages?: MessagesCollection | null;
 	members?: MembersCollection | null;

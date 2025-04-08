@@ -1,7 +1,7 @@
 import { CollectionReference, Query } from "firebase/firestore";
 import MessageDocument from "./MessageDocument.model";
 
-export default interface MessagesCollection {
+export interface MessagesCollection {
 	[id: string]: MessageDocument;
 }
 

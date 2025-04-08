@@ -3,7 +3,7 @@ import { useContext, useMemo } from "react";
 import { RoomReferencesContext } from "../../contexts/RoomReferencesContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export const RoomTitle = () => {
+export function RoomTitle() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)

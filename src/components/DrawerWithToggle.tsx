@@ -10,7 +10,7 @@ interface DrawerWithToggleProps {
 	ariaLabel: string;
 }
 
-export const DrawerWithToggle = ({ icon, tooltip, anchor, children, ariaLabel }: DrawerWithToggleProps) => {
+export function DrawerWithToggle({ icon, tooltip, anchor, children, ariaLabel }: DrawerWithToggleProps) {
 	// State
 	const [open, setOpen] = useState(false);
 

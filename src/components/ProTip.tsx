@@ -11,7 +11,7 @@ function LightBulbIcon(props: SvgIconProps) {
   );
 }
 
-export default function ProTip() {
+export function ProTip() {
   return (
     <Typography sx={{ mt: 6, mb: 3, color: 'text.secondary' }}>
       <LightBulbIcon sx={{ mr: 1, verticalAlign: 'middle' }} />

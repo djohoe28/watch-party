@@ -1,5 +1,5 @@
 import RoomDocument from "./RoomDocument.model";
 
-export default interface RoomsCollection {
+export interface RoomsCollection {
 	[id: string]: RoomDocument;
 }

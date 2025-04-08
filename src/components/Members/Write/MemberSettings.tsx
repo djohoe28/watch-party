@@ -6,7 +6,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import { RoomReferencesContext } from "../../../contexts/RoomReferencesContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export default function MemberSettings() {
+export function MemberSettings() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)

@@ -11,7 +11,7 @@ import { useSendRoomMediaState } from '../hooks/useSendRoomMediaState';
 import { RoomReferencesContext } from '../contexts/RoomReferencesContext';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 
-export const MediaPlayer = () => {
+export function MediaPlayer() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)

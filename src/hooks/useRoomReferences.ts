@@ -19,10 +19,10 @@ export type RoomReferences = {
 	member?: MemberDocumentReference | null;
 };
 
-export const useRoomReferences = (
+export function useRoomReferences(
 	roomId: string,
 	memberId?: string
-): RoomReferences | null => {
+): RoomReferences | null {
 	// TODO: Use Memos?
 	const roomDocumentRef = doc(
 		firestoreDb,
@@ -38,7 +38,9 @@ export const useRoomReferences = (
 		import.meta.env.VITE_FIREBASE_MEMBERS_SUBCOLLECTION_ID
 	).withConverter(MemberDocumentConverter);
 	const memberDocumentRef = memberId
-		? doc(membersCollectionRef, memberId).withConverter(MemberDocumentConverter)
+		? doc(membersCollectionRef, memberId).withConverter(
+				MemberDocumentConverter
+		  )
 		: null;
 	return {
 		room: roomDocumentRef,
@@ -46,4 +48,4 @@ export const useRoomReferences = (
 		members: membersCollectionRef,
 		member: memberDocumentRef,
 	};
-};
+}

@@ -10,7 +10,7 @@ import MemberSettings from "../Write/MemberSettings"
 import MembersList from "./MembersList"
 import { MessageField } from "../../Messages/Write/MessageField"
 
-export const MembersArea = () => {
+export function MembersArea() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)

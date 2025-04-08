@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import type MediaState from "./MediaState.model";
 
-export default interface Packet {
+export interface Packet {
 	senderId: string;
 	sentAt: Timestamp;
 }

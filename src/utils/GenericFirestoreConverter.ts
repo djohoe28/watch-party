@@ -16,7 +16,7 @@ export const DEFAULT_SNAPSHOT_OPTIONS: SnapshotOptions = {
  * @template DbModelType Model as it appears in Firestore.
  * @returns Typed Firestore converter.
  */
-export default class GenericFirestoreConverter<
+export class GenericFirestoreConverter<
 	AppModelType,
 	DbModelType extends DocumentData
 > implements FirestoreDataConverter<AppModelType, DbModelType>

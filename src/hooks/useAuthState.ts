@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import auth from "../services/Auth.service";
 import { AsyncContext, ErrorType } from "../types/AsyncContext";
 
-export const useAuthState = (): AsyncContext<User> => {
+export function useAuthState(): AsyncContext<User> {
 	// States
 	const [user, setUser] = useState<User | null>(null); // LINT: undefined?
 	const [loading, setLoading] = useState<boolean>(true);

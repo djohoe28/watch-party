@@ -5,9 +5,9 @@ import { ErrorType } from "../types/AsyncContext";
 import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export const useSendRoomMediaState = (
+export function useSendRoomMediaState(
 	roomRef: RoomDocumentReference | null | undefined
-) => {
+) {
 	// LINT: Is documentData necessary..?
 	// Hooks
 	const [documentData, documentLoading, documentError, _] =

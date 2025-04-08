@@ -5,7 +5,7 @@ import { KeyboardEvent as ReactKeyboardEvent } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { RoomReferencesContext } from "../contexts/RoomReferencesContext";
 
-export const MessageField = () => {
+export function MessageField() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	const authContext = useContext(AuthContext);

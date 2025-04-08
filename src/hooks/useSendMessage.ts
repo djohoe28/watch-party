@@ -4,9 +4,9 @@ import { MessageDocumentConverter } from "../models/Firestore/MessageDocument.mo
 import { ErrorType } from "../types/AsyncContext";
 import { RoomDocumentReference } from "../models/Firestore/RoomDocument.model";
 
-export const useSendMessage = (
+export function useSendMessage(
 	roomRef: RoomDocumentReference | null | undefined
-) => {
+) {
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(undefined);

@@ -6,7 +6,7 @@ import MemberAvatar from "../../Members/Read/MemberAvatar";
 import { Fragment } from "react/jsx-runtime";
 import { useMemo } from "react";
 
-export const MessageItem = ({ message, isSelf, memberModel }: { message: MessageDocument, isSelf: boolean, memberModel?: MemberModel | null }) => {
+export function MessageItem({ message, isSelf, memberModel }: { message: MessageDocument, isSelf: boolean, memberModel?: MemberModel | null }) {
 	const timestampDisplayString = useMemo(() => TimestampConverter.toDisplayString(message.sentAt ?? Date.now()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp).
 
 	return <ListItem

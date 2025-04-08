@@ -2,7 +2,7 @@ import { DocumentData, DocumentReference } from "firebase/firestore";
 import GenericFirestoreConverter from "../../utils/GenericFirestoreConverter";
 import MemberModel from "../Member.model";
 
-export default interface MemberDocument extends DocumentData {
+export interface MemberDocument extends DocumentData {
 	name?: string;
 	color?: string;
 }

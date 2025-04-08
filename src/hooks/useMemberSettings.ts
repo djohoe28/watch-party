@@ -6,10 +6,10 @@ import { ErrorType } from "../types/AsyncContext";
 import { MemberDocumentReference } from "../models/Firestore/MemberDocument.model";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export const useMemberSettings = (
+export function useMemberSettings (
 	ref: MemberDocumentReference | null | undefined
 	// TODO: Add AsyncContext<User> ? Assumes `ref` is correct, but doesn't exist.
-) => {
+) {
 	// LINT: Is documentData necessary..?
 	// Hooks
 	const [documentData, documentLoading, documentError, documentSnapshot] =

@@ -8,7 +8,7 @@ import { RoomReferencesContext } from "../../../contexts/RoomReferencesContext";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { orderBy, query } from "firebase/firestore";
 
-export const MessageList = () => {
+export function MessageList() {
 	// Contexts
 	const authContext = useContext(AuthContext);
 	const membersContext = useContext(MembersContext);

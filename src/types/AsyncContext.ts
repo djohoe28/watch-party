@@ -6,6 +6,6 @@ export interface AsyncContext<T> {
 	error: ErrorType;
 }
 
-export const createDefaultContext = <T>(): AsyncContext<T> => {
+export function createDefaultContext<T>(): AsyncContext<T> {
 	return { payload: null, loading: true, error: null };
 };
