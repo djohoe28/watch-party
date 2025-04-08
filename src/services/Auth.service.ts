@@ -10,4 +10,4 @@ if (import.meta.env.DEV) {
 	console.log("Auth Emulator Token:", token);
 }
 
-export default auth;
+export { auth };

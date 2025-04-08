@@ -10,4 +10,4 @@ if (import.meta.env.DEV) {
 	);
 	console.log("Firestore Emulator Token:", token);
 }
-export default firestoreDb;
+export { firestoreDb };
