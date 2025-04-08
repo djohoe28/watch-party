@@ -1,5 +1,5 @@
-import { MediaStateMap } from "@models/Firestore/MediaStateMap.model";
-import { RoomDocumentReference } from "@models/Firestore/RoomDocument.model";
+import { MediaStateMap } from "@models/DB/MediaStateMap.model";
+import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
 import { setDoc } from "firebase/firestore";
 import { useState, useCallback } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";

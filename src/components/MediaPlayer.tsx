@@ -1,6 +1,6 @@
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
-import { toTimespanString } from "@models/Firestore/Timestamp.model";
+import { toTimespanString } from "@models/DB/Timestamp.model";
 import { Alert, Skeleton, Stack, IconButton, Slider, Typography } from "@mui/material";
 import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";

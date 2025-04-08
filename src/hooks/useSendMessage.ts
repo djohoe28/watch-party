@@ -1,5 +1,5 @@
-import { MessageDocumentConverter } from "@models/Firestore/MessageDocument.model";
-import { RoomDocumentReference } from "@models/Firestore/RoomDocument.model";
+import { MessageDocumentConverter } from "@models/DB/MessageDocument.model";
+import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useState, useMemo, useCallback } from "react";
 import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?

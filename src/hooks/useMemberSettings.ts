@@ -1,4 +1,4 @@
-import { MemberDocumentReference } from "@models/Firestore/MemberDocument.model";
+import { MemberDocumentReference } from "@models/DB/MemberDocument.model";
 import { MemberModel } from "@models/Member.model";
 import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 import { isColor, stringToColor } from "@utils/String.utils";

@@ -1,6 +1,6 @@
 import { MemberAvatar } from "@components/Members/Read/MemberAvatar";
-import { MessageDocument } from "@models/Firestore/MessageDocument.model";
-import { TimestampConverter } from "@models/Firestore/Timestamp.model";
+import { MessageDocument } from "@models/DB/MessageDocument.model";
+import { TimestampConverter } from "@models/DB/Timestamp.model";
 import { MemberModel } from "@models/Member.model";
 import { ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import { useMemo } from "react";

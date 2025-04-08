@@ -25,7 +25,7 @@ export function MessageField() {
 	const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setMessage(event.target.value);
 	}, [setMessage]);
-	
+
 	return <TextField
 		label="Message"
 		variant="outlined"
