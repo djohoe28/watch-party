@@ -1,27 +1,9 @@
 import * as React from 'react';
-import { Link, Typography, Container, Box } from '@mui/material';
+import { Typography, Container, Box } from '@mui/material';
 import { ProTip } from './ProTip';
 import { AuthProvider } from './Providers/AuthProvider';
 import { Room } from './Room/Room';
-
-
-function Copyright() {
-  return (
-    <Typography
-      variant="body2"
-      align="center"
-      sx={{
-        color: 'text.secondary',
-      }}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="https://telhai.tech/">
-        Tel Hai Tech
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  );
-}
+import { Copyright } from './Copyright';
 
 export function App() {
   const roomId = "RoomIDGoesHere"; // window.location.href.split('room/')[1]; // TODO: Use Regex.
