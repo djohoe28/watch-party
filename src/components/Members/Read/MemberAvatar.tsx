@@ -1,5 +1,5 @@
+import { MemberModel } from "@models/App/Member.model";
 import { Avatar } from "@mui/material";
-import { MemberModel } from "@models/Member.model";
 import { stringToColor, stringToInitials } from "@utils/String.utils";
 
 export function MemberAvatar({ member }: { member: MemberModel }) {
