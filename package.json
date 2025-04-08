@@ -20,7 +20,8 @@
     "react": "latest",
     "react-dom": "latest",
     "react-firebase-hooks": "^5.1.1",
-    "react-player": "^2.16.0"
+    "react-player": "^2.16.0",
+    "react-router": "^7.5.0"
   },
   "devDependencies": {
     "@types/react": "latest",
