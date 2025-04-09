@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
+import FileInputButton from "./FileInputButton";
 
 // LINT: Find a better way to style the modal.
 const style = {
@@ -33,6 +34,7 @@ export function MediaSourceForm() {
 			<Typography id="modal-modal-description" sx={{ mt: 2 }}>
 				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
 			</Typography>
+			<FileInputButton />
 		</Stack>
 	</Box>;
 }
