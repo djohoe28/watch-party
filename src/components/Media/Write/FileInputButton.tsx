@@ -16,7 +16,7 @@ const VisuallyHiddenInput = styled('input')({
 	width: 1,
 });
 
-export default function FileInputButton() {
+export default function FileInputButton({ onChange }: { onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void }) {
 	return (
 		<Button
 			component="label"
@@ -28,7 +28,7 @@ export default function FileInputButton() {
 			Upload media
 			<VisuallyHiddenInput
 				type="file"
-				onChange={(event) => console.log(event.target.files)}
+				onChange={onChange}
 				// TODO: Route event.target.files to the appropriate context.
 				// FEATURE: multiple
 				accept="image/*,video/*,audio/*" // TODO: Does ReactPlayer support images?
