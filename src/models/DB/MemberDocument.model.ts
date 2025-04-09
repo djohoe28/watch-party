@@ -1,4 +1,4 @@
-import { MemberModel } from "@models/Member.model";
+import { MemberModel } from "@models/App/Member.model";
 import { GenericFirestoreConverter } from "@utils/GenericFirestoreConverter";
 import { DocumentData, DocumentReference } from "firebase/firestore";
 
