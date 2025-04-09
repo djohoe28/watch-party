@@ -91,8 +91,9 @@ export function MediaPlayer() {
 		}
 	}, [documentData?.media, currentTime]);
 	const handleEnded = useCallback(() => {
-		// FIXME: Hack to work around race condition infinite recursion.
-		// TODO: What happens if no player was available to trigger this?
+		// HACK: Prevents race-condition infinite-recursion.
+		// NOTE: If no client was available to trigger this, this will be triggered by the next client.
+		// SEE: useEffect alert().
 		if (documentData?.media.isPaused === false) {
 			sendRoomMediaState({ isPaused: true, currentTime: documentData?.media.duration });
 		}
