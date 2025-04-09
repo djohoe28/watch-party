@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import FileInputButton from "./FileInputButton";
+import { useCallback } from "react";
 
 // LINT: Find a better way to style the modal.
 const style = {
@@ -19,6 +20,10 @@ export function MediaSourceForm() {
 	// Contexts
 	// Memos (Derived Contexts)
 	// Hooks
+	// Callbacks
+	const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		console.log(event.target.files);
+	}, []);
 
 	return <Box sx={style}>
 		<Stack
@@ -34,7 +39,7 @@ export function MediaSourceForm() {
 			<Typography id="modal-modal-description" sx={{ mt: 2 }}>
 				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
 			</Typography>
-			<FileInputButton />
+			<FileInputButton onChange={handleFileChange} />
 		</Stack>
 	</Box>;
 }
