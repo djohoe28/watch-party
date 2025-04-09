@@ -1,10 +1,10 @@
-import { MediaPlayer } from "@components/MediaPlayer";
+import { MediaPlayer } from "@components/Media/Read/MediaPlayer";
 import { MembersArea } from "@components/Members/Read/MembersArea";
 import { RoomReferencesProvider } from "@components/Providers/RoomReferencesProvider";
 import { AuthContext } from "@contexts/AuthContext";
 import { Stack } from "@mui/material";
 import { useContext, useMemo } from "react";
-import { RoomTitle } from "./RoomTitle";
+import { RoomTitle } from "./Read/RoomTitle";
 
 export function Room({ roomId }: { roomId: string }) {
 	// Contexts
