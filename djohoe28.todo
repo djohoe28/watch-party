@@ -14,7 +14,6 @@ TODO
 [ ] Streamline `useX(x: T | null | undefined)`, Error types.
 
 LINT
-[ ] Compartmentalize MemberSettings
 [ ] Avoid excessive useMemo / useCallback - volumeAsFraction et al. (useRef?)
 [ ] Simplify state management (MediaPlayer - Zustand/Redux/MobX?)
 [ ] Debounce slider updates in MediaPlayer

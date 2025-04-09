@@ -1,4 +1,3 @@
-// MemberSettings.tsx
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useMemberSettings } from "@hooks/useMemberSettings";
 import { Skeleton, Stack, Typography, Grid, Button, CircularProgress } from "@mui/material";
@@ -29,13 +28,7 @@ export function MemberSettings() {
 	return (documentLoading || hookLoading) ? <Skeleton /> : <Stack
 		component="form"
 		spacing={2}
-		action={(formData) => {
-			// TODO: Streamline this.
-			const name = !formData.get("name") ? undefined : formData.get("name") as string;
-			const color = !formData.get("color") ? undefined : formData.get("color") as string;
-			const data = { name: name, color: color };
-			sendMemberSettings(data, false);
-		}}
+		action={(formData) => sendMemberSettings(Object.fromEntries(formData.entries()), false)}
 		onReset={(event) => { console.log(event); sendMemberSettings({}, false); }}
 		sx={{ p: 2 }}
 	>
