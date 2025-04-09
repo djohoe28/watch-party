@@ -2,8 +2,11 @@ import { DrawerWithToggle } from "@components/DrawerWithToggle";
 import { Stack } from "@mui/material";
 import { MemberForm } from "../Write/MemberForm";
 import { MembersList } from "./MembersList";
+import { ModalWithButton } from "@components/ModalWithButton";
+import { MediaSourceForm } from "@components/Media/Write/MediaSourceForm";
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
+import SourceIcon from '@mui/icons-material/Source';
 
 export function MemberControls() {
 	return <Stack direction="row" spacing={2} textAlign='center' justifyContent="space-between">
@@ -15,7 +18,13 @@ export function MemberControls() {
 		>
 			<MemberForm />
 		</DrawerWithToggle>
-
+		<ModalWithButton
+			icon={<SourceIcon />}
+			tooltip="Media Source Settings"
+			ariaLabel="Toggle Media Source Settings"
+		>
+			<MediaSourceForm />
+		</ModalWithButton>
 		<DrawerWithToggle
 			icon={<PeopleIcon />}
 			tooltip="Members List"
