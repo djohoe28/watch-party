@@ -1,6 +1,6 @@
 import { DrawerWithToggle } from "@components/DrawerWithToggle";
 import { Stack } from "@mui/material";
-import { MemberSettings } from "../Write/MemberSettings";
+import { MemberForm } from "../Write/MemberForm";
 import { MembersList } from "./MembersList";
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
@@ -13,7 +13,7 @@ export function MemberControls() {
 			anchor="left"
 			ariaLabel="Toggle Member Settings"
 		>
-			<MemberSettings />
+			<MemberForm />
 		</DrawerWithToggle>
 
 		<DrawerWithToggle

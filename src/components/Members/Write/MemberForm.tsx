@@ -7,7 +7,7 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ErrorDisplay } from "@components/ErrorDisplay";
 import { MemberFormControl } from "./MemberFormControl";
 
-export function MemberSettings() {
+export function MemberForm() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)

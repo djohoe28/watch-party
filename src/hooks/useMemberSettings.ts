@@ -51,6 +51,7 @@ export function useMemberSettings (
 			}
 			setSending(true);
 			// Data Validation
+			// LINT: Move to MemberFormControl?
 			const isInvalidColor = settings.color && !isColor(settings.color);
 			const isDefaultColor = documentData
 				? settings.color === stringToColor(documentData.id)
