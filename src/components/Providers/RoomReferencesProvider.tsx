@@ -17,6 +17,7 @@ export function RoomReferencesProvider({ children, roomId, memberId }: { childre
 		// HACK: Ensures that the room document is created before rendering the children.
 		// This is necessary because the room document is created in the useRoomReferences hook,
 		// but we need to wait for it to be created before rendering the children.
+		// NOTE: memberId must be defined to ensure authorization.
 		if (roomReferences?.room && memberId) {
 			getDoc(roomReferences.room).then((doc) => {
 				if (doc.exists()) {
