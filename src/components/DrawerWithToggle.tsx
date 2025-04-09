@@ -1,6 +1,5 @@
 import { Tooltip, IconButton, Drawer, Box } from "@mui/material";
 import { ReactNode, useState, useCallback } from "react";
-import { Fragment } from "react/jsx-runtime";
 import CloseIcon from "@mui/icons-material/Close";
 
 export interface DrawerWithToggleProps {
@@ -14,7 +13,6 @@ export interface DrawerWithToggleProps {
 export function DrawerWithToggle({ icon, tooltip, anchor, children, ariaLabel }: DrawerWithToggleProps) {
 	// State
 	const [open, setOpen] = useState(false);
-
 	// Callbacks
 	const handleToggle = useCallback(() => setOpen((open) => !open), []);
 	const handleClose = useCallback(() => setOpen(false), []);
@@ -26,18 +24,16 @@ export function DrawerWithToggle({ icon, tooltip, anchor, children, ariaLabel }:
 					onClick={handleToggle}
 					sx={{ borderRadius: 1, width: "100%" }}
 					aria-label={ariaLabel}
-				>
-					{icon}
-				</IconButton>
+					children={icon}
+				/>
 			</Tooltip>
 			<Drawer variant="persistent" anchor={anchor} open={open}>
 				<IconButton
 					onClick={handleClose}
 					sx={{ borderRadius: 0 }}
 					aria-label={`Close ${tooltip}`}
-				>
-					<CloseIcon />
-				</IconButton>
+					children={<CloseIcon />}
+				/>
 				{children}
 			</Drawer>
 		</Box>
