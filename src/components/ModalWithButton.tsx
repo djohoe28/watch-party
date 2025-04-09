@@ -24,7 +24,13 @@ export function ModalWithButton({ icon, tooltip, children, ariaLabel }: ModalWit
 				children={icon}
 			/>
 		</Tooltip>
-		<Modal open={open} onClose={handleClose}>
+		<Modal
+			open={open}
+			onClose={handleClose}
+		// FEATURE: Dynamic aria-labllledby and aria-describedby ?
+		// aria-labelledby="modal-modal-title"
+		// aria-describedby="modal-modal-description"
+		>
 			{children}
 		</Modal>
 	</Box>
