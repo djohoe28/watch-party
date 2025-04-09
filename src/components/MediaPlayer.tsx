@@ -24,7 +24,7 @@ export function MediaPlayer() {
 	// References
 	const playerRef = useRef<ReactPlayer>(null);
 	// States
-	const [url, setUrl] = useState<string | undefined>(documentData?.media.src);
+	const [url, setUrl] = useState<string | undefined>(documentData?.media?.src);
 	const [playing, setPlaying] = useState<boolean>(false);
 	const [muted, setMuted] = useState<boolean>(true);
 	const [volume, setVolume] = useState<number>(0); // NOTE: 0-100!
@@ -81,7 +81,7 @@ export function MediaPlayer() {
 	const handleReady = useCallback((player: ReactPlayer) => {
 		// TODO: Handle strict mode w/ DB effect correctly.
 		// if (initialized) return;
-		if (!initialized && documentData) {
+		if (!initialized && documentData?.media) {
 			setInitialized(true); // TODO: Fix race condition.
 			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
 			const isDelayed = documentData.media.isPaused === false && documentData.media.currentTime - (currentTime || 0) + delta > maxDelta;
@@ -94,10 +94,10 @@ export function MediaPlayer() {
 		// HACK: Prevents race-condition infinite-recursion.
 		// NOTE: If no client was available to trigger this, this will be triggered by the next client.
 		// SEE: useEffect alert().
-		if (documentData?.media.isPaused === false) {
-			sendRoomMediaState({ isPaused: true, currentTime: documentData?.media.duration });
+		if (documentData?.media?.isPaused === false) {
+			sendRoomMediaState({ isPaused: true, currentTime: documentData?.media?.duration });
 		}
-	}, [sendRoomMediaState, documentData?.media.isPaused, documentData?.media.duration]);
+	}, [sendRoomMediaState, documentData?.media?.isPaused, documentData?.media?.duration]);
 	// Formatters
 	const timeValueLabelFormatter = useCallback((value: number) => {
 		return toTimespanString(value, showHours);
@@ -110,7 +110,7 @@ export function MediaPlayer() {
 		console.log("Media Effect", documentData?.media);
 		// TODO: Compartmentalize effects by prop changes?
 		// TODO: Handle source change (source is set in ReactPlayer prop; add buffer?)
-		if (playerRef.current && documentData) {
+		if (playerRef.current && documentData?.media) {
 			setUrl(documentData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
 			setPlaying(documentData.media.isPaused === false);
 			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();

@@ -16,6 +16,6 @@ export function RoomTitle() {
 	return documentLoading
 		? <Skeleton />
 		: <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
-			{documentData?.title}
+			{documentData?.title || "Untitled Room"}
 		</Typography>
 }

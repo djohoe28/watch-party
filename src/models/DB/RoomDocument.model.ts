@@ -10,8 +10,8 @@ export interface RoomDocument extends DocumentData {
 	members?: MembersCollection | null;
 	// Fields
 	createdAt: Timestamp;
-	title: string;
-	media: MediaStateMap;
+	title?: string;
+	media?: MediaStateMap;
 }
 
 export const RoomDocumentConverter = new GenericFirestoreConverter<
