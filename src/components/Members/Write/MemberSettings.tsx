@@ -58,7 +58,7 @@ export function MemberSettings() {
 			</Grid>
 			<Grid size='grow'>
 				{
-					// NOTE: Box wrapper to force CircularProgress alignItems='center' without breaking color input.
+					// NOTE: Grid forces same size whether CircularProgress or Button => alignItems='center' without breaking color input.
 					hookSending
 						? <CircularProgress />
 						: <Button type="submit">Submit</Button>
