@@ -1,5 +1,4 @@
 FEATURE
-[ ] Add Room management
 [ ] Add Source management
 [ ] Add local File support
 [ ] Add unit/integration tests (hooks, Firebase, components?)
