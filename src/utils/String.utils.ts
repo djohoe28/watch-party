@@ -21,9 +21,9 @@ export function stringToColor(str: string) {
 
 export function stringToInitials(name: string) {
 	if (name === DEFAULT_NAME) return null;
-	const nameParts = name.split(" ");
+	const nameParts = name.trim().split(" ");
 	if (nameParts.length === 1) {
-		return name[0];
+		return nameParts[0][0];
 	}
 	return `${name.split(" ")[0][0]}${
 		name.split(" ")[nameParts.length - 1][0]
