@@ -11,7 +11,7 @@ const style = {
 	border: '2px solid #000',
 	boxShadow: 24,
 	p: 4,
-  };
+};
 
 export function MediaSourceForm() {
 	// TODO: IMPLEMENT THIS.
@@ -19,20 +19,20 @@ export function MediaSourceForm() {
 	// Memos (Derived Contexts)
 	// Hooks
 
-	return <Stack
-		component="form"
-		spacing={2}
-		action={(formData) => console.log(formData)}
-		onReset={(event) => console.log(event)}
-		sx={{ p: 2 }}
-	>
-		<Box sx={style}>
+	return <Box sx={style}>
+		<Stack
+			component="form"
+			spacing={2}
+			action={(formData) => console.log(formData)}
+			onReset={(event) => console.log(event)}
+			sx={{ p: 2 }}
+		>
 			<Typography id="modal-modal-title" variant="h6" component="h2">
 				Text in a modal
 			</Typography>
 			<Typography id="modal-modal-description" sx={{ mt: 2 }}>
 				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
 			</Typography>
-		</Box>
-	</Stack>;
+		</Stack>
+	</Box>;
 }
