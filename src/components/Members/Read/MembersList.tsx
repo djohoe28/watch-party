@@ -3,7 +3,7 @@ import { List, ListItem, ListItemAvatar, ListItemText, Divider } from "@mui/mate
 import { DEFAULT_NAME } from "@utils/String.utils";
 import { useContext } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { MemberAvatar } from "./MemberAvatar";
+import { MemberAvatar } from "@components/Members/Read/MemberAvatar";
 
 export function MembersList() {
 	// Contexts

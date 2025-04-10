@@ -5,7 +5,7 @@ import { stringToColor } from "@utils/String.utils";
 import { useContext, useMemo } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
-import { MemberFormControl } from "./MemberFormControl";
+import { MemberFormControl } from "@components/Members/Write/MemberFormControl";
 import { SubmitButton } from "@components/Utilities/SubmitButton";
 
 export function MemberForm() {

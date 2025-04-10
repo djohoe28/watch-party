@@ -4,7 +4,7 @@ import type {
 	DocumentReference,
 	Query,
 } from "firebase/firestore";
-import { AsyncContext } from "./AsyncContext";
+import { AsyncContext } from "../types/AsyncContext"; // TODO: @types ?
 
 interface FirestoreContextType
 	extends AsyncContext<Query | CollectionReference | DocumentReference> {

@@ -1,5 +1,5 @@
 import { Card, Stack, TextField, Typography } from "@mui/material";
-import FileInputButton from "./FileInputButton";
+import FileInputButton from "@components/Media/Write/FileInputButton";
 import { Fragment, useCallback, useState } from "react";
 import { TextInputWithSend } from "@components/Utilities/TextInputWithSend";
 import { SubmitButton } from "@components/Utilities/SubmitButton";

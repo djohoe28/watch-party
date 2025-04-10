@@ -4,7 +4,7 @@ import { RoomReferencesProvider } from "@components/Providers/RoomReferencesProv
 import { AuthContext } from "@contexts/AuthContext";
 import { Stack } from "@mui/material";
 import { useContext, useMemo } from "react";
-import { RoomTitle } from "./Read/RoomTitle";
+import { RoomTitle } from "@components/Room/Read/RoomTitle";
 
 export function Room({ roomId }: { roomId: string }) {
 	// Contexts

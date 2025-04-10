@@ -5,7 +5,7 @@ import { Skeleton, Box, List, Divider, Fab } from "@mui/material";
 import { query, orderBy } from "firebase/firestore";
 import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { MessageItem } from "./MessageItem";
+import { MessageItem } from "@components/Messages/Read/MessageItem";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 

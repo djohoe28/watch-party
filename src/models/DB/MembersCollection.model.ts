@@ -1,5 +1,5 @@
 import { CollectionReference } from "firebase/firestore";
-import { MemberDocument } from "./MemberDocument.model";
+import { MemberDocument } from "@models/DB/MemberDocument.model";
 import { MemberModel } from "@models/App/Member.model";
 
 export interface MembersCollection {

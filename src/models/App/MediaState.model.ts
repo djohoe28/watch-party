@@ -1,4 +1,4 @@
-import { Source } from "./Source.model";
+import { Source } from "@models/App/Source.model";
 
 export interface MediaState {
 	source: Source;
