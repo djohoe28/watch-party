@@ -26,6 +26,7 @@ export function MessageField() {
 		setMessage(event.target.value);
 	}, [setMessage]);
 	// FEATURE: Refactor as Form component to allow for additional input (e.g. images).
+	// LINT: Refactor as TextInputWithSend?
 
 	return <TextField
 		label="Message"
