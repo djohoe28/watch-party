@@ -1,45 +1,65 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Card, Stack, TextField, Typography } from "@mui/material";
 import FileInputButton from "./FileInputButton";
-import { useCallback } from "react";
+import { Fragment, useCallback, useState } from "react";
+import { TextInputWithSend } from "@components/TextInputWithSend";
+import { SubmitButton } from "@components/SubmitButton";
 
-// LINT: Find a better way to style the modal.
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 400,
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-};
-
-export function MediaSourceForm() {
-	// TODO: IMPLEMENT THIS.
+export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, descriptionId?: string }) {
 	// Contexts
 	// Memos (Derived Contexts)
 	// Hooks
+	// States
+	const [isFileLoaded, setIsFileLoaded] = useState(false);
+	const [description, setDescription] = useState<string>();
 	// Callbacks
 	const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(event.target.files);
+		setDescription(event.target.files?.item(0)?.name);
+		setIsFileLoaded(!!event.target.files?.length);
 	}, []);
 
-	return <Box sx={style}>
-		<Stack
-			component="form"
-			spacing={2}
-			action={(formData) => console.log(formData)}
-			onReset={(event) => console.log(event)}
-			sx={{ p: 2 }}
-		>
-			<Typography id="modal-modal-title" variant="h6" component="h2">
-				Text in a modal
-			</Typography>
-			<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-			</Typography>
-			<FileInputButton onChange={handleFileChange} />
+	// TODO: HANDLE FORM SUBMISSION
+
+	return <Stack
+		component="form"
+		spacing={2}
+		action={(formData) => console.log(formData)}
+		onReset={(event) => console.log(event)}
+		sx={{ padding: 2 }}
+	>
+		<Typography id={titleId} variant="h6" component="h2">
+			Select Media Source
+		</Typography>
+		<Typography id={descriptionId} sx={{ mt: 2 }}>
+			Please provide a media source using one of the options below:
+		</Typography>
+		<Stack direction="row">
+			<Card sx={{ padding: 1 }}>
+				<TextInputWithSend label="Media URL" name="source" />
+			</Card>
+			<Card sx={{ padding: 1 }}>
+				<Stack direction="column" spacing={3}>
+					<FileInputButton onChange={handleFileChange} name="file" />
+					{isFileLoaded &&
+						<Fragment>
+							<TextField
+								name="description"
+								// NOTE
+								// Setting (default) value programatically doesn't trigger label shrink,
+								// so instead value is controlled via the description state.
+								variant="outlined"
+								value={description}
+								// NOTE: setDescription overwrites (instead of only when empty) in case of replaced file.
+								onChange={(event) => setDescription(event.target.value)}
+								slotProps={{ inputLabel: { shrink: !!description } }}
+								label="Description"
+								helperText="Helpful description of the media."
+							/>
+							<SubmitButton />
+						</Fragment>}
+
+				</Stack>
+			</Card>
 		</Stack>
-	</Box>;
+
+	</Stack>;
 }
