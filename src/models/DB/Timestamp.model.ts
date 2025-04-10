@@ -1,7 +1,5 @@
 import { Timestamp } from "firebase/firestore";
 
-function toFirestore(timestamp: Date): Timestamp;
-function toFirestore(timestamp: number): Timestamp;
 function toFirestore(timestamp: number | Date): Timestamp {
 	return Timestamp.fromDate(timestamp instanceof Date ? timestamp : new Date(timestamp));
 }
@@ -11,9 +9,6 @@ function fromFirestore(timestamp: Timestamp): Date {
 }
 
 
-function toDisplayString(timestamp: Timestamp): string;
-function toDisplayString(timestamp: Date): string;
-function toDisplayString(timestamp: number): string;
 function toDisplayString(timestamp: number | Date | Timestamp): string {
 	let date: Date;
 	if(timestamp instanceof Date) {
@@ -26,7 +21,7 @@ function toDisplayString(timestamp: number | Date | Timestamp): string {
 	return date.toISOString().replace("T"," ").substring(0, 19);
 }
 
-export function toTimespanString(seconds: number | undefined | null, showHours: boolean = false): string {
+export function toTimespanString(seconds: number | undefined | null, showHours = false): string {
 	if(seconds === null || seconds === undefined) { // LINT: `!seconds` catches `seconds=0`...
 		return showHours ? "??:??:??" : "??:??";
 	}

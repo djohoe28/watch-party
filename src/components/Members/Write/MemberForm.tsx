@@ -28,7 +28,7 @@ export function MemberForm() {
 	return (documentLoading || hookLoading) ? <Skeleton /> : <Stack
 		component="form"
 		spacing={2}
-		action={(formData) => sendMemberSettings(Object.fromEntries(formData.entries()), false)}
+		action={(formData) => { sendMemberSettings(Object.fromEntries(formData.entries()), false); }}
 		onReset={(event) => { console.log(event); sendMemberSettings({}, false); }}
 		sx={{ p: 2 }}
 	>
@@ -36,7 +36,7 @@ export function MemberForm() {
 			Member Settings
 		</Typography>
 		<Typography variant="body2" component="p" sx={{ mb: 2 }}>
-			ID: {documentData?.id || "N/A"}
+			ID: {documentData?.id ?? "N/A"}
 		</Typography>
 		<MemberFormControl
 			fieldName="name"

@@ -1,4 +1,4 @@
-export type ErrorType = Error | string | null | undefined;
+export type ErrorType = /* Error | string | null | undefined | */ unknown;
 
 export interface AsyncContext<T> {
 	payload: T | null;

@@ -3,7 +3,7 @@ import { Room } from "./Room";
 
 export function RoomWrapper() {
 	// Hooks
-	let params = useParams();
+	const params = useParams();
 
-	return <Room roomId={params.roomId!} />; // TODO: Validate params.roomId
+	return <Room roomId={params.roomId!} />; // TODO LINTODO: Validate params.roomId
 }

@@ -1,9 +1,7 @@
 import { CollectionReference, Query } from "firebase/firestore";
 import { MessageDocument } from "./MessageDocument.model";
 
-export interface MessagesCollection {
-	[id: string]: MessageDocument;
-}
+export type MessagesCollection = Record<string, MessageDocument>;
 
 export type MessagesCollectionReference = CollectionReference<
 	MessageDocument,

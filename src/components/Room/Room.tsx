@@ -10,7 +10,7 @@ export function Room({ roomId }: { roomId: string }) {
 	// Contexts
 	const authContext = useContext(AuthContext);
 	// Memos (Derived Contexts)
-	const memberId = useMemo(() => authContext?.payload?.uid, [authContext?.payload?.uid]);
+	const memberId = useMemo(() => authContext.payload?.uid, [authContext.payload?.uid]);
 
 	return <RoomReferencesProvider roomId={roomId} memberId={memberId}>
 		<RoomTitle />

@@ -24,13 +24,13 @@ export function MessageList() {
 	// (No 'list' permission, because member not in room yet.)
 	// FirebaseError: [code=permission-denied]: evaluation error at L16:29 for 'list' @ L16, false for 'list' @ L36, false for 'list' @ L16, false for 'list' @ L36
 	// SEE: firestore.rules: `match /rooms/{roomId}/messages/{messageId}`
-	const [collectionData, collectionLoading, collectionError, _] = useCollectionData(isMemberInRoom ? queryRef : undefined);
+	const [collectionData, collectionLoading, collectionError /* , _ */ ] = useCollectionData(isMemberInRoom ? queryRef : undefined);
 	// References
 	const bottomRef = useRef<HTMLLIElement>(null);
 	// States
 	const [bottomed, setBottomed] = useState<boolean>(true);
 	// Callbacks
-	const handleScroll = useCallback((event: React.UIEvent<HTMLUListElement, UIEvent>) => {
+	const handleScroll = useCallback((event: React.UIEvent<HTMLUListElement>) => {
 		const target = event.target as HTMLUListElement;
 		setBottomed(Math.abs(target.scrollHeight - (target.scrollTop + target.clientHeight)) <= 1);
 	}, [setBottomed]);
@@ -49,9 +49,9 @@ export function MessageList() {
 				sx={{ width: "100%", bgcolor: "background.paper", overflowY: "scroll", height: "100%" }}
 				onScroll={handleScroll}
 			>
-				{collectionLoading ? <Skeleton /> : collectionData?.map((message) => {
+				{collectionLoading ? <Skeleton /> : collectionData?.map((message) => { // LINTODO
 					return <MessageItem
-						key={message.id}
+						key={message.id} // LINTODO
 						message={message}
 						isSelf={authContext.payload?.uid === message.senderId}
 						memberModel={membersContext?.find((member) => member.id === message.senderId)}

@@ -1,5 +1,3 @@
 import { RoomDocument } from "./RoomDocument.model";
 
-export interface RoomsCollection {
-	[id: string]: RoomDocument;
-}
+export type RoomsCollection = Record<string, RoomDocument>;

@@ -1,6 +1,5 @@
 import { Tooltip, IconButton, Drawer, Box } from "@mui/material";
 import { ReactNode, useState, useCallback } from "react";
-import { Fragment } from "react/jsx-runtime";
 import CloseIcon from "@mui/icons-material/Close";
 
 export interface DrawerWithToggleProps {
@@ -16,8 +15,8 @@ export function DrawerWithToggle({ icon, tooltip, anchor, children, ariaLabel }:
 	const [open, setOpen] = useState(false);
 
 	// Callbacks
-	const handleToggle = useCallback(() => setOpen((open) => !open), []);
-	const handleClose = useCallback(() => setOpen(false), []);
+	const handleToggle = useCallback(() => { setOpen((open) => !open); }, []);
+	const handleClose = useCallback(() => { setOpen(false); }, []);
 
 	return (
 		<Box>

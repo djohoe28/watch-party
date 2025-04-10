@@ -12,6 +12,8 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { ErrorDisplay } from "./ErrorDisplay";
 
+// LINTODO This entire file.
+
 export function MediaPlayer() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
@@ -19,7 +21,7 @@ export function MediaPlayer() {
 	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
 	// Hooks
 	// LINT: Leverage sending, loading, error?
-	const [documentData, documentLoading, documentError, _] = useDocumentData(roomRef);
+	const [documentData, documentLoading, documentError /* , _ */ ] = useDocumentData(roomRef);
 	const { sendRoomMediaState, sending: hookSending, loading: hookLoading, error: hookError } = useSendRoomMediaState(roomRef);
 	// References
 	const playerRef = useRef<ReactPlayer>(null);
@@ -35,7 +37,7 @@ export function MediaPlayer() {
 	const [initialized, setInitialized] = useState<boolean>(false);
 	// Memos (Derivative States)
 	const volumeAsFraction = useMemo(() => volume / 100, [volume]);
-	const showHours = useMemo(() => (duration && duration > 3600) || false, [duration]);
+	const showHours = useMemo(() => (duration && duration > 3600) ?? false, [duration]);
 	const currentTimeString = useMemo(() => toTimespanString(currentTime, showHours), [currentTime, showHours]);
 	const durationString = useMemo(() => toTimespanString(duration, showHours), [duration, showHours]);
 	const playingIcon = useMemo(() => playing ? <PauseIcon /> : <PlayArrowIcon />, [playing]);
@@ -84,7 +86,7 @@ export function MediaPlayer() {
 		if (!initialized && documentData?.media) {
 			setInitialized(true); // TODO: Fix race condition.
 			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
-			const isDelayed = documentData.media.isPaused === false && documentData.media.currentTime - (currentTime || 0) + delta > maxDelta;
+			const isDelayed = !documentData.media.isPaused && documentData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
 			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
 			// TODO: See alert in useEffect.
 			player.seekTo(targetTime, "seconds");
@@ -95,7 +97,7 @@ export function MediaPlayer() {
 		// NOTE: If no client was available to trigger this, this will be triggered by the next client.
 		// SEE: useEffect alert().
 		if (documentData?.media?.isPaused === false) {
-			sendRoomMediaState({ isPaused: true, currentTime: documentData?.media?.duration });
+			sendRoomMediaState({ isPaused: true, currentTime: documentData.media.duration });
 		}
 	}, [sendRoomMediaState, documentData?.media?.isPaused, documentData?.media?.duration]);
 	// Formatters
@@ -112,15 +114,15 @@ export function MediaPlayer() {
 		// TODO: Handle source change (source is set in ReactPlayer prop; add buffer?)
 		if (playerRef.current && documentData?.media) {
 			setUrl(documentData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
-			setPlaying(documentData.media.isPaused === false);
+			setPlaying(!documentData.media.isPaused);
 			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
-			const isDelayed = documentData.media.isPaused === false && documentData.media.currentTime - (currentTime || 0) + delta > maxDelta;
+			const isDelayed = !documentData.media.isPaused && documentData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
 			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
 			if (targetTime > documentData.media.duration) {
 				// NOTE: This happens *only* if media was supposed to end but no player was available to trigger onEnded.
 				alert("Media ended.");
 			}
-			playerRef.current?.seekTo(targetTime, "seconds");
+			playerRef.current.seekTo(targetTime, "seconds");
 		}
 	}, [documentData?.media]);
 
@@ -161,9 +163,9 @@ export function MediaPlayer() {
 			<Stack direction="row" spacing={2} alignItems="center">
 				<Typography>{currentTimeString}</Typography>
 				<Slider
-					value={currentTime || 0} // LINT: Memo? Remove undefined?
+					value={currentTime ?? 0} // LINT: Memo? Remove undefined?
 					min={0}
-					max={duration || 0} // LINT: Memo? Remove undefined?
+					max={duration ?? 0} // LINT: Memo? Remove undefined?
 					step={0.1} // FEATURE: Make configurable? Percent of Duration?
 					onChange={handleTimeSliderChange}
 					onChangeCommitted={handleTimeSliderChangeCommitted}

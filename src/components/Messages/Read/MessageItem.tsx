@@ -8,7 +8,7 @@ import { Fragment } from "react/jsx-runtime";
 
 export function MessageItem({ message, isSelf, memberModel }: { message: MessageDocument, isSelf: boolean, memberModel?: MemberModel | null }) {
 	// Memos (Derived Props)
-	const timestampDisplayString = useMemo(() => TimestampConverter.toDisplayString(message.sentAt ?? Date.now()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp).
+	const timestampDisplayString = useMemo(() => TimestampConverter.toDisplayString(message.sentAt ?? Date.now()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp). // LINTODO
 
 	return <ListItem
 		alignItems="flex-start"

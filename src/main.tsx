@@ -9,7 +9,7 @@ import { RoomWrapper } from '@components/Room/RoomWrapper';
 import { PageNotFound } from '@components/PageNotFound';
 import { Home } from '@components/Home/Home';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render( // LINTODO
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />

@@ -11,7 +11,7 @@ export function RoomReferencesProvider({ children, roomId, memberId }: { childre
 	const roomReferences = useRoomReferences(roomId, memberId);
 	// States
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<ErrorType | null>(null);
+	const [error, setError] = useState<ErrorType>(null); // TODO: | null ?
 	// Effects
 	useEffect(() => {
 		// HACK: Ensures that the room document is created before rendering the children.
@@ -28,9 +28,9 @@ export function RoomReferencesProvider({ children, roomId, memberId }: { childre
 					}).then(() => {
 						setLoading(false);
 						setError(null);
-					}).catch((err: ErrorType) => setError(err));
+					}).catch((err: ErrorType) => { setError(err); });
 				}
-			}).catch((err: ErrorType) => setError(err));
+			}).catch((err: ErrorType) => { setError(err); });
 		}
 	}, [roomReferences?.room])
 

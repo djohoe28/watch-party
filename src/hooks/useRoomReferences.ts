@@ -6,12 +6,12 @@ import { RoomDocumentReference, RoomDocumentConverter } from "@models/DB/RoomDoc
 import { firestoreDb } from "@services/Firestore.service";
 import { doc, collection } from "firebase/firestore";
 
-export type RoomReferences = {
+export interface RoomReferences {
 	room: RoomDocumentReference;
 	messages: MessagesCollectionReference;
 	members: MembersCollectionReference;
 	member?: MemberDocumentReference | null;
-};
+}
 
 export function useRoomReferences(
 	roomId: string,

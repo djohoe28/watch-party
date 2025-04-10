@@ -3,7 +3,8 @@ import { firebaseApp } from "./Firebase.service";
 
 const auth = getAuth(firebaseApp);
 if (import.meta.env.DEV) {
-	const token = connectAuthEmulator(
+	const token = null; // LINTODO
+	connectAuthEmulator(
 		auth,
 		import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST
 	);

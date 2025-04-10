@@ -46,7 +46,7 @@ export function useSendMessage(
 					setSending(false);
 					setError(null);
 				})
-				.catch((err) => {
+				.catch((err: unknown) => {
 					setSending(false);
 					setError(err);
 				});

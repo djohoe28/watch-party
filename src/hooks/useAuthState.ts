@@ -19,7 +19,7 @@ export function useAuthState(): AsyncContext<User> {
 						setLoading(false);
 						setUser(credential.user);
 					})
-					.catch((error) => setError(error));
+					.catch((err: unknown) => { setError(err); });
 				return;
 			}
 			setUser(user);

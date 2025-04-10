@@ -10,11 +10,11 @@ export function useSendRoomMediaState(
 ) {
 	// LINT: Is documentData necessary..?
 	// Hooks
-	const [documentData, documentLoading, documentError, _] =
+	const [documentData, documentLoading, documentError /* , _ */] =
 		useDocumentData(roomRef);
 	// States
 	const [loading, setLoading] = useState<boolean>(documentLoading || true);
-	const [error, setError] = useState<ErrorType>(documentError || null);
+	const [error, setError] = useState<ErrorType>(documentError ?? null);
 	const [sending, setSending] = useState<boolean>(false);
 	// Callbacks
 	const sendRoomMediaState = useCallback(
@@ -46,7 +46,7 @@ export function useSendRoomMediaState(
 					setSending(false);
 					setError(null);
 				})
-				.catch((err) => {
+				.catch((err: unknown) => {
 					setSending(false);
 					setError(err);
 				});
@@ -54,4 +54,4 @@ export function useSendRoomMediaState(
 		[roomRef]
 	);
 	return { sendRoomMediaState, sending, loading, error };
-};
+}

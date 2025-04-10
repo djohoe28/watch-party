@@ -17,7 +17,7 @@ export function useMemberSettings (
 		useDocumentData(ref);
 	// States
 	const [loading, setLoading] = useState<boolean>(documentLoading || true);
-	const [error, setError] = useState<ErrorType>(documentError || null);
+	const [error, setError] = useState<ErrorType>(documentError ?? null);
 	const [sending, setSending] = useState<boolean>(false);
 	// Effects
 	useEffect(() => {
@@ -26,25 +26,25 @@ export function useMemberSettings (
 			setDoc(ref, { id: ref.id } as MemberModel)
 				.then(() => {
 					setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
-					setError((prev) => prev || null);
+					setError((prev: ErrorType) => prev ?? null);
 				})
-				.catch((err) => {
+				.catch((err: unknown) => {
 					setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
-					setError((prev) => prev || err); // LINT: Should an existing Error be "chained"?
+					setError((prev: ErrorType) => prev ?? err); // LINT: Should an existing Error be "chained"?
 				});
 			// TODO: Make sure this doesn't cause a race condition, including Strict Mode!
 		} else {
 			setLoading(documentLoading || false); // TODO: Make sure this doesn't cause a race condition, including Strict Mode!
-			setError((prev) => prev || null);
+			setError((prev: ErrorType) => prev ?? null);
 		}
 	}, [documentSnapshot]);
 	// Callbacks
 	const sendMemberSettings = useCallback(
-		(settings: Partial<Omit<MemberModel, "id">>, merge: boolean = true) => {
+		(settings: Partial<Omit<MemberModel, "id">>, merge = true) => {
 			if (!ref) {
 				setError(
-					(prev) =>
-						prev || "Failed to get (Room) User Document reference"
+					(prev: ErrorType) =>
+						prev ?? "Failed to get (Room) User Document reference"
 				); // LINT: Make sure this doesn't cause a race condition, including Strict Mode!
 				setLoading(false); // LINT: This is a bit misleading, but it's not a loading error.
 				return;
@@ -65,7 +65,7 @@ export function useMemberSettings (
 					setSending(false);
 					setError(null);
 				})
-				.catch((err) => {
+				.catch((err: unknown) => {
 					setSending(false);
 					setError(err);
 				});

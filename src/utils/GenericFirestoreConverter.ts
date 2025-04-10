@@ -25,7 +25,7 @@ export class GenericFirestoreConverter<
 		// TODO: Convert Timestamp? Is this currently used?
 		// TODO: Hard Casting Conversion! Fix this!
 		if (data instanceof Object && Object.hasOwn(data, "id")) {
-			const { id, ...rest } = data as any;
+			const { id, ...rest } = data as any; // LINTODO
 			return rest as unknown as DbModelType;
 		}
 		return data as unknown as DbModelType;

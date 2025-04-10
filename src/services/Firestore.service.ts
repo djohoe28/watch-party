@@ -3,7 +3,8 @@ import { firebaseApp } from "./Firebase.service";
 
 const firestoreDb = getFirestore(firebaseApp); // TODO: Add Database ID?
 if (import.meta.env.DEV) {
-	const token = connectFirestoreEmulator(
+	const token = null; // LINTODO
+	connectFirestoreEmulator(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_FIRESTORE_EMULATOR_HOST,
 		import.meta.env.VITE_FIREBASE_FIRESTORE_EMULATOR_PORT

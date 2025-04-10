@@ -11,7 +11,7 @@ interface FirestoreContextType
 	/** Reference to the desired Query / Collection / Document. */
 	payload: Query | CollectionReference | DocumentReference | null;
 	/** The data last received via Snapshot. Optional. */
-	data?: any | null;
+	data?: unknown; // TODO: any || null
 }
 
 export interface FirestoreQueryContextType<

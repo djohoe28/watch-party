@@ -1,13 +1,11 @@
-import { Stack, InputLabel, Input, Tooltip, IconButton, InputLabelTypeMap } from "@mui/material";
+import { Stack, InputLabel, Input, Tooltip, IconButton } from "@mui/material";
 import { HTMLInputTypeAttribute, useCallback, useEffect, useMemo, useState } from "react";
 import RestoreIcon from '@mui/icons-material/Restore';
 import { MemberModel } from "@models/App/Member.model";
 
 type FieldType = keyof Partial<Omit<MemberModel, "id">>
 
-type FieldMap = {
-	[key in FieldType]: HTMLInputTypeAttribute; // LINT: InputLabelTypeMap["props"]["children"] ?
-}
+type FieldMap = Record<FieldType, HTMLInputTypeAttribute>
 
 // TODO: Leverage FIELD_MAP, or keep compartmentalized?
 const FIELD_MAP: FieldMap = {
@@ -25,9 +23,9 @@ interface MemberFormControlProps<T> {
 
 export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, inputType = FIELD_MAP[fieldName], sendMemberSettings }: MemberFormControlProps<T>) {
 	// States
-	const [value, setValue] = useState<T>(documentValue || defaultValue);
+	const [value, setValue] = useState<T>(documentValue ?? defaultValue);
 	// Memos
-	const isChanged = useMemo(() => (documentValue || defaultValue) !== value, [documentValue, defaultValue, value]);
+	const isChanged = useMemo(() => (documentValue ?? defaultValue) !== value, [documentValue, defaultValue, value]);
 	const capitalizedName = useMemo(() => fieldName.charAt(0).toUpperCase() + fieldName.slice(1), [fieldName]);
 	const tooltipText = useMemo(() => `Restore ${capitalizedName}`, [capitalizedName]);
 	// Callbacks
@@ -35,15 +33,15 @@ export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, i
 		setValue(event.target.value as T); // TODO: Type assertion for value
 	};
 	const handleFieldReset = useCallback((send?: boolean) => {
-		setValue(documentValue || defaultValue);
+		setValue(documentValue ?? defaultValue);
 		if (send) sendMemberSettings({ [fieldName]: documentValue })
 	}, [documentValue, defaultValue, sendMemberSettings]);
-	const handleResetTrue = useCallback(() => handleFieldReset(true), [handleFieldReset]);
+	const handleResetTrue = useCallback(() => { handleFieldReset(true); }, [handleFieldReset]);
 	// Effects
 	useEffect(() => {
 		// If data has been updated from the server, update local state to match (default if undefined).
 		// TODO: Make sure this is correct.
-		setValue(documentValue || defaultValue);
+		setValue(documentValue ?? defaultValue);
 	}, [documentValue, defaultValue, setValue]);
 
 	return <Stack direction="row" spacing={2} alignItems="center">
