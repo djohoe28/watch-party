@@ -4,7 +4,7 @@ import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { Stack } from "@mui/material";
 import { useContext, useMemo } from "react";
 import { MembersProvider } from "@components/Providers/MembersProvider";
-import { MemberControls } from "@components/Members/Read/MemberControls";
+import { MemberControls } from "@components/Members/MemberControls";
 
 export function MembersArea() {
 	// Contexts

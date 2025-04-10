@@ -1,6 +1,6 @@
 import { DrawerWithToggle } from "@components/Utilities/DrawerWithToggle";
 import { Stack } from "@mui/material";
-import { MemberForm } from "../Write/MemberForm";
+import { MemberForm } from "./Write/MemberForm";
 import { MembersList } from "@components/Members/Read/MembersList";
 import { ModalWithButton } from "@components/Utilities/ModalWithButton";
 import { MediaSourceForm } from "@components/Media/Write/MediaSourceForm";

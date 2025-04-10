@@ -1,5 +1,5 @@
 import { MediaPlayer } from "@components/Media/Read/MediaPlayer";
-import { MembersArea } from "@components/Members/Read/MembersArea";
+import { MembersArea } from "@components/Members/MembersArea";
 import { RoomReferencesProvider } from "@components/Providers/RoomReferencesProvider";
 import { AuthContext } from "@contexts/AuthContext";
 import { Stack } from "@mui/material";
