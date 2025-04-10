@@ -7,7 +7,7 @@ import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "r
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { MessageItem } from "./MessageItem";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 
 export function MessageList() {
 	// Contexts

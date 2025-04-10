@@ -4,7 +4,7 @@ import { ErrorType } from "../../types/AsyncContext"; // TODO: @types ?
 import { getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { ReactNode, useEffect, useState } from "react";
 import { Skeleton } from "@mui/material";
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 
 export function RoomReferencesProvider({ children, roomId, memberId }: { children: ReactNode, roomId: string, memberId?: string }) {
 	// Hooks

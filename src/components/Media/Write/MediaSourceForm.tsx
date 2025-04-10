@@ -1,8 +1,8 @@
 import { Card, Stack, TextField, Typography } from "@mui/material";
 import FileInputButton from "./FileInputButton";
 import { Fragment, useCallback, useState } from "react";
-import { TextInputWithSend } from "@components/TextInputWithSend";
-import { SubmitButton } from "@components/SubmitButton";
+import { TextInputWithSend } from "@components/Utilities/TextInputWithSend";
+import { SubmitButton } from "@components/Utilities/SubmitButton";
 
 export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, descriptionId?: string }) {
 	// Contexts

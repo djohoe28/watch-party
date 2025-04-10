@@ -1,8 +1,8 @@
-import { DrawerWithToggle } from "@components/DrawerWithToggle";
+import { DrawerWithToggle } from "@components/Utilities/DrawerWithToggle";
 import { Stack } from "@mui/material";
 import { MemberForm } from "../Write/MemberForm";
 import { MembersList } from "./MembersList";
-import { ModalWithButton } from "@components/ModalWithButton";
+import { ModalWithButton } from "@components/Utilities/ModalWithButton";
 import { MediaSourceForm } from "@components/Media/Write/MediaSourceForm";
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';

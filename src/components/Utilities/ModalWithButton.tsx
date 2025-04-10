@@ -1,6 +1,6 @@
 import { Box, Tooltip, IconButton, Modal } from "@mui/material";
 import { useState, useCallback, ReactNode } from "react";
-import { ModalBox } from "./ModalBox";
+import { ModalBox } from "@components/Utilities/ModalBox";
 
 export interface ModalWithButtonProps {
 	icon: ReactNode;
