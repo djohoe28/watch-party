@@ -15,9 +15,9 @@ export function MessageItem({ message, isSelf, memberModel }: { message: Message
 		className={isSelf ? "sender-self" : "sender-other"}
 	>
 		{
-			memberModel
-				? <ListItemAvatar><MemberAvatar member={memberModel} /></ListItemAvatar>
-				: null
+			memberModel && <ListItemAvatar sx={{ order: isSelf ? undefined : "1" }}>
+				<MemberAvatar member={memberModel} />
+			</ListItemAvatar>
 		}
 		<ListItemText
 			primary={message.content}
