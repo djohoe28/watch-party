@@ -6,6 +6,7 @@ import { useContext, useMemo } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ErrorDisplay } from "@components/ErrorDisplay";
 import { MemberFormControl } from "./MemberFormControl";
+import { SubmitButton } from "@components/SubmitButton";
 
 export function MemberForm() {
 	// Contexts
@@ -61,7 +62,7 @@ export function MemberForm() {
 					// NOTE: Grid forces same size whether CircularProgress or Button => alignItems='center' without breaking color input.
 					hookSending
 						? <CircularProgress />
-						: <Button type="submit">Submit</Button>
+						: <SubmitButton />
 				}
 			</Grid>
 		</Grid>
