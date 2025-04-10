@@ -14,7 +14,8 @@ export function RoomReferencesProvider({ children, roomId, memberId }: { childre
 	const [error, setError] = useState<ErrorType | null>(null);
 	// Effects
 	useEffect(() => {
-		// HACK: Ensures that the room document is created before rendering the children.
+		// HACK
+		// Ensures that the room document is created before rendering the children.
 		// This is necessary because the room document is created in the useRoomReferences hook,
 		// but we need to wait for it to be created before rendering the children.
 		// NOTE: memberId must be defined to ensure authorization.
