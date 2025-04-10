@@ -1,9 +1,8 @@
-import * as React from 'react';
-import { Typography, Container, Box } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import { Outlet } from 'react-router';
+import { Copyright } from './Copyright';
 import { ProTip } from './ProTip';
 import { AuthProvider } from './Providers/AuthProvider';
-import { Copyright } from './Copyright';
-import { Outlet } from 'react-router';
 
 export function App() {
 	return (

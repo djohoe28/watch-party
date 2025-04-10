@@ -1,7 +1,7 @@
-import { User, onAuthStateChanged, signInAnonymously } from "firebase/auth";
-import { useState, useEffect } from "react";
-import { AsyncContext, ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 import { auth } from "@services/Auth.service";
+import { User, onAuthStateChanged, signInAnonymously } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { AsyncContext, ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
 export function useAuthState(): AsyncContext<User> {
 	// States
@@ -28,4 +28,4 @@ export function useAuthState(): AsyncContext<User> {
 		return unsubscribe;
 	}, []);
 	return { payload: user, loading, error };
-};
+}

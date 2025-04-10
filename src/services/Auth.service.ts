@@ -1,5 +1,5 @@
-import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { firebaseApp } from "@services/Firebase.service";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
 if (import.meta.env.DEV) {

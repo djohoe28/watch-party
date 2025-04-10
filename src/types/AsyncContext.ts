@@ -8,4 +8,4 @@ export interface AsyncContext<T> {
 
 export function createDefaultContext<T>(): AsyncContext<T> {
 	return { payload: null, loading: true, error: null };
-};
+}

@@ -1,8 +1,8 @@
-import { Skeleton, Typography } from "@mui/material"
-import { useContext, useMemo } from "react";
-import { RoomReferencesContext } from "../../../contexts/RoomReferencesContext";
-import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
+import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
+import { Skeleton, Typography } from "@mui/material";
+import { useContext, useMemo } from "react";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 export function RoomTitle() {
 	// Contexts

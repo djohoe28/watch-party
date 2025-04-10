@@ -1,13 +1,12 @@
+import { MemberModel } from "@models/App/Member.model";
 import { MemberDocumentReference } from "@models/DB/MemberDocument.model";
-import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 import { isColor, stringToColor } from "@utils/String.utils";
 import { setDoc } from "firebase/firestore";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { MemberModel } from "@models/App/Member.model";
+import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
-
-export function useMemberSettings (
+export function useMemberSettings(
 	ref: MemberDocumentReference | null | undefined
 	// TODO: Add AsyncContext<User> ? Assumes `ref` is correct, but doesn't exist.
 ) {
@@ -73,4 +72,4 @@ export function useMemberSettings (
 		[documentData, ref]
 	);
 	return { sendMemberSettings, sending, loading, error };
-};
+}

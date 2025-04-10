@@ -1,10 +1,16 @@
-import { MemberDocumentReference, MemberDocumentConverter } from "@models/DB/MemberDocument.model";
+import {
+	MemberDocumentConverter,
+	MemberDocumentReference,
+} from "@models/DB/MemberDocument.model";
 import { MembersCollectionReference } from "@models/DB/MembersCollection.model";
 import { MessageDocumentConverter } from "@models/DB/MessageDocument.model";
 import { MessagesCollectionReference } from "@models/DB/MessagesCollection.model";
-import { RoomDocumentReference, RoomDocumentConverter } from "@models/DB/RoomDocument.model";
+import {
+	RoomDocumentConverter,
+	RoomDocumentReference,
+} from "@models/DB/RoomDocument.model";
 import { firestoreDb } from "@services/Firestore.service";
-import { doc, collection } from "firebase/firestore";
+import { collection, doc } from "firebase/firestore";
 
 export type RoomReferences = {
 	room: RoomDocumentReference;

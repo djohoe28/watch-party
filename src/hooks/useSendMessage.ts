@@ -1,7 +1,7 @@
 import { MessageDocumentConverter } from "@models/DB/MessageDocument.model";
 import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { useState, useMemo, useCallback } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useCallback, useMemo, useState } from "react";
 import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
 export function useSendMessage(
@@ -55,4 +55,4 @@ export function useSendMessage(
 	);
 
 	return { sendMessage, sending, loading, error };
-};
+}

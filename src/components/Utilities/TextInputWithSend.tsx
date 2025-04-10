@@ -1,5 +1,5 @@
-import { InputAdornment, IconButton, TextField, TextFieldVariants, TextFieldProps } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
+import { IconButton, InputAdornment, TextField, TextFieldProps, TextFieldVariants } from "@mui/material";
 
 export function TextInputWithSend<Variant extends TextFieldVariants>(props: { variant?: Variant } & Omit<TextFieldProps, "variant">) {
 	return <TextField

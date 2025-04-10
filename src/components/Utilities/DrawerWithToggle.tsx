@@ -1,6 +1,6 @@
-import { Tooltip, IconButton, Drawer, Box } from "@mui/material";
-import { ReactNode, useState, useCallback } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { Box, Drawer, IconButton, Tooltip } from "@mui/material";
+import { ReactNode, useCallback, useState } from "react";
 
 export interface DrawerWithToggleProps {
 	icon: ReactNode;

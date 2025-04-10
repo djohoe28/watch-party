@@ -1,12 +1,12 @@
+import { MemberFormControl } from "@components/Members/Write/MemberFormControl";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
+import { SubmitButton } from "@components/Utilities/SubmitButton";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useMemberSettings } from "@hooks/useMemberSettings";
-import { Skeleton, Stack, Typography, Grid, Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import { stringToColor } from "@utils/String.utils";
 import { useContext, useMemo } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
-import { MemberFormControl } from "@components/Members/Write/MemberFormControl";
-import { SubmitButton } from "@components/Utilities/SubmitButton";
 
 export function MemberForm() {
 	// Contexts

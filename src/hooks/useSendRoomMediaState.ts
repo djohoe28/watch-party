@@ -1,7 +1,7 @@
 import { MediaStateMap } from "@models/DB/MediaStateMap.model";
 import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
 import { setDoc } from "firebase/firestore";
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
@@ -54,4 +54,4 @@ export function useSendRoomMediaState(
 		[roomRef]
 	);
 	return { sendRoomMediaState, sending, loading, error };
-};
+}

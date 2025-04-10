@@ -12,4 +12,7 @@ export const MemberDocumentConverter = new GenericFirestoreConverter<
 	MemberDocument
 >();
 
-export type MemberDocumentReference = DocumentReference<MemberModel, MemberDocument>;
+export type MemberDocumentReference = DocumentReference<
+	MemberModel,
+	MemberDocument
+>;

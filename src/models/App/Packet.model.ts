@@ -1,5 +1,5 @@
-import { Timestamp } from "firebase/firestore";
 import { MediaState } from "@models/App/MediaState.model";
+import { Timestamp } from "firebase/firestore";
 
 export interface Packet {
 	senderId: string;

@@ -1,16 +1,16 @@
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
 import { toTimespanString } from "@models/DB/Timestamp.model";
-import { Skeleton, Stack, IconButton, Slider, Typography } from "@mui/material";
-import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "react";
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { IconButton, Skeleton, Slider, Stack, Typography } from "@mui/material";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { OnProgressProps } from "react-player/base";
-import ReactPlayer from 'react-player/lazy'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
+import ReactPlayer from 'react-player/lazy';
 
 export function MediaPlayer() {
 	// Contexts

@@ -1,5 +1,5 @@
-import { CollectionReference, Query } from "firebase/firestore";
 import { MessageDocument } from "@models/DB/MessageDocument.model";
+import { CollectionReference, Query } from "firebase/firestore";
 
 export interface MessagesCollection {
 	[id: string]: MessageDocument;

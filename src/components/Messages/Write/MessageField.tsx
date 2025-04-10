@@ -2,7 +2,7 @@ import { AuthContext } from "@contexts/AuthContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendMessage } from "@hooks/useSendMessage";
 import { TextField } from "@mui/material";
-import { useContext, useState, useMemo, useCallback, ChangeEvent } from "react";
+import { ChangeEvent, useCallback, useContext, useMemo, useState } from "react";
 
 export function MessageField() {
 	// Contexts

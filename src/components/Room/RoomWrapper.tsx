@@ -1,5 +1,5 @@
-import { useParams } from "react-router";
 import { Room } from "@components/Room/Room";
+import { useParams } from "react-router";
 
 export function RoomWrapper() {
 	// Hooks
