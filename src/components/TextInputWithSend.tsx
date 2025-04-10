@@ -1,7 +1,7 @@
-import { FormControl, InputLabel, InputAdornment, IconButton, Input } from "@mui/material";
+import { FormControl, InputLabel, InputAdornment, IconButton, Input, FormHelperText } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 
-export function TextInputWithSend({ labelText, name }: { labelText?: string, name?: string }) {
+export function TextInputWithSend({ labelText, name, helperText }: { labelText?: string, name?: string, helperText?: string }) {
 
 	return <FormControl>
 		<InputLabel
@@ -23,5 +23,8 @@ export function TextInputWithSend({ labelText, name }: { labelText?: string, nam
 				</InputAdornment>
 			}
 		/>
+		{helperText
+			? <FormHelperText children={helperText} />
+			: null}
 	</FormControl>
 }
