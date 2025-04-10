@@ -1,10 +1,11 @@
 import { Box, Tooltip, IconButton, Modal } from "@mui/material";
-import { useState, useCallback, ReactNode, ReactElement } from "react";
+import { useState, useCallback, ReactNode } from "react";
+import { ModalBox } from "./ModalBox";
 
 export interface ModalWithButtonProps {
 	icon: ReactNode;
 	tooltip: string;
-	children: ReactElement;
+	children: ReactNode;
 	ariaLabel: string;
 }
 
@@ -27,11 +28,12 @@ export function ModalWithButton({ icon, tooltip, children, ariaLabel }: ModalWit
 		<Modal
 			open={open}
 			onClose={handleClose}
-		// FEATURE: Dynamic aria-labllledby and aria-describedby ?
-		// aria-labelledby="modal-modal-title"
-		// aria-describedby="modal-modal-description"
-		>
-			{children}
-		</Modal>
+			children={<ModalBox
+				// FEATURE: Dynamic aria-labllledby and aria-describedby ?
+				// aria-labelledby="modal-modal-title"
+				// aria-describedby="modal-modal-description"
+				children={children}
+			/>}
+		/>
 	</Box>
 }
