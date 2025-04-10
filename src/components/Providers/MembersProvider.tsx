@@ -1,4 +1,4 @@
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { MembersContext } from "@contexts/MembersContext";
 import { MembersCollectionReference } from "@models/DB/MembersCollection.model";
 import { Skeleton } from "@mui/material";

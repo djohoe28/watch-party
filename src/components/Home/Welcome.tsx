@@ -1,4 +1,4 @@
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { AuthContext } from "@contexts/AuthContext";
 import { Skeleton, Typography } from "@mui/material";
 import { useContext } from "react";
