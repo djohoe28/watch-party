@@ -2,7 +2,6 @@ import { FormControl, InputLabel, InputAdornment, IconButton, Input, FormHelperT
 import SendIcon from '@mui/icons-material/Send';
 
 export function TextInputWithSend({ labelText, name, helperText }: { labelText?: string, name?: string, helperText?: string }) {
-
 	return <FormControl>
 		<InputLabel
 			// htmlFor="filled-adornment-password"
