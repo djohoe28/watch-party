@@ -1,9 +1,9 @@
+import { MemberAvatar } from "@components/Members/Read/MemberAvatar";
 import { MembersContext } from "@contexts/MembersContext";
-import { List, ListItem, ListItemAvatar, ListItemText, Divider } from "@mui/material";
+import { Divider, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
 import { DEFAULT_NAME } from "@utils/String.utils";
 import { useContext } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { MemberAvatar } from "./MemberAvatar";
 
 export function MembersList() {
 	// Contexts

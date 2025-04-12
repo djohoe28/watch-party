@@ -1,9 +1,9 @@
 import { DrawerWithToggle } from "@components/DrawerWithToggle";
-import { Stack } from "@mui/material";
-import { MemberForm } from "../Write/MemberForm";
-import { MembersList } from "./MembersList";
-import SettingsIcon from '@mui/icons-material/Settings';
+import { MembersList } from "@components/Members/Read/MembersList";
+import { MemberForm } from "@components/Members/Write/MemberForm";
 import PeopleIcon from '@mui/icons-material/People';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Stack } from "@mui/material";
 
 export function MemberControls() {
 	return <Stack direction="row" spacing={2} textAlign='center' justifyContent="space-between">
