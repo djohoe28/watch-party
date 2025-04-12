@@ -1,16 +1,16 @@
+import { ErrorDisplay } from "@components/ErrorDisplay";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
-import { toTimespanString } from "@models/DB/Timestamp.model";
-import { Skeleton, Stack, IconButton, Slider, Typography } from "@mui/material";
-import { useContext, useMemo, useRef, useState, useCallback, useEffect } from "react";
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { CircularProgress, IconButton, Skeleton, Slider, Stack, Typography } from "@mui/material";
+import { toTimespanString } from "@utils/Timestamp.utils";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { OnProgressProps } from "react-player/base";
-import ReactPlayer from 'react-player/lazy'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import { ErrorDisplay } from "./ErrorDisplay";
+import ReactPlayer from 'react-player/lazy';
 
 // LINTODO This entire file.
 
@@ -21,8 +21,8 @@ export function MediaPlayer() {
 	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
 	// Hooks
 	// LINT: Leverage sending, loading, error?
-	const [documentData, documentLoading, documentError /* , _ */ ] = useDocumentData(roomRef);
-	const { sendRoomMediaState, sending: hookSending, loading: hookLoading, error: hookError } = useSendRoomMediaState(roomRef);
+	const [documentData, documentLoading, documentError /* , _ */] = useDocumentData(roomRef);
+	const { sendRoomMediaState, sending: hookSending, error: hookError } = useSendRoomMediaState(roomRef, documentData);
 	// References
 	const playerRef = useRef<ReactPlayer>(null);
 	// States
@@ -37,11 +37,13 @@ export function MediaPlayer() {
 	const [initialized, setInitialized] = useState<boolean>(false);
 	// Memos (Derivative States)
 	const volumeAsFraction = useMemo(() => volume / 100, [volume]);
-	const showHours = useMemo(() => (duration && duration > 3600) ?? false, [duration]);
+	const showHours = useMemo(() => duration ? duration > 3600 : false, [duration]);
 	const currentTimeString = useMemo(() => toTimespanString(currentTime, showHours), [currentTime, showHours]);
 	const durationString = useMemo(() => toTimespanString(duration, showHours), [duration, showHours]);
 	const playingIcon = useMemo(() => playing ? <PauseIcon /> : <PlayArrowIcon />, [playing]);
 	const mutedIcon = useMemo(() => muted ? <VolumeOffIcon /> : <VolumeUpIcon />, [muted]);
+	const loading = useMemo(() => documentLoading, [documentLoading]);
+	const error = useMemo(() => documentError ?? hookError, [documentError, hookError]); // TODO: Order of errors?
 	// Callbacks
 	// UI Event Handlers
 	const handlePlayingToggle = useCallback(() => {
@@ -85,7 +87,7 @@ export function MediaPlayer() {
 		// if (initialized) return;
 		if (!initialized && documentData?.media) {
 			setInitialized(true); // TODO: Fix race condition.
-			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
+			const delta = documentData.media.lastUpdated ? Date.now() - documentData.media.lastUpdated.toDate().getTime() : 0;
 			const isDelayed = !documentData.media.isPaused && documentData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
 			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
 			// TODO: See alert in useEffect.
@@ -105,7 +107,7 @@ export function MediaPlayer() {
 		return toTimespanString(value, showHours);
 	}, [showHours]);
 	const volumeValueLabelFormatter = useCallback((value: number) => {
-		return `${value}%`;
+		return `${value.toString()}%`;
 	}, []);
 	// Effects
 	useEffect(() => {
@@ -115,7 +117,7 @@ export function MediaPlayer() {
 		if (playerRef.current && documentData?.media) {
 			setUrl(documentData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
 			setPlaying(!documentData.media.isPaused);
-			const delta = Date.now() - documentData.media.lastUpdated.toDate().getTime();
+			const delta = documentData.media.lastUpdated ? Date.now() - documentData.media.lastUpdated.toDate().getTime() : 0;
 			const isDelayed = !documentData.media.isPaused && documentData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
 			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
 			if (targetTime > documentData.media.duration) {
@@ -125,9 +127,11 @@ export function MediaPlayer() {
 			playerRef.current.seekTo(targetTime, "seconds");
 		}
 	}, [documentData?.media]);
-
-	if (documentError) return <ErrorDisplay error={documentError} />;
-	return documentLoading
+	useEffect(() => {
+		console.log({ hookSending, hookError, documentError, documentLoading, loading, error });
+	}, [hookSending, hookError, documentError, documentLoading, loading, error]);
+	if (error) return <ErrorDisplay error={error} />;
+	return loading
 		? <Skeleton />
 		: <Stack direction="column" spacing={2}>
 			<ReactPlayer ref={playerRef}
@@ -154,8 +158,11 @@ export function MediaPlayer() {
 					{mutedIcon}
 				</IconButton>
 				<Slider
+					// Props
 					value={volume}
+					// Events
 					onChange={handleVolumeChange}
+					// Style
 					valueLabelDisplay='auto'
 					valueLabelFormat={volumeValueLabelFormatter}
 				/>
@@ -163,17 +170,23 @@ export function MediaPlayer() {
 			<Stack direction="row" spacing={2} alignItems="center">
 				<Typography>{currentTimeString}</Typography>
 				<Slider
+					// Props
 					value={currentTime ?? 0} // LINT: Memo? Remove undefined?
 					min={0}
 					max={duration ?? 0} // LINT: Memo? Remove undefined?
 					step={0.1} // FEATURE: Make configurable? Percent of Duration?
+					// Events
 					onChange={handleTimeSliderChange}
 					onChangeCommitted={handleTimeSliderChangeCommitted}
+					// Style
 					valueLabelDisplay='auto'
 					valueLabelFormat={timeValueLabelFormatter}
+					color={seeking ? "secondary" : undefined}
 				// disabled
 				/>
 				<Typography>{durationString}</Typography>
 			</Stack>
+			<input type="number" value={maxDelta} onChange={(event) => { setMaxDelta(event.target.valueAsNumber); }} />
+			{hookSending ? <CircularProgress /> : null}
 		</Stack>
 }
