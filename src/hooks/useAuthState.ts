@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export function useAuthState(): AsyncContext<User> {
 	// States
-	const [user, setUser] = useState<User | null>(null); // LINT: undefined?
+	const [user, setUser] = useState<User | undefined>(undefined); // LINT: undefined?
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(undefined);
 	// Effects

@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
 export function useMemberSettings(
-	ref: MemberDocumentReference | null | undefined
+	ref: MemberDocumentReference | undefined
 	// TODO: Add AsyncContext<User> ? Assumes `ref` is correct, but doesn't exist.
 ) {
 	// LINT: Is documentData necessary..?

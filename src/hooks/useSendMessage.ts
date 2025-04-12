@@ -4,9 +4,7 @@ import { messageConverter } from "@services/Converters/Message.converter";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useCallback, useMemo, useState } from "react";
 
-export function useSendMessage(
-	roomRef: RoomDocumentReference | null | undefined
-) {
+export function useSendMessage(roomRef: RoomDocumentReference | undefined) {
 	// States
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ErrorType>(undefined);

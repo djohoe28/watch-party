@@ -13,10 +13,10 @@ export function toDisplayString(timestamp: number | Date | Timestamp): string {
 }
 
 export function toTimespanString(
-	seconds: number | undefined | null,
+	seconds: number | undefined,
 	showHours = false
 ): string {
-	if (seconds === null || seconds === undefined) {
+	if (seconds === undefined) {
 		// LINT: `!seconds` catches `seconds=0`...
 		return showHours ? "??:??:??" : "??:??";
 	}

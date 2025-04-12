@@ -5,5 +5,5 @@ export interface MessageModel {
 
 	content: string;
 	senderId: string;
-	sentAt: Timestamp | null;
+	sentAt: Timestamp | null; // TODO: Snapshot Options type safety.
 }

@@ -1,3 +1,1 @@
-import { RoomDocument } from "@models/DB/RoomDocument.model";
-
-export type RoomsCollection = Record<string, RoomDocument>;
+// export type RoomsCollection = Record<string, RoomDocument>; // LINT: Unused?

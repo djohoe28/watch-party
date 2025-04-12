@@ -12,13 +12,13 @@ export interface RoomReferences {
 	room: RoomDocumentReference;
 	messages: MessagesCollectionReference;
 	members: MembersCollectionReference;
-	member?: MemberDocumentReference | null;
+	member?: MemberDocumentReference;
 }
 
 export function useRoomReferences(
 	roomId: string,
 	memberId?: string
-): RoomReferences | null {
+): RoomReferences | undefined {
 	// TODO: Use Memos?
 	const roomDocumentRef = doc(
 		firestoreDb,
@@ -35,7 +35,7 @@ export function useRoomReferences(
 	).withConverter(memberConverter);
 	const memberDocumentRef = memberId
 		? doc(membersCollectionRef, memberId).withConverter(memberConverter)
-		: null;
+		: undefined;
 	return {
 		room: roomDocumentRef,
 		messages: messagesCollectionRef,

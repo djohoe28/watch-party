@@ -6,6 +6,6 @@ export interface MediaState {
 	duration: number;
 	isFile: boolean;
 	isPaused: boolean;
-	lastUpdated: Timestamp | null;
+	lastUpdated: Timestamp | null; // TODO: Snapshot Options type safety.
 	src: string;
 }

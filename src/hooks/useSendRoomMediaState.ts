@@ -6,7 +6,7 @@ import { serverTimestamp, setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
 
 export function useSendRoomMediaState(
-	roomRef: RoomDocumentReference | null | undefined,
+	roomRef: RoomDocumentReference | undefined,
 	roomData: RoomModel | undefined // HACK: In order to not retrieve room data *twice* (in MediaPlayer), we accept it as a parameter.
 ) {
 	// States

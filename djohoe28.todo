@@ -9,11 +9,9 @@ TODO
 [ ] Remove commented-out code / unused imports
 [ ] .env Firebase configuration should be reconsidered
 [ ] Use actions/cache in workflow action(s)
-[ ] Avoid `any` in FirestoreContextType / GenericFirestoreConverter
-[ ] Move ErrorType, AsyncContext to types folder
-[ ] Streamline `useX(x: T | null | undefined)`, Error types.
 
 LINT
+[ ] Streamline ErrorType.
 [ ] Avoid excessive useMemo / useCallback - volumeAsFraction et al. (useRef?)
 [ ] Simplify state management (MediaPlayer - Zustand/Redux/MobX?)
 [ ] Debounce slider updates in MediaPlayer

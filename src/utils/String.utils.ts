@@ -1,4 +1,4 @@
-export function stringToColor(str: string | undefined | null) {
+export function stringToColor(str: string | undefined) {
 	// TODO: Dark Mode compatibility?
 	if (!str) return "#000000"; // HACK: fallback to black
 

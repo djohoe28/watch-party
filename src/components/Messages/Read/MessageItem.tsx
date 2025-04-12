@@ -6,7 +6,7 @@ import { toDisplayString } from "@utils/Timestamp.utils";
 import { useMemo } from "react";
 import { Fragment } from "react/jsx-runtime";
 
-export function MessageItem({ message, isSelf, memberModel }: { message: MessageModel, isSelf: boolean, memberModel?: MemberModel | null }) {
+export function MessageItem({ message, isSelf, memberModel }: { message: MessageModel, isSelf: boolean, memberModel?: MemberModel | undefined }) {
 	// Memos (Derived Props)
 	const timestampDisplayString = useMemo(() => toDisplayString(message.sentAt ?? Date.now()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp). // LINTODO
 
