@@ -1,9 +1,10 @@
-import { Stack, InputLabel, Input, Tooltip, IconButton } from "@mui/material";
-import { HTMLInputTypeAttribute, useCallback, useEffect, useMemo, useState } from "react";
-import RestoreIcon from '@mui/icons-material/Restore';
 import { MemberModel } from "@models/App/Member.model";
+import { MemberDocument } from "@models/DB/MemberDocument.model";
+import RestoreIcon from '@mui/icons-material/Restore';
+import { IconButton, Input, InputLabel, Stack, Tooltip } from "@mui/material";
+import { HTMLInputTypeAttribute, useCallback, useEffect, useMemo, useState } from "react";
 
-type FieldType = keyof Partial<Omit<MemberModel, "id">>
+type FieldType = keyof MemberDocument
 
 type FieldMap = Record<FieldType, HTMLInputTypeAttribute>
 
@@ -18,7 +19,7 @@ interface MemberFormControlProps<T> {
 	inputType: HTMLInputTypeAttribute;
 	documentValue?: T;
 	defaultValue: T;
-	sendMemberSettings: (settings: Partial<Omit<MemberModel, "id">>, merge?: boolean) => void;
+	sendMemberSettings: (settings: MemberModel, merge?: boolean) => void; // HACK: Assumes MemberModel is a subset of MemberDocument
 }
 
 export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, inputType = FIELD_MAP[fieldName], sendMemberSettings }: MemberFormControlProps<T>) {
@@ -26,7 +27,7 @@ export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, i
 	const [value, setValue] = useState<T>(documentValue ?? defaultValue);
 	// Memos
 	const isChanged = useMemo(() => (documentValue ?? defaultValue) !== value, [documentValue, defaultValue, value]);
-	const capitalizedName = useMemo(() => fieldName.charAt(0).toUpperCase() + fieldName.slice(1), [fieldName]);
+	const capitalizedName = useMemo(() => fieldName.toString().charAt(0).toUpperCase() + fieldName.toString().slice(1), [fieldName]);
 	const tooltipText = useMemo(() => `Restore ${capitalizedName}`, [capitalizedName]);
 	// Callbacks
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,10 +46,10 @@ export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, i
 	}, [documentValue, defaultValue, setValue]);
 
 	return <Stack direction="row" spacing={2} alignItems="center">
-		<InputLabel htmlFor={fieldName}>{capitalizedName}{isChanged ? "*" : ""}</InputLabel>
+		<InputLabel htmlFor={fieldName.toString()}>{capitalizedName}{isChanged ? "*" : ""}</InputLabel>
 		<Input
 			sx={{ flexGrow: 1 }}
-			name={fieldName}
+			name={fieldName.toString()}
 			type={inputType}
 			value={value}
 			onChange={handleChange}
