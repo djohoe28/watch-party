@@ -1,17 +1,17 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
+import { ErrorDisplay } from "@components/ErrorDisplay";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useRoomReferences } from "@hooks/useRoomReferences";
 import { Skeleton } from "@mui/material";
+import { ErrorType } from "@mytypes/AsyncContext";
 import { getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { ReactNode, useEffect, useState } from "react";
-import { ErrorType } from "../../types/AsyncContext"; // TODO: @types ?
 
 export function RoomReferencesProvider({ children, roomId, memberId }: { children: ReactNode, roomId: string, memberId?: string }) {
 	// Hooks
 	const roomReferences = useRoomReferences(roomId, memberId);
 	// States
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<ErrorType | null>(null);
+	const [error, setError] = useState<ErrorType>(null); // TODO: | null ?
 	// Effects
 	useEffect(() => {
 		// HACK
@@ -29,9 +29,9 @@ export function RoomReferencesProvider({ children, roomId, memberId }: { childre
 					}).then(() => {
 						setLoading(false);
 						setError(null);
-					}).catch((err: ErrorType) => setError(err));
+					}).catch((err: ErrorType) => { setError(err); });
 				}
-			}).catch((err: ErrorType) => setError(err));
+			}).catch((err: ErrorType) => { setError(err); });
 		}
 	}, [roomReferences?.room])
 

@@ -16,9 +16,9 @@ export function MessageField() {
 	const { sendMessage, sending, error } = useSendMessage(roomRef);
 	// Callbacks
 	const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-		if (event.key === "Enter" && event.shiftKey === false) {
+		if (event.key === "Enter" && !event.shiftKey) {
 			event.preventDefault(); // NOTE: Do not add "Enter" linebreak.
-			sendMessage(message, authContext.payload?.uid || "");
+			sendMessage(message, authContext?.uid ?? "");
 			setMessage("");
 		}
 	}, [message, sendMessage, authContext]);
@@ -34,7 +34,7 @@ export function MessageField() {
 		fullWidth
 		multiline
 		rows={1}
-		helperText={sending ? "Sending..." : error ? error.toString() : ""}
+		helperText={sending ? "Sending..." : error ? JSON.stringify(error) : ""} // LINTODO
 		value={message}
 		onKeyDown={handleKeyDown}
 		onChange={handleChange} />

@@ -1,9 +1,10 @@
-export function stringToColor(str: string) {
+export function stringToColor(str: string | undefined | null) {
 	// TODO: Dark Mode compatibility?
+	if (!str) return "#000000"; // HACK: fallback to black
+
 	let hash = 0;
 	let i;
 
-	/* eslint-disable no-bitwise */
 	for (i = 0; i < str.length; i += 1) {
 		hash = str.charCodeAt(i) + ((hash << 5) - hash);
 	}
@@ -14,7 +15,6 @@ export function stringToColor(str: string) {
 		const value = (hash >> (i * 8)) & 0xff;
 		color += `00${value.toString(16)}`.slice(-2);
 	}
-	/* eslint-enable no-bitwise */
 
 	return color;
 }

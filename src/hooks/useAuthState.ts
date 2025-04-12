@@ -1,7 +1,7 @@
+import { AsyncContext, ErrorType } from "@mytypes/AsyncContext";
 import { auth } from "@services/Auth.service";
 import { User, onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { AsyncContext, ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
 export function useAuthState(): AsyncContext<User> {
 	// States
@@ -19,7 +19,9 @@ export function useAuthState(): AsyncContext<User> {
 						setLoading(false);
 						setUser(credential.user);
 					})
-					.catch((error) => setError(error));
+					.catch((err: unknown) => {
+						setError(err);
+					});
 				return;
 			}
 			setUser(user);

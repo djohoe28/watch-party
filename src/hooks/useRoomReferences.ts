@@ -1,23 +1,19 @@
-import {
-	MemberDocumentConverter,
-	MemberDocumentReference,
-} from "@models/DB/MemberDocument.model";
+import { MemberDocumentReference } from "@models/DB/MemberDocument.model";
 import { MembersCollectionReference } from "@models/DB/MembersCollection.model";
-import { MessageDocumentConverter } from "@models/DB/MessageDocument.model";
 import { MessagesCollectionReference } from "@models/DB/MessagesCollection.model";
-import {
-	RoomDocumentConverter,
-	RoomDocumentReference,
-} from "@models/DB/RoomDocument.model";
+import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
+import { memberConverter } from "@services/Converters/Member.converter";
+import { messageConverter } from "@services/Converters/Message.converter";
+import { roomConverter } from "@services/Converters/Room.converter";
 import { firestoreDb } from "@services/Firestore.service";
 import { collection, doc } from "firebase/firestore";
 
-export type RoomReferences = {
+export interface RoomReferences {
 	room: RoomDocumentReference;
 	messages: MessagesCollectionReference;
 	members: MembersCollectionReference;
 	member?: MemberDocumentReference | null;
-};
+}
 
 export function useRoomReferences(
 	roomId: string,
@@ -28,19 +24,17 @@ export function useRoomReferences(
 		firestoreDb,
 		import.meta.env.VITE_FIREBASE_ROOMS_COLLECTION_ID,
 		roomId
-	).withConverter(RoomDocumentConverter);
+	).withConverter(roomConverter);
 	const messagesCollectionRef = collection(
 		roomDocumentRef,
 		import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
-	).withConverter(MessageDocumentConverter);
+	).withConverter(messageConverter);
 	const membersCollectionRef = collection(
 		roomDocumentRef,
 		import.meta.env.VITE_FIREBASE_MEMBERS_SUBCOLLECTION_ID
-	).withConverter(MemberDocumentConverter);
+	).withConverter(memberConverter);
 	const memberDocumentRef = memberId
-		? doc(membersCollectionRef, memberId).withConverter(
-				MemberDocumentConverter
-		  )
+		? doc(membersCollectionRef, memberId).withConverter(memberConverter)
 		: null;
 	return {
 		room: roomDocumentRef,

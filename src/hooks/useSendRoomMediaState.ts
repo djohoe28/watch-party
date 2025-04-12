@@ -1,27 +1,22 @@
-import { MediaStateMap } from "@models/DB/MediaStateMap.model";
+import { MediaState } from "@models/App/MediaState.model";
+import { RoomModel } from "@models/App/Room.model";
 import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
-import { setDoc } from "firebase/firestore";
+import { ErrorType } from "@mytypes/AsyncContext";
+import { serverTimestamp, setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
 
 export function useSendRoomMediaState(
-	roomRef: RoomDocumentReference | null | undefined
+	roomRef: RoomDocumentReference | null | undefined,
+	roomData: RoomModel | undefined // HACK: In order to not retrieve room data *twice* (in MediaPlayer), we accept it as a parameter.
 ) {
-	// LINT: Is documentData necessary..?
-	// Hooks
-	const [documentData, documentLoading, documentError, _] =
-		useDocumentData(roomRef);
 	// States
-	const [loading, setLoading] = useState<boolean>(documentLoading || true);
-	const [error, setError] = useState<ErrorType>(documentError || null);
+	const [error, setError] = useState<ErrorType>(null);
 	const [sending, setSending] = useState<boolean>(false);
 	// Callbacks
 	const sendRoomMediaState = useCallback(
-		(settings: Partial<MediaStateMap>) => {
+		(settings: Partial<MediaState>) => {
 			if (!roomRef) {
 				setError("No Room Document context provided");
-				setLoading(false);
 				return;
 			}
 			setSending(true);
@@ -30,9 +25,9 @@ export function useSendRoomMediaState(
 			// TODO: Prevent if settings is same as server?
 			// Send
 			const newValue = {
-				...documentData?.media,
+				...roomData?.media,
 				...settings,
-				lastUpdated: new Date(), // TODO: serverTimestamp received twice (nanoseconds)!
+				lastUpdated: serverTimestamp(), // TODO: serverTimestamp received twice (nanoseconds)!
 			};
 			console.log("Sending", newValue);
 			setDoc(
@@ -46,12 +41,12 @@ export function useSendRoomMediaState(
 					setSending(false);
 					setError(null);
 				})
-				.catch((err) => {
+				.catch((err: unknown) => {
 					setSending(false);
 					setError(err);
 				});
 		},
 		[roomRef]
 	);
-	return { sendRoomMediaState, sending, loading, error };
+	return { sendRoomMediaState, sending, error };
 }

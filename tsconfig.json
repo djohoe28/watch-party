@@ -23,9 +23,10 @@
       "@hooks/*": ["./src/hooks/*"],
       "@models/*": ["./src/models/*"],
       "@services/*": ["./src/services/*"],
-      "@types/*": ["./src/types/*"],
+      "@mytypes/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
-    }
+    },
+    "strictNullChecks": true, // This rule requires the `strictNullChecks` compiler option to be turned on to function correctly.
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

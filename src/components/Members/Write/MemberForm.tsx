@@ -1,6 +1,5 @@
+import { ErrorDisplay } from "@components/ErrorDisplay";
 import { MemberFormControl } from "@components/Members/Write/MemberFormControl";
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
-import { SubmitButton } from "@components/Utilities/SubmitButton";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useMemberSettings } from "@hooks/useMemberSettings";
 import { Button, CircularProgress, Grid, Skeleton, Stack, Typography } from "@mui/material";
@@ -20,7 +19,7 @@ export function MemberForm() {
 	const { sendMemberSettings, sending: hookSending, loading: hookLoading, error: hookError } = useMemberSettings(roomMember);
 	// Memos (Default Values)
 	const defaultName = useMemo(() => "", []); // TODO: Leverage `DEFAULT_NAME` (see String.utils.ts)
-	const defaultColor = useMemo(() => documentData ? stringToColor(documentData.id) : "", [documentData?.id]);
+	const defaultColor = useMemo(() => documentData?.id ? stringToColor(documentData.id) : "", [documentData?.id]);
 	// FEATURE: Profile Image?
 
 	// TODO: Error order? Return both?
@@ -29,7 +28,7 @@ export function MemberForm() {
 	return (documentLoading || hookLoading) ? <Skeleton /> : <Stack
 		component="form"
 		spacing={2}
-		action={(formData) => sendMemberSettings(Object.fromEntries(formData.entries()), false)}
+		action={(formData) => { sendMemberSettings(Object.fromEntries(formData.entries()), false); }}
 		onReset={(event) => { console.log(event); sendMemberSettings({}, false); }}
 		sx={{ p: 2 }}
 	>
@@ -37,7 +36,7 @@ export function MemberForm() {
 			Member Settings
 		</Typography>
 		<Typography variant="body2" component="p" sx={{ mb: 2 }}>
-			ID: {documentData?.id || "N/A"}
+			ID: {documentData?.id ?? "N/A"}
 		</Typography>
 		<MemberFormControl
 			fieldName="name"

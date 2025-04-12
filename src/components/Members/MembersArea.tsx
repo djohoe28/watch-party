@@ -1,10 +1,11 @@
-import { MemberControls } from "@components/Members/MemberControls";
+import { MemberControls } from "@components/Members/Read/MemberControls";
 import { MessageList } from "@components/Messages/Read/MessageList";
 import { MessageField } from "@components/Messages/Write/MessageField";
 import { MembersProvider } from "@components/Providers/MembersProvider";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { Stack } from "@mui/material";
 import { useContext, useMemo } from "react";
+
 
 export function MembersArea() {
 	// Contexts

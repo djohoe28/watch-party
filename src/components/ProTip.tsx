@@ -1,6 +1,5 @@
 import { Link, SvgIcon, SvgIconProps, Typography } from '@mui/material';
 
-
 function LightBulbIcon(props: SvgIconProps) {
 	return (
 		<SvgIcon {...props}>

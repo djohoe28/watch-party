@@ -1,9 +1,11 @@
+import { ErrorDisplay } from "@components/ErrorDisplay";
 import { Room } from "@components/Room/Room";
 import { useParams } from "react-router";
 
 export function RoomWrapper() {
 	// Hooks
-	let params = useParams();
+	const params = useParams();
 
-	return <Room roomId={params.roomId!} />; // TODO: Validate params.roomId
+	if (!params.roomId) return <ErrorDisplay error={new Error("Room ID not found")} />;
+	return <Room roomId={params.roomId} />;
 }

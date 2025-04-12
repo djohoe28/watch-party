@@ -1,5 +1,5 @@
 FEATURE
-[ ] Add Source management
+[ ] Add Source management (including removal!)
 [ ] Add local File support
 [ ] Add TTL policy, include subcollections (SEE: https://firebase.google.com/docs/firestore/ttl#create_ttl_policy)
 [ ] Add unit/integration tests (hooks, Firebase, components?)

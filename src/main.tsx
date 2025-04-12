@@ -9,19 +9,25 @@ import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import theme from './theme';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-	<React.StrictMode>
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<BrowserRouter>
-				<Routes>
-					<Route path='/' element={<App />}>
-						<Route index element={<Home />} />
-						<Route path='room/:roomId' element={<RoomWrapper />} />
-						<Route path='*' element={<PageNotFound />} />
-					</Route>
-				</Routes>
-			</BrowserRouter>
-		</ThemeProvider>
-	</React.StrictMode>,
-);
+const root = document.getElementById('root');
+if (root) {
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<App />}>
+              <Route index element={<Home />} />
+              <Route path='room/:roomId' element={<RoomWrapper />} />
+              <Route path='*' element={<PageNotFound />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </React.StrictMode>,
+  );
+}
+else {
+  console.error("No root element found");
+}
