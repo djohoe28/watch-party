@@ -1,4 +1,4 @@
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useRoomReferences } from "@hooks/useRoomReferences";
 import { Skeleton } from "@mui/material";

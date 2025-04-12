@@ -13,8 +13,8 @@ export function ModalWithButton({ icon, tooltip, children, ariaLabel }: ModalWit
 	// State
 	const [open, setOpen] = useState(false);
 	// Callbacks
-	const handleToggle = useCallback(() => setOpen((open) => !open), []);
-	const handleClose = useCallback(() => setOpen(false), []);
+	const handleToggle = useCallback(() => { setOpen((open) => !open); }, []);
+	const handleClose = useCallback(() => { setOpen(false); }, []);
 
 	return <Box>
 		<Tooltip title={tooltip}>

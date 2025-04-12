@@ -1,4 +1,4 @@
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { Room } from "@components/Room/Room";
 import { useParams } from "react-router";
 

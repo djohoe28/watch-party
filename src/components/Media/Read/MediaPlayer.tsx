@@ -1,4 +1,4 @@
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
 import PauseIcon from '@mui/icons-material/Pause';

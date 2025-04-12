@@ -1,4 +1,4 @@
-import { MemberControls } from "@components/Members/Read/MemberControls";
+import { MemberControls } from "@components/Members/MemberControls";
 import { MessageList } from "@components/Messages/Read/MessageList";
 import { MessageField } from "@components/Messages/Write/MessageField";
 import { MembersProvider } from "@components/Providers/MembersProvider";

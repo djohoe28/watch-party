@@ -1,7 +1,7 @@
 import SendIcon from '@mui/icons-material/Send';
 import { IconButton, InputAdornment, TextField, TextFieldProps, TextFieldVariants } from "@mui/material";
 
-export function TextInputWithSend<Variant extends TextFieldVariants>(props: { variant?: Variant } & Omit<TextFieldProps, "variant">) {
+export function TextInputWithSend(props: { variant?: TextFieldVariants } & Omit<TextFieldProps, "variant">) {
 	return <TextField
 		slotProps={{
 			input: {

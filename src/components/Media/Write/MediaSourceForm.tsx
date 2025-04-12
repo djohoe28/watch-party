@@ -22,8 +22,8 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 	return <Stack
 		component="form"
 		spacing={2}
-		action={(formData) => console.log(formData)}
-		onReset={(event) => console.log(event)}
+		action={(formData) => { console.log(formData); }}
+		onReset={(event) => { console.log(event); }}
 		sx={{ padding: 2 }}
 	>
 		<Typography id={titleId} variant="h6" component="h2">
@@ -49,7 +49,7 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 								variant="outlined"
 								value={description}
 								// NOTE: setDescription overwrites (instead of only when empty) in case of replaced file.
-								onChange={(event) => setDescription(event.target.value)}
+								onChange={(event) => { setDescription(event.target.value); }}
 								slotProps={{ inputLabel: { shrink: !!description } }}
 								label="Description"
 								helperText="Helpful description of the media."

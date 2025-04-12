@@ -1,5 +1,5 @@
-import { ErrorDisplay } from "@components/ErrorDisplay";
 import { MessageItem } from "@components/Messages/Read/MessageItem";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { AuthContext } from "@contexts/AuthContext";
 import { MembersContext } from "@contexts/MembersContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
