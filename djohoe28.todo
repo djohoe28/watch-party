@@ -9,6 +9,7 @@ TODO
 [ ] Remove commented-out code / unused imports
 [ ] .env Firebase configuration should be reconsidered
 [ ] Use actions/cache in workflow action(s)
+[ ] Rework path aliasing for "@mytypes"
 
 LINT
 [ ] Streamline ErrorType.
