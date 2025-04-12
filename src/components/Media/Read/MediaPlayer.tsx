@@ -187,6 +187,6 @@ export function MediaPlayer() {
 				<Typography>{durationString}</Typography>
 			</Stack>
 			<input type="number" value={maxDelta} onChange={(event) => { setMaxDelta(event.target.valueAsNumber); }} />
-			{hookSending ? <CircularProgress /> : null}
+			{hookSending ? <CircularProgress /> : null /** TODO: Display as overlay over video. */}
 		</Stack>
 }

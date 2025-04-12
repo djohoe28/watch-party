@@ -1,18 +1,18 @@
 FEATURE
-[ ] Add Source management (including removal!)
 [ ] Add local File support
 [ ] Add TTL policy, include subcollections (SEE: https://firebase.google.com/docs/firestore/ttl#create_ttl_policy)
 [ ] Add unit/integration tests (hooks, Firebase, components?)
 
 TODO
+[ ] Add Source management (including removal!)
 [ ] Update README
 [ ] Remove commented-out code / unused imports
 [ ] .env Firebase configuration should be reconsidered
 [ ] Use actions/cache in workflow action(s)
-[ ] Rework path aliasing for "@mytypes"
 
 LINT
 [ ] Streamline ErrorType.
+[ ] Rework path aliasing for "@mytypes"
 [ ] Avoid excessive useMemo / useCallback - volumeAsFraction et al. (useRef?)
 [ ] Simplify state management (MediaPlayer - Zustand/Redux/MobX?)
 [ ] Debounce slider updates in MediaPlayer
