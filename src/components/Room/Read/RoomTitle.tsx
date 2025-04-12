@@ -1,4 +1,4 @@
-import { ErrorDisplay } from "@components/ErrorDisplay";
+import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { Skeleton, Typography } from "@mui/material";
 import { useContext, useMemo } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
