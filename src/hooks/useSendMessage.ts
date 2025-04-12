@@ -1,8 +1,8 @@
-import { MessageDocumentConverter } from "@models/DB/MessageDocument.model";
 import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { useState, useMemo, useCallback } from "react";
-import { ErrorType } from "../types/AsyncContext"; // LINT: @types ?
+import { ErrorType } from "@mytypes/AsyncContext";
+import { messageConverter } from "@services/Converters/Message.converter";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useCallback, useMemo, useState } from "react";
 
 export function useSendMessage(
 	roomRef: RoomDocumentReference | null | undefined
@@ -18,7 +18,7 @@ export function useSendMessage(
 				? collection(
 						roomRef,
 						import.meta.env.VITE_FIREBASE_MESSAGES_SUBCOLLECTION_ID
-				  ).withConverter(MessageDocumentConverter)
+				  ).withConverter(messageConverter)
 				: null,
 		[roomRef] // NOTE: No need to include `MessageDocumentConverter` / Env Vars in deps here.
 	);
@@ -55,4 +55,4 @@ export function useSendMessage(
 	);
 
 	return { sendMessage, sending, loading, error };
-};
+}
