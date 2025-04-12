@@ -1,6 +1,6 @@
 import { MessageItem } from "@components/Messages/Read/MessageItem";
 import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
-import { AuthContext } from "@contexts/AuthContext";
+import { AuthUserContext } from "@contexts/AuthContext";
 import { MembersContext } from "@contexts/MembersContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -11,7 +11,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export function MessageList() {
 	// Contexts
-	const authContext = useContext(AuthContext);
+	const authContext = useContext(AuthUserContext);
 	const membersContext = useContext(MembersContext);
 	const roomRefsContext = useContext(RoomReferencesContext);
 	// Memos (Derived Contexts)

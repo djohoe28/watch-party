@@ -1,4 +1,4 @@
-import { AuthContext } from "@contexts/AuthContext";
+import { AuthUserContext } from "@contexts/AuthContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendMessage } from "@hooks/useSendMessage";
 import { TextField } from "@mui/material";
@@ -7,7 +7,7 @@ import { ChangeEvent, useCallback, useContext, useMemo, useState } from "react";
 export function MessageField() {
 	// Contexts
 	const roomRefsContext = useContext(RoomReferencesContext);
-	const authContext = useContext(AuthContext);
+	const authContext = useContext(AuthUserContext);
 	// States
 	const [message, setMessage] = useState<string>("");
 	// Memos (Derived Contexts)

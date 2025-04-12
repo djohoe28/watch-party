@@ -2,7 +2,7 @@ import { Box, Container, Typography } from '@mui/material';
 import { Outlet } from 'react-router';
 import { Copyright } from './Copyright';
 import { ProTip } from './ProTip';
-import { AuthProvider } from './Providers/AuthProvider';
+import { AuthUserProvider } from './Providers/AuthProvider';
 
 export function App() {
 	return (
@@ -11,9 +11,9 @@ export function App() {
 				<Typography variant="h4" component="h1" sx={{ mb: 2 }}>
 					CoVid Player
 				</Typography>
-				<AuthProvider>
+				<AuthUserProvider>
 					<Outlet />
-				</AuthProvider>
+				</AuthUserProvider>
 				<ProTip />
 				<Copyright />
 			</Box>
