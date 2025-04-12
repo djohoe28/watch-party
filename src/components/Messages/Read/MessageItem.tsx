@@ -1,21 +1,21 @@
 import { MemberAvatar } from "@components/Members/Read/MemberAvatar";
 import { MemberModel } from "@models/App/Member.model";
-import { MessageDocument } from "@models/DB/MessageDocument.model";
-import { TimestampConverter } from "@models/DB/Timestamp.model";
+import { MessageModel } from "@models/App/Message.model";
 import { ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { toDisplayString } from "@utils/Timestamp.utils";
 import { useMemo } from "react";
 import { Fragment } from "react/jsx-runtime";
 
-export function MessageItem({ message, isSelf, memberModel }: { message: MessageDocument, isSelf: boolean, memberModel?: MemberModel | null }) {
+export function MessageItem({ message, isSelf, memberModel }: { message: MessageModel, isSelf: boolean, memberModel?: MemberModel | null }) {
 	// Memos (Derived Props)
-	const timestampDisplayString = useMemo(() => TimestampConverter.toDisplayString(message.sentAt ?? Date.now()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp). // LINTODO
+	const timestampDisplayString = useMemo(() => toDisplayString(message.sentAt ?? Date.now()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp). // LINTODO
 
 	return <ListItem
 		alignItems="flex-start"
 		className={isSelf ? "sender-self" : "sender-other"}
 	>
 		{
-			memberModel && <ListItemAvatar sx={{ order: isSelf ? undefined : "1" }}>
+			memberModel && <ListItemAvatar sx={{ order: isSelf ? "1" : undefined }}>
 				<MemberAvatar member={memberModel} />
 			</ListItemAvatar>
 		}
