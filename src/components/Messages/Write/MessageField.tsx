@@ -2,7 +2,7 @@ import { AuthContext } from "@contexts/AuthContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useSendMessage } from "@hooks/useSendMessage";
 import { TextField } from "@mui/material";
-import { useContext, useState, useMemo, useCallback, ChangeEvent } from "react";
+import { ChangeEvent, useCallback, useContext, useMemo, useState } from "react";
 
 export function MessageField() {
 	// Contexts
@@ -18,7 +18,7 @@ export function MessageField() {
 	const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
 		if (event.key === "Enter" && !event.shiftKey) {
 			event.preventDefault(); // NOTE: Do not add "Enter" linebreak.
-			sendMessage(message, authContext.payload?.uid ?? "");
+			sendMessage(message, authContext?.uid ?? "");
 			setMessage("");
 		}
 	}, [message, sendMessage, authContext]);
@@ -33,7 +33,7 @@ export function MessageField() {
 		fullWidth
 		multiline
 		rows={1}
-		helperText={sending ? "Sending..." : error ? error.toString() : ""} // LINTODO
+		helperText={sending ? "Sending..." : error ? JSON.stringify(error) : ""} // LINTODO
 		value={message}
 		onKeyDown={handleKeyDown}
 		onChange={handleChange} />

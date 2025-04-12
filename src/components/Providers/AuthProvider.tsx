@@ -1,10 +1,13 @@
+import { ErrorDisplay } from "@components/ErrorDisplay";
 import { AuthContext } from "@contexts/AuthContext";
 import { useAuthState } from "@hooks/useAuthState";
+import { Skeleton } from "@mui/material";
 import { ReactNode } from "react";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 	// Hooks
-	const authContext = useAuthState();
+	const { payload: authContext, loading, error } = useAuthState();
 
-	return <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>;
+	if (error) return <ErrorDisplay error={error} />;
+	return loading ? <Skeleton /> : <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>;
 }

@@ -5,7 +5,3 @@ export interface AsyncContext<T> {
 	loading: boolean;
 	error: ErrorType;
 }
-
-export function createDefaultContext<T>(): AsyncContext<T> {
-	return { payload: null, loading: true, error: null };
-};
