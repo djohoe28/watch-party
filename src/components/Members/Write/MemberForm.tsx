@@ -1,11 +1,11 @@
+import { ErrorDisplay } from "@components/ErrorDisplay";
+import { MemberFormControl } from "@components/Members/Write/MemberFormControl";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useMemberSettings } from "@hooks/useMemberSettings";
-import { Skeleton, Stack, Typography, Grid, Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import { stringToColor } from "@utils/String.utils";
 import { useContext, useMemo } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { ErrorDisplay } from "@components/ErrorDisplay";
-import { MemberFormControl } from "./MemberFormControl";
 
 export function MemberForm() {
 	// Contexts
@@ -19,7 +19,7 @@ export function MemberForm() {
 	const { sendMemberSettings, sending: hookSending, loading: hookLoading, error: hookError } = useMemberSettings(roomMember);
 	// Memos (Default Values)
 	const defaultName = useMemo(() => "", []); // TODO: Leverage `DEFAULT_NAME` (see String.utils.ts)
-	const defaultColor = useMemo(() => documentData ? stringToColor(documentData.id) : "", [documentData?.id]);
+	const defaultColor = useMemo(() => documentData?.id ? stringToColor(documentData.id) : "", [documentData?.id]);
 	// FEATURE: Profile Image?
 
 	// TODO: Error order? Return both?
