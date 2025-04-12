@@ -18,6 +18,7 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 	}, []);
 
 	// TODO: HANDLE FORM SUBMISSION
+	// TODO: ADD REMOVE MEDIA BUTTON
 
 	return <Stack
 		component="form"
