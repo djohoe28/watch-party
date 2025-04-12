@@ -1,5 +1,5 @@
 FEATURE
-[ ] Add Source management
+[ ] Add Source management (including removal!)
 [ ] Add local File support
 [ ] Add unit/integration tests (hooks, Firebase, components?)
 
