@@ -1,11 +1,4 @@
-import { Timestamp } from "firebase/firestore";
+import { MediaState } from "@models/App/MediaState.model";
+import { WithFieldValueWithoutId } from "@mytypes/WithFieldValueWithoutId";
 
-export interface MediaStateMap {
-	currentTime: number;
-	description: string;
-	duration: number;
-	isFile: boolean;
-	isPaused: boolean;
-	lastUpdated: Timestamp;
-	src: string;
-}
+export type MediaStateMap = WithFieldValueWithoutId<MediaState>;

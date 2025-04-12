@@ -1,10 +1,11 @@
+import { MessageModel } from "@models/App/Message.model";
+import { MessageDocument } from "@models/DB/MessageDocument.model";
 import { CollectionReference, Query } from "firebase/firestore";
-import { MessageDocument } from "./MessageDocument.model";
 
 export type MessagesCollection = Record<string, MessageDocument>;
 
 export type MessagesCollectionReference = CollectionReference<
-	MessageDocument,
+	MessageModel,
 	MessageDocument
->; // TODO: Change to MessageModel.
-export type MessagesQueryReference = Query<MessageDocument, MessageDocument>; // NOTE: Query instead of Collection to add sorting.
+>;
+export type MessagesQueryReference = Query<MessageModel, MessageDocument>;

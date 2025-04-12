@@ -1,7 +1,11 @@
-import { Source } from "./Source.model";
+import { Timestamp } from "firebase/firestore";
 
 export interface MediaState {
-	source: Source;
-	isPaused: boolean;
 	currentTime: number;
+	description: string;
+	duration: number;
+	isFile: boolean;
+	isPaused: boolean;
+	lastUpdated: Timestamp | null;
+	src: string;
 }

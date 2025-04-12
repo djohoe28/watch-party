@@ -1,13 +1,4 @@
-import { GenericFirestoreConverter } from "@utils/GenericFirestoreConverter";
-import { DocumentData, Timestamp } from "firebase/firestore";
+import { MessageModel } from "@models/App/Message.model";
+import { WithFieldValueWithoutId } from "@mytypes/WithFieldValueWithoutId";
 
-export interface MessageDocument extends DocumentData {
-	content: string;
-	senderId: string;
-	sentAt: Timestamp;
-}
-
-export const MessageDocumentConverter = new GenericFirestoreConverter<
-	MessageDocument, // TODO: Change this to MessageModel.
-	MessageDocument
->();
+export type MessageDocument = WithFieldValueWithoutId<MessageModel>;

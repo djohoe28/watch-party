@@ -1,5 +1,6 @@
 export interface MemberModel {
-	id: string;
+	id?: string;
+
 	name?: string;
 	color?: string;
 }

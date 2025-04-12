@@ -1,10 +1,11 @@
-import { MemberModel } from "./Member.model";
-import { ChatPacket, MediaPacket } from "./Packet.model";
+import { Timestamp } from "firebase/firestore";
+import { MediaState } from "@models/App/MediaState.model";
 
-export interface Room {
-	id: string;
-	title: string;
-	members: Record<string, MemberModel>;
-	chatPackets: ChatPacket[]; // Record mapped with Timestamp?
-	latestMediaPacket: MediaPacket;
+export interface RoomModel {
+	id?: string;
+
+	createdAt: Timestamp | null;
+	// lastUpdated: Timestamp; // TODO: Type Safety?
+	title?: string;
+	media?: MediaState;
 }
