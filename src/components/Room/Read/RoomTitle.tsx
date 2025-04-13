@@ -1,21 +1,13 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
+import { RoomDataContext } from "@contexts/RoomDataContext";
 import { Skeleton, Typography } from "@mui/material";
-import { useContext, useMemo } from "react";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
+import { useContext } from "react";
 
 export function RoomTitle() {
 	// Contexts
-	const roomRefsContext = useContext(RoomReferencesContext);
-	// Memos (Derived Contexts)
-	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
-	// Hooks
-	const [documentData, documentLoading, documentError /* , _ */] = useDocumentData(roomRef);
-
-	if (documentError) return <ErrorDisplay error={documentError} />;
-	return documentLoading
+	const roomDataContext = useContext(RoomDataContext);
+	return !roomDataContext
 		? <Skeleton />
 		: <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
-			{documentData?.title ?? "Untitled Room"}
+			{roomDataContext.title ?? "Untitled Room"}
 		</Typography>
 }
