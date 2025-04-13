@@ -1,5 +1,6 @@
 import { MediaPlayer } from "@components/Media/Read/MediaPlayer";
 import { MembersArea } from "@components/Members/MembersArea";
+import { RoomDataProvider } from "@components/Providers/RoomDataProvider";
 import { RoomReferencesProvider } from "@components/Providers/RoomReferencesProvider";
 import { RoomTitle } from "@components/Room/Read/RoomTitle";
 import { AuthUserContext } from "@contexts/AuthContext";
@@ -13,10 +14,12 @@ export function Room({ roomId }: { roomId: string }) {
 	const memberId = useMemo(() => authContext?.uid, [authContext?.uid]);
 
 	return <RoomReferencesProvider roomId={roomId} memberId={memberId}>
-		<RoomTitle />
-		<Stack direction="row" spacing={2}>
-			<MediaPlayer />
-			<MembersArea />
-		</Stack>
+		<RoomDataProvider>
+			<RoomTitle />
+			<Stack direction="row" spacing={2}>
+				<MediaPlayer />
+				<MembersArea />
+			</Stack>
+		</RoomDataProvider>
 	</RoomReferencesProvider>
 };
