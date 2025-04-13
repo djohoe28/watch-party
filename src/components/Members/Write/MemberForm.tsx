@@ -59,7 +59,9 @@ export function MemberForm() {
 			</Grid>
 			<Grid size='grow'>
 				{
-					// NOTE: Grid forces same size whether CircularProgress or Button => alignItems='center' without breaking color input.
+					// HACK
+					// Grid forces same size (whether CircularProgress or Button)
+					// => alignItems='center' without breaking color input.
 					hookSending
 						? <CircularProgress />
 						: <SubmitButton />
