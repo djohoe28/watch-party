@@ -13,10 +13,10 @@ interface FileInputButtonSlotProps {
 }
 
 interface FileInputButtonProps extends FormControlProps {
-	slots?: FileInputButtonSlotProps;
+	slotProps?: FileInputButtonSlotProps;
 }
 
-export default function FileInputButton({ slots, ...props }: FileInputButtonProps) {
+export default function FileInputButton({ slotProps: slots, ...props }: FileInputButtonProps) {
 	const [fileName, setFileName] = useState<string>();
 
 	return (
