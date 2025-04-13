@@ -22,18 +22,21 @@ export function ModalWithButton({ icon, tooltip, children, ariaLabel }: ModalWit
 				onClick={handleToggle}
 				sx={{ borderRadius: 1, width: "100%" }}
 				aria-label={ariaLabel}
-				children={icon}
-			/>
+			>
+				{icon}
+			</IconButton>
 		</Tooltip>
 		<Modal
 			open={open}
 			onClose={handleClose}
-			children={<ModalBox
-				// FEATURE: Dynamic aria-labllledby and aria-describedby ?
-				// aria-labelledby="modal-modal-title"
-				// aria-describedby="modal-modal-description"
-				children={children}
-			/>}
-		/>
+		>
+			<ModalBox
+			// FEATURE: Dynamic aria-labllledby and aria-describedby ?
+			// aria-labelledby="modal-modal-title"
+			// aria-describedby="modal-modal-description"
+			>
+				{children}
+			</ModalBox>
+		</Modal>
 	</Box>
 }

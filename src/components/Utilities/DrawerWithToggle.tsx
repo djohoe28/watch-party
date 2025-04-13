@@ -24,16 +24,18 @@ export function DrawerWithToggle({ icon, tooltip, anchor, children, ariaLabel }:
 					onClick={handleToggle}
 					sx={{ borderRadius: 1, width: "100%" }}
 					aria-label={ariaLabel}
-					children={icon}
-				/>
+				>
+					{icon}
+				</IconButton>
 			</Tooltip>
 			<Drawer variant="persistent" anchor={anchor} open={open}>
 				<IconButton
 					onClick={handleClose}
 					sx={{ borderRadius: 0 }}
 					aria-label={`Close ${tooltip}`}
-					children={<CloseIcon />}
-				/>
+				>
+					<CloseIcon />
+				</IconButton>
 				{children}
 			</Drawer>
 		</Box>

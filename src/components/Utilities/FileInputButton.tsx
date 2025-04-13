@@ -32,7 +32,9 @@ export default function FileInputButton({ onChange, name }: { onChange?: (event:
 					accept="image/*,video/*,audio/*" // TODO: Does ReactPlayer support images?
 				/>
 			</Button>
-			<FormHelperText children={fileName ?? "No file loaded."} />
+			<FormHelperText>
+				{fileName ?? "No file loaded."}
+			</FormHelperText>
 		</FormControl>
 	);
 }
