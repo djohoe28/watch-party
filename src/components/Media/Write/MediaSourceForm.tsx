@@ -1,4 +1,4 @@
-import FileInputButton from "@components/Media/Write/FileInputButton";
+import FileInputButton from "@components/Utilities/FileInputButton";
 import { SubmitButton } from "@components/Utilities/SubmitButton";
 import { TextInputWithSend } from "@components/Utilities/TextInputWithSend";
 import { Card, Stack, TextField, Typography } from "@mui/material";
