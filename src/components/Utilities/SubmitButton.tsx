@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
+import { Button, ButtonProps } from "@mui/material";
 
-export function SubmitButton() {
-	return <Button type="submit">Submit</Button>
+export function SubmitButton(props: ButtonProps) {
+	return <Button type="submit" {...props}>Submit</Button>
 }
