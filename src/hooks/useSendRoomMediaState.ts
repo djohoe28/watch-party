@@ -17,10 +17,15 @@ export function useSendRoomMediaState(
 				setError("No Room Document context provided");
 				return;
 			}
+			if(roomData.media == settings) {
+				// TODO: Prevent if settings is same as server?
+				// (each field in settings is same as roomData.media)
+				console.log("You're good.");
+				return;
+			}
 			setSending(true);
 			// Data Validation
 			// TODO: Enforce settings to include *only* MediaStateMap properties?
-			// TODO: Prevent if settings is same as server?
 			// TODO: Handle undefined settings!
 			// Send
 			const newValue = settings
