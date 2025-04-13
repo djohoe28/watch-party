@@ -11,19 +11,19 @@ type TextInputWithSendProps = {
 	slotProps?: TextInputWithSendSlotProps
 } & { variant?: TextFieldVariants } & Omit<TextFieldProps, "variant">;
 
-export function TextInputWithSend(props: TextInputWithSendProps) {
+export function TextInputWithSend({ slotProps, ...props }: TextInputWithSendProps) {
 	return <TextField
 		slotProps={{
 			input: {
 				endAdornment:
-					<InputAdornment position="end" {...props.slotProps?.inputAdornment}>
+					<InputAdornment position="end" {...slotProps?.inputAdornment}>
 						<IconButton
 							type="submit"
 							edge="end"
 							aria-label="Send"
-							{...props.slotProps?.iconButton}
+							{...slotProps?.iconButton}
 						>
-							<SendIcon {...props.slotProps?.icon} />
+							<SendIcon {...slotProps?.icon} />
 						</IconButton>
 					</InputAdornment>
 			}
