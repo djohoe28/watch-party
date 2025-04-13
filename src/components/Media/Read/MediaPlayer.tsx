@@ -5,7 +5,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { CircularProgress, IconButton, Skeleton, Slider, Stack, Typography } from "@mui/material";
+import { CircularProgress, IconButton, Slider, Stack, Typography } from "@mui/material";
 import { toTimespanString } from "@utils/Timestamp.utils";
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { OnProgressProps } from "react-player/base";
@@ -121,8 +121,8 @@ export function MediaPlayer() {
 		}
 	}, [roomData?.media]);
 	if (hookError) return <ErrorDisplay error={hookError} />;
-	return roomData?.media
-		? <Skeleton />
+	return !roomData?.media
+		? null
 		: <Stack direction="column" spacing={2}>
 			<ReactPlayer ref={playerRef}
 				// Props
