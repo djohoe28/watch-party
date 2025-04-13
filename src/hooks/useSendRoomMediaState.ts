@@ -1,12 +1,10 @@
 import { MediaState } from "@models/App/MediaState.model";
 import { RoomModel } from "@models/App/Room.model";
-import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
 import { ErrorType } from "@mytypes/AsyncContext";
-import { serverTimestamp, setDoc } from "firebase/firestore";
+import { deleteField, serverTimestamp, setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
 
 export function useSendRoomMediaState(
-	roomRef: RoomDocumentReference | undefined,
 	roomData: RoomModel | undefined // HACK: In order to not retrieve room data *twice* (in MediaPlayer), we accept it as a parameter.
 ) {
 	// States
@@ -14,8 +12,8 @@ export function useSendRoomMediaState(
 	const [sending, setSending] = useState<boolean>(false);
 	// Callbacks
 	const sendRoomMediaState = useCallback(
-		(settings: Partial<MediaState>) => {
-			if (!roomRef) {
+		(settings?: Partial<MediaState>) => {
+			if (!roomData?.ref) {
 				setError("No Room Document context provided");
 				return;
 			}
@@ -23,15 +21,18 @@ export function useSendRoomMediaState(
 			// Data Validation
 			// TODO: Enforce settings to include *only* MediaStateMap properties?
 			// TODO: Prevent if settings is same as server?
+			// TODO: Handle undefined settings!
 			// Send
-			const newValue = {
-				...roomData?.media,
-				...settings,
-				lastUpdated: serverTimestamp(), // TODO: serverTimestamp received twice (nanoseconds)!
-			};
+			const newValue = settings
+				? {
+						...roomData.media,
+						...settings,
+						lastUpdated: serverTimestamp(), // TODO: serverTimestamp received twice (nanoseconds)!
+				  }
+				: deleteField();
 			console.log("Sending", newValue);
 			setDoc(
-				roomRef,
+				roomData.ref,
 				{
 					media: newValue,
 				},
@@ -46,7 +47,7 @@ export function useSendRoomMediaState(
 					setError(err);
 				});
 		},
-		[roomRef]
+		[roomData?.ref, roomData?.media]
 	);
 	return { sendRoomMediaState, sending, error };
 }

@@ -1,5 +1,5 @@
 import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
-import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
+import { RoomDataContext } from "@contexts/RoomDataContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -8,7 +8,6 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { CircularProgress, IconButton, Skeleton, Slider, Stack, Typography } from "@mui/material";
 import { toTimespanString } from "@utils/Timestamp.utils";
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { useDocumentData } from "react-firebase-hooks/firestore";
 import { OnProgressProps } from "react-player/base";
 import ReactPlayer from 'react-player/lazy';
 
@@ -16,17 +15,13 @@ import ReactPlayer from 'react-player/lazy';
 
 export function MediaPlayer() {
 	// Contexts
-	const roomRefsContext = useContext(RoomReferencesContext);
-	// Memos (Derived Contexts)
-	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
+	const roomData = useContext(RoomDataContext);
 	// Hooks
-	// LINT: Leverage sending, loading, error?
-	const [documentData, documentLoading, documentError /* , _ */] = useDocumentData(roomRef);
-	const { sendRoomMediaState, sending: hookSending, error: hookError } = useSendRoomMediaState(roomRef, documentData);
+	const { sendRoomMediaState, sending: hookSending, error: hookError } = useSendRoomMediaState(roomData);
 	// References
 	const playerRef = useRef<ReactPlayer>(null);
 	// States
-	const [url, setUrl] = useState<string | undefined>(documentData?.media?.src);
+	const [url, setUrl] = useState<string | undefined>(roomData?.media?.src);
 	const [playing, setPlaying] = useState<boolean>(false);
 	const [muted, setMuted] = useState<boolean>(true);
 	const [volume, setVolume] = useState<number>(0); // NOTE: 0-100!
@@ -42,8 +37,6 @@ export function MediaPlayer() {
 	const durationString = useMemo(() => toTimespanString(duration, showHours), [duration, showHours]);
 	const playingIcon = useMemo(() => playing ? <PauseIcon /> : <PlayArrowIcon />, [playing]);
 	const mutedIcon = useMemo(() => muted ? <VolumeOffIcon /> : <VolumeUpIcon />, [muted]);
-	const loading = useMemo(() => documentLoading, [documentLoading]);
-	const error = useMemo(() => documentError ?? hookError, [documentError, hookError]); // TODO: Order of errors?
 	// Callbacks
 	// UI Event Handlers
 	const handlePlayingToggle = useCallback(() => {
@@ -85,23 +78,23 @@ export function MediaPlayer() {
 	const handleReady = useCallback((player: ReactPlayer) => {
 		// TODO: Handle strict mode w/ DB effect correctly.
 		// if (initialized) return;
-		if (!initialized && documentData?.media) {
+		if (!initialized && roomData?.media) {
 			setInitialized(true); // TODO: Fix race condition.
-			const delta = documentData.media.lastUpdated ? Date.now() - documentData.media.lastUpdated.toDate().getTime() : 0;
-			const isDelayed = !documentData.media.isPaused && documentData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
-			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
+			const delta = roomData.media.lastUpdated ? Date.now() - roomData.media.lastUpdated.toDate().getTime() : 0;
+			const isDelayed = !roomData.media.isPaused && roomData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
+			const targetTime = roomData.media.currentTime + (isDelayed ? delta / 1000 : 0);
 			// TODO: See alert in useEffect.
 			player.seekTo(targetTime, "seconds");
 		}
-	}, [documentData?.media, currentTime]);
+	}, [roomData?.media, currentTime]);
 	const handleEnded = useCallback(() => {
 		// HACK: Prevents race-condition infinite-recursion.
 		// NOTE: If no client was available to trigger this, this will be triggered by the next client.
 		// SEE: useEffect alert().
-		if (documentData?.media?.isPaused === false) {
-			sendRoomMediaState({ isPaused: true, currentTime: documentData.media.duration });
+		if (roomData?.media?.isPaused === false) {
+			sendRoomMediaState({ isPaused: true, currentTime: roomData.media.duration });
 		}
-	}, [sendRoomMediaState, documentData?.media?.isPaused, documentData?.media?.duration]);
+	}, [sendRoomMediaState, roomData?.media?.isPaused, roomData?.media?.duration]);
 	// Formatters
 	const timeValueLabelFormatter = useCallback((value: number) => {
 		return toTimespanString(value, showHours);
@@ -111,27 +104,24 @@ export function MediaPlayer() {
 	}, []);
 	// Effects
 	useEffect(() => {
-		console.log("Media Effect", documentData?.media);
+		console.log("Media Effect", roomData?.media);
 		// TODO: Compartmentalize effects by prop changes?
 		// TODO: Handle source change (source is set in ReactPlayer prop; add buffer?)
-		if (playerRef.current && documentData?.media) {
-			setUrl(documentData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
-			setPlaying(!documentData.media.isPaused);
-			const delta = documentData.media.lastUpdated ? Date.now() - documentData.media.lastUpdated.toDate().getTime() : 0;
-			const isDelayed = !documentData.media.isPaused && documentData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
-			const targetTime = documentData.media.currentTime + (isDelayed ? delta / 1000 : 0);
-			if (targetTime > documentData.media.duration) {
+		if (playerRef.current && roomData?.media) {
+			setUrl(roomData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
+			setPlaying(!roomData.media.isPaused);
+			const delta = roomData.media.lastUpdated ? Date.now() - roomData.media.lastUpdated.toDate().getTime() : 0;
+			const isDelayed = !roomData.media.isPaused && roomData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
+			const targetTime = roomData.media.currentTime + (isDelayed ? delta / 1000 : 0);
+			if (targetTime > roomData.media.duration) {
 				// NOTE: This happens *only* if media was supposed to end but no player was available to trigger onEnded.
 				alert("Media ended.");
 			}
 			playerRef.current.seekTo(targetTime, "seconds");
 		}
-	}, [documentData?.media]);
-	useEffect(() => {
-		console.log({ hookSending, hookError, documentError, documentLoading, loading, error });
-	}, [hookSending, hookError, documentError, documentLoading, loading, error]);
-	if (error) return <ErrorDisplay error={error} />;
-	return loading
+	}, [roomData?.media]);
+	if (hookError) return <ErrorDisplay error={hookError} />;
+	return roomData?.media
 		? <Skeleton />
 		: <Stack direction="column" spacing={2}>
 			<ReactPlayer ref={playerRef}
