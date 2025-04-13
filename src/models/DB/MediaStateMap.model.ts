@@ -1,4 +1,4 @@
 import { MediaState } from "@models/App/MediaState.model";
-import { WithFieldValueWithoutId } from "@mytypes/WithFieldValueWithoutId";
+import { WithFieldValueWithoutMetadata } from "@mytypes/WithFieldValueWithoutMetadata";
 
-export type MediaStateMap = WithFieldValueWithoutId<MediaState>;
+export type MediaStateMap = WithFieldValueWithoutMetadata<MediaState>;

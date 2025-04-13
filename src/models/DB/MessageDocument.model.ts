@@ -1,4 +1,4 @@
 import { MessageModel } from "@models/App/Message.model";
-import { WithFieldValueWithoutId } from "@mytypes/WithFieldValueWithoutId";
+import { WithFieldValueWithoutMetadata } from "@mytypes/WithFieldValueWithoutMetadata";
 
-export type MessageDocument = WithFieldValueWithoutId<MessageModel>;
+export type MessageDocument = WithFieldValueWithoutMetadata<MessageModel>;

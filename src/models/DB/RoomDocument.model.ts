@@ -1,7 +1,7 @@
 import { RoomModel } from "@models/App/Room.model";
-import { WithFieldValueWithoutId } from "@mytypes/WithFieldValueWithoutId";
+import { WithFieldValueWithoutMetadata } from "@mytypes/WithFieldValueWithoutMetadata";
 import { DocumentReference } from "firebase/firestore";
 
-export type RoomDocument = WithFieldValueWithoutId<RoomModel>;
+export type RoomDocument = WithFieldValueWithoutMetadata<RoomModel>;
 
 export type RoomDocumentReference = DocumentReference<RoomModel, RoomDocument>;
