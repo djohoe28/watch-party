@@ -1,18 +1,29 @@
 import SendIcon from '@mui/icons-material/Send';
-import { IconButton, InputAdornment, TextField, TextFieldProps, TextFieldVariants } from "@mui/material";
+import { IconButton, IconButtonProps, InputAdornment, InputAdornmentProps, TextField, TextFieldProps, TextFieldVariants } from "@mui/material";
 
-export function TextInputWithSend(props: { variant?: TextFieldVariants } & Omit<TextFieldProps, "variant">) {
+interface TextInputWithSendSlotProps {
+	inputAdornment?: InputAdornmentProps;
+	iconButton?: IconButtonProps;
+	icon?: React.ComponentProps<typeof SendIcon>;
+};
+
+type TextInputWithSendProps = {
+	slotProps?: TextInputWithSendSlotProps
+} & { variant?: TextFieldVariants } & Omit<TextFieldProps, "variant">;
+
+export function TextInputWithSend(props: TextInputWithSendProps) {
 	return <TextField
 		slotProps={{
 			input: {
 				endAdornment:
-					<InputAdornment position="end">
+					<InputAdornment position="end" {...props.slotProps?.inputAdornment}>
 						<IconButton
 							type="submit"
 							edge="end"
 							aria-label="Send"
+							{...props.slotProps?.iconButton}
 						>
-							<SendIcon />
+							<SendIcon {...props.slotProps?.icon} />
 						</IconButton>
 					</InputAdornment>
 			}
