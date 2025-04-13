@@ -13,12 +13,13 @@ export const roomConverter: FirestoreDataConverter<RoomModel, RoomDocument> = {
 		return data;
 	},
 	fromFirestore(
-		snapshot: QueryDocumentSnapshot<RoomModel>, // HACK: This assumes model maps 1:1 with document.
+		snapshot: QueryDocumentSnapshot<RoomModel, RoomDocument>, // HACK: This assumes model maps 1:1 with document.
 		options: SnapshotOptions
 	): RoomModel {
 		const data = snapshot.data(options);
 		return {
 			id: snapshot.id,
+			ref: snapshot.ref,
 			...data,
 		};
 	},
