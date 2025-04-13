@@ -1,11 +1,15 @@
 import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomDataContext } from "@contexts/RoomDataContext";
-import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
+import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { Skeleton } from "@mui/material";
-import { ReactNode } from "react";
+import { ReactNode, useContext, useMemo } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export function RoomDataProvider({ children, roomRef }: { children: ReactNode, roomRef: RoomDocumentReference | undefined }) {
+export function RoomDataProvider({ children }: { children: ReactNode }) {
+	// Contexts
+	// HACK: Nested Context, but otherwise you need another Room wrapper...
+	const roomRefsContext = useContext(RoomReferencesContext);
+	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
 	// Hooks
 	const [data, loading, error] = useDocumentData(roomRef);
 
