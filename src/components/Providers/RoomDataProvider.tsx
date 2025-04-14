@@ -11,7 +11,7 @@ export function RoomDataProvider({ children }: { children: ReactNode }) {
 	const roomRefsContext = useContext(RoomReferencesContext);
 	const roomRef = useMemo(() => roomRefsContext?.room, [roomRefsContext?.room]);
 	// Hooks
-	const [data, loading, error] = useDocumentData(roomRef);
+	const [data, loading, error] = useDocumentData(roomRef); // TODO: { snapshotOptions: { serverTimestamps: "estimate" } } ?
 
 	if (error) return <ErrorDisplay error={error} />;
 	return loading
