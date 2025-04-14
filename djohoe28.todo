@@ -1,10 +1,11 @@
 FEATURE
-[ ] Add local File support
+[ ] Upload file to bucket?
+[ ] User synchronicity indicator
 [ ] Add TTL policy, include subcollections (SEE: https://firebase.google.com/docs/firestore/ttl#create_ttl_policy)
 [ ] Add unit/integration tests (hooks, Firebase, components?)
 
 TODO
-[ ] Add Source management (including removal!)
+[ ] Implement File source management
 [ ] Update README
 [ ] Remove commented-out code / unused imports
 [ ] .env Firebase configuration should be reconsidered
@@ -16,6 +17,12 @@ LINT
 [ ] Avoid excessive useMemo / useCallback - volumeAsFraction et al. (useRef?)
 [ ] Simplify state management (MediaPlayer - Zustand/Redux/MobX?)
 [ ] Debounce slider updates in MediaPlayer
+[ ] npm audit fix in npm ci && npm run build
+[ ] (!) Some chunks are larger than 500 kB after minification. Consider:
+	- Using dynamic import() to code-split the application
+	- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+	- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[ ] npm warn exec The following package was not found and will be installed: firebase-tools@14.1.0
 
 
 DB -> Hook -> Provider -> Context -> Component
