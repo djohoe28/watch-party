@@ -15,30 +15,56 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 	const { sendRoomMediaState, sending, error } = useSendRoomMediaState(roomData);
 	// States
 	const [isFileLoaded, setIsFileLoaded] = useState(false);
-	const [description, setDescription] = useState<string>();
+	const [fileName, setFileName] = useState<string>();
+	const [fileDescription, setFileDescription] = useState<string>();
 	const formRef = useRef<HTMLFormElement>(null);
 	const linkSubmitButtonRef = useRef<HTMLButtonElement>(null);
 	const fileSubmitButtonRef = useRef<HTMLButtonElement>(null);
 	const clearSubmitButtonRef = useRef<HTMLButtonElement>(null);
 	// Callbacks
 	const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		setDescription(event.target.files?.item(0)?.name);
-		setIsFileLoaded(!!event.target.files?.length);
+		const file = event.target.files?.item(0);
+		setIsFileLoaded(!!file);
+		setFileName(file?.name);
+		setFileDescription(file?.name);
 	}, []);
 
 	// TODO: HANDLE FORM SUBMISSION
-	// TODO: ADD REMOVE MEDIA BUTTON
 	if (error) return <ErrorDisplay error={error} />
 	return sending ? <Skeleton /> : <Stack
 		component="form"
 		spacing={2}
-		action={(formData) => { console.log("action", formData); }}
-		// onReset={(event) => { event.preventDefault(); console.log("reset", event.nativeEvent.submitter); }}
 		onSubmit={(event: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
 			event.preventDefault();
 			// console.log("submit", event.nativeEvent.submitter);
-			const results = [linkSubmitButtonRef, fileSubmitButtonRef, clearSubmitButtonRef].map(submitButtonRef => event.nativeEvent.submitter == submitButtonRef.current);
-			console.log(results);
+			const data = new FormData(event.currentTarget);
+			switch (event.nativeEvent.submitter) {
+				case linkSubmitButtonRef.current:
+					sendRoomMediaState({
+						src: data.get("link") as string,
+						isPaused: true,
+						currentTime: 0,
+						isFile: false,
+					}, false);
+					break;
+				case fileSubmitButtonRef.current:
+					// formRef.current?.requestSubmit(fileSubmitButtonRef.current);
+					// fileRadioRef.current?.click();
+					// TODO: IMPLEMENT THIS.
+					sendRoomMediaState({
+						src: undefined, // FIXME: Send file? Handle in MediaPlayer?
+						isPaused: true,
+						currentTime: 0,
+						isFile: true,
+						description: data.get("description") as string
+					});
+					break;
+				case clearSubmitButtonRef.current:
+					sendRoomMediaState(undefined, true);
+					break;
+				default: console.error("Unknown submitter"); break;
+			}
+			// console.log(event.nativeEvent.submitter);
 		}}
 		sx={{ padding: 2 }}
 		ref={formRef}
@@ -52,9 +78,9 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 		<Stack direction="row">
 			<Card sx={{ padding: 1, alignContent: "center" }}>
 				<FormControl>
-					<TextInputWithSend label="Media URL" name="source" slotProps={{
+					<TextInputWithSend label="Media URL" name="link" slotProps={{
 						iconButton: {
-							ref: linkSubmitButtonRef
+							ref: linkSubmitButtonRef,
 						}
 					}} />
 				</FormControl>
@@ -70,24 +96,31 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 						}} />
 						{isFileLoaded &&
 							<Fragment>
-								<FormHelperText>Selected file: {description}</FormHelperText>
-								{/**
-								 * FIXME: Enter on description submits using linkSubmitButtonRef.
-								 * This is because Enter uses the first submit button found in the form.
-								 * Need to refactor entire thing to use key press events.
-								 * */}
+								<FormHelperText>Selected file: {fileName}</FormHelperText>
 								<TextField
+									// Props
 									name="description"
+									value={fileDescription}
+									// Events
+									onChange={(event) => {
+										// NOTE: setDescription overwrites (instead of only when empty) in case of replaced file.
+										setFileDescription(event.target.value);
+									}}
+									onKeyDown={(event) => {
+										if (event.key === "Enter") {
+											// NOTE: HTML textbox submit defaults to first submit button in Form.
+											event.preventDefault();
+											fileSubmitButtonRef.current?.click();
+										}
+									}}
+									// Style
+									variant="outlined"
+									label="Description"
+									helperText="Helpful description of the media."
 									// NOTE
 									// Setting (default) value programatically doesn't trigger label shrink,
 									// so instead value is controlled via the description state.
-									variant="outlined"
-									value={description}
-									// NOTE: setDescription overwrites (instead of only when empty) in case of replaced file.
-									onChange={(event) => { setDescription(event.target.value); }}
-									slotProps={{ inputLabel: { shrink: !!description } }}
-									label="Description"
-									helperText="Helpful description of the media."
+									slotProps={{ inputLabel: { shrink: !!fileDescription } }}
 								/>
 								<SubmitButton ref={fileSubmitButtonRef} />
 							</Fragment>}
@@ -100,11 +133,9 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 					color="error"
 					variant="contained"
 					type="submit"
-					// action={() => { formRef.current?.requestSubmit(clearButtonRef.current); }} // TODO: Close Modal? Synthetic submit?
 					ref={clearSubmitButtonRef}
 				>Clear Media</Button>
 			</Card>
 		</Stack>
-
 	</Stack>;
 }
