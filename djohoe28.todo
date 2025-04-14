@@ -1,3 +1,7 @@
+[ ] Media ended still appears prematurely.
+[ ] Close Source modal on submit. (Pass `setOpen` callback?)
+[ ] Retain URL after submission (if possible).
+
 FEATURE
 [ ] Upload file to bucket?
 [ ] User synchronicity indicator
