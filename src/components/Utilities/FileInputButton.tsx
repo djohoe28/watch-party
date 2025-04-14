@@ -26,7 +26,7 @@ export default function FileInputButton({ slotProps, ...props }: FileInputButton
 			<VisuallyHiddenInput
 				// Props
 				type="file"
-				accept="image/*,video/*,audio/*" // TODO: Does ReactPlayer support images?
+				accept="video/*,audio/*" // FEATURE: image/* ? Not supported by ReactPlayer.
 				// Slot Props
 				{...slotProps?.fileInput}
 			// FEATURE: multiple
