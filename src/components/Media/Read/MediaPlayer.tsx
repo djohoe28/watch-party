@@ -5,13 +5,11 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { CircularProgress, IconButton, Slider, Stack, Typography } from "@mui/material";
+import { Backdrop, CircularProgress, IconButton, Slider, Stack, Typography } from "@mui/material";
 import { toTimespanString } from "@utils/Timestamp.utils";
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { OnProgressProps } from "react-player/base";
 import ReactPlayer from 'react-player/lazy';
-
-// LINTODO This entire file.
 
 export function MediaPlayer() {
 	// Contexts
@@ -43,7 +41,7 @@ export function MediaPlayer() {
 		setPlaying(playing => {
 			sendRoomMediaState({ isPaused: !!playing, currentTime: playerRef.current?.getCurrentTime() });
 			// TODO: Handle strict mode w/ DB effect correctly.
-			// FIXME: Time slider update is a bit lagged. Pause also goes back 1 frame. Connected?
+			// FIXME: Time slider update is a bit lagged. Pause also goes back 1 frame. Connected? Debounce?
 			return !playing;
 		});
 	}, [playing, setPlaying, sendRoomMediaState, playerRef.current]);
@@ -77,20 +75,21 @@ export function MediaPlayer() {
 	}, [setCurrentTime]);
 	const handleReady = useCallback((player: ReactPlayer) => {
 		// TODO: Handle strict mode w/ DB effect correctly.
-		// if (initialized) return;
 		if (!initialized && roomData?.media) {
 			setInitialized(true); // TODO: Fix race condition.
+			// NOTE: `delta` is updated twice by Firestore.
+			// SEE: https://firebase.google.com/docs/reference/node/firebase.firestore.SnapshotOptions#optional-servertimestamps
 			const delta = roomData.media.lastUpdated ? Date.now() - roomData.media.lastUpdated.toDate().getTime() : 0;
 			const isDelayed = !roomData.media.isPaused && roomData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
 			const targetTime = roomData.media.currentTime + (isDelayed ? delta / 1000 : 0);
-			// TODO: See alert in useEffect.
+			// SEE: `useEffect` alert.
 			player.seekTo(targetTime, "seconds");
 		}
 	}, [roomData?.media, currentTime]);
 	const handleEnded = useCallback(() => {
 		// HACK: Prevents race-condition infinite-recursion.
 		// NOTE: If no client was available to trigger this, this will be triggered by the next client.
-		// SEE: useEffect alert().
+		// SEE: `useEffect` alert.
 		if (roomData?.media?.isPaused === false) {
 			sendRoomMediaState({ isPaused: true, currentTime: roomData.media.duration });
 		}
@@ -106,7 +105,7 @@ export function MediaPlayer() {
 	useEffect(() => {
 		console.log("Media Effect", roomData?.media);
 		// TODO: Compartmentalize effects by prop changes?
-		// TODO: Handle source change (source is set in ReactPlayer prop; add buffer?)
+		// TODO: Handle source change (source is set in `ReactPlayer` prop; add buffer?)
 		if (playerRef.current && roomData?.media) {
 			setUrl(roomData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
 			setPlaying(!roomData.media.isPaused);
@@ -114,7 +113,7 @@ export function MediaPlayer() {
 			const isDelayed = !roomData.media.isPaused && roomData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
 			const targetTime = roomData.media.currentTime + (isDelayed ? delta / 1000 : 0);
 			if (targetTime > roomData.media.duration) {
-				// NOTE: This happens *only* if media was supposed to end but no player was available to trigger onEnded.
+				// NOTE: Edge-case where media was ended without a client to trigger `onEnded`.
 				alert("Media ended.");
 			}
 			playerRef.current.seekTo(targetTime, "seconds");
@@ -123,7 +122,7 @@ export function MediaPlayer() {
 	if (hookError) return <ErrorDisplay error={hookError} />;
 	return !roomData?.media
 		? null
-		: <Stack direction="column" spacing={2}>
+		: <Stack direction="column" spacing={2} sx={{ position: "relative" }}>
 			<ReactPlayer ref={playerRef}
 				// Props
 				url={url}
@@ -138,8 +137,22 @@ export function MediaPlayer() {
 				onEnded={handleEnded}
 				// Style
 				width="100%"
-				controls={false} // NOTE: Controls are handled below.
+				controls={false} // NOTE: Controls are handled below, for better-specified handling.
 			/>
+			<Backdrop
+				open={hookSending}
+				sx={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					width: "100%",
+					height: "100%",
+					backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+					zIndex: 10, // Ensure it overlays the player (and controls.)
+				}}
+			>
+				<CircularProgress size="20rem" />
+			</Backdrop>
 			<Stack direction="row" spacing={2} alignItems="center">
 				<IconButton onClick={handlePlayingToggle}>
 					{playingIcon}
@@ -176,7 +189,7 @@ export function MediaPlayer() {
 				/>
 				<Typography>{durationString}</Typography>
 			</Stack>
-			<input type="number" value={maxDelta} onChange={(event) => { setMaxDelta(event.target.valueAsNumber); }} />
-			{hookSending ? <CircularProgress /> : null /** TODO: Display as overlay over video. */}
+			{/** HACK: Avoids unused warning for setMaxDelta. Add to controls? */}
+			<input type="number" value={maxDelta} onChange={(event) => { setMaxDelta(event.target.valueAsNumber); }} hidden />
 		</Stack>
 }
