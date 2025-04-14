@@ -112,8 +112,9 @@ export function MediaPlayer() {
 			const delta = roomData.media.lastUpdated ? Date.now() - roomData.media.lastUpdated.toDate().getTime() : 0;
 			const isDelayed = !roomData.media.isPaused && roomData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
 			const targetTime = roomData.media.currentTime + (isDelayed ? delta / 1000 : 0);
-			if (targetTime > roomData.media.duration) {
+			if (roomData.media.duration && targetTime > roomData.media.duration) {
 				// NOTE: Edge-case where media was ended without a client to trigger `onEnded`.
+				// FIXME: This assumes that `duration` is set on `roomData.media`.
 				alert("Media ended.");
 			}
 			playerRef.current.seekTo(targetTime, "seconds");
