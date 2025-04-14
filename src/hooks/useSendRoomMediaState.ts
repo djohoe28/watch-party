@@ -12,7 +12,7 @@ export function useSendRoomMediaState(
 	const [sending, setSending] = useState<boolean>(false);
 	// Callbacks
 	const sendRoomMediaState = useCallback(
-		(settings?: Partial<MediaState>) => {
+		(settings?: Partial<MediaState>, merge = true) => {
 			if (!roomData?.ref) {
 				setError("No Room Document context provided");
 				return;
@@ -41,7 +41,7 @@ export function useSendRoomMediaState(
 				{
 					media: newValue,
 				},
-				{ merge: true }
+				{ merge: merge }
 			)
 				.then(() => {
 					setSending(false);
