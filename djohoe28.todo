@@ -1,6 +1,7 @@
 [ ] Media ended still appears prematurely.
 [ ] Close Source modal on submit. (Pass `setOpen` callback?)
 [ ] Retain URL after submission (if possible).
+[ ] Synchronize isPaused state with ReactPlayer (YouTube et al still allows click to pause.)
 
 FEATURE
 [ ] Upload file to bucket?
