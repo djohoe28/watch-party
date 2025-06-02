@@ -1,5 +1,5 @@
 import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
-import { ErrorType } from "@mytypes/AsyncContext";
+import { ErrorType } from "@mytypes/ErrorType";
 import { messageConverter } from "@services/Converters/Message.converter";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useCallback, useMemo, useState } from "react";

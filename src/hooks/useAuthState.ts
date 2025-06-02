@@ -1,4 +1,5 @@
-import { AsyncContext, ErrorType } from "@mytypes/AsyncContext";
+import { AsyncContext } from "@mytypes/AsyncContext";
+import { ErrorType } from "@mytypes/ErrorType";
 import { auth } from "@services/Auth.service";
 import { User, onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import { useEffect, useState } from "react";

@@ -1,6 +1,7 @@
 import { MediaState } from "@models/App/MediaState.model";
 import { RoomModel } from "@models/App/Room.model";
-import { ErrorType } from "@mytypes/AsyncContext";
+import { MediaStateMap } from "@models/DB/MediaStateMap.model";
+import { ErrorType } from "@mytypes/ErrorType";
 import { deleteField, serverTimestamp, setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
 

@@ -2,7 +2,7 @@ import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useRoomReferences } from "@hooks/useRoomReferences";
 import { Skeleton } from "@mui/material";
-import { ErrorType } from "@mytypes/AsyncContext";
+import { ErrorType } from "@mytypes/ErrorType";
 import { getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { ReactNode, useEffect, useState } from "react";
 
