@@ -5,7 +5,7 @@ import { RoomDocumentReference } from "@models/DB/RoomDocument.model";
 import { memberConverter } from "@services/Converters/Member.converter";
 import { messageConverter } from "@services/Converters/Message.converter";
 import { roomConverter } from "@services/Converters/Room.converter";
-import { firestoreDb } from "@services/Firestore.service";
+import { firestoreDb } from "@services/Firebase/Firestore.service";
 import { collection, doc } from "firebase/firestore";
 
 export interface RoomReferences {

@@ -1,4 +1,4 @@
-import { firebaseApp } from "@services/Firebase.service";
+import { firebaseApp } from "@services/Firebase/Firebase.service";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
 const firestoreDb = getFirestore(firebaseApp); // TODO: Add Database ID?

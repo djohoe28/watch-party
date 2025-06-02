@@ -1,4 +1,4 @@
-import { firebaseApp } from "@services/Firebase.service";
+import { firebaseApp } from "@services/Firebase/Firebase.service";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
