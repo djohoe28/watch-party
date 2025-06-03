@@ -1,6 +1,6 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomDataContext } from "@contexts/RoomDataContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';

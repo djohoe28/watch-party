@@ -1,6 +1,6 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
 import { useRoomReferences } from "@hooks/useRoomReferences";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
 import { Skeleton } from "@mui/material";
 import { ErrorType } from "@mytypes/ErrorType";
 import { getDoc, serverTimestamp, setDoc } from "firebase/firestore";

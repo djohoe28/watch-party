@@ -1,6 +1,6 @@
-import { VisuallyHiddenInput } from '@components/Utilities/VisuallyHiddenInput';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Button, { ButtonProps } from '@mui/material/Button';
+import { VisuallyHiddenInput } from './VisuallyHiddenInput';
 
 // SEE: https://mui.com/material-ui/react-button/#file-upload
 

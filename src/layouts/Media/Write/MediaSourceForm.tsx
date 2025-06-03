@@ -1,9 +1,9 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
-import FileInputButton from "@components/Utilities/FileInputButton";
-import { SubmitButton } from "@components/Utilities/SubmitButton";
-import { TextInputWithSend } from "@components/Utilities/TextInputWithSend";
 import { RoomDataContext } from "@contexts/RoomDataContext";
 import { useSendRoomMediaState } from "@hooks/useSendRoomMediaState";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
+import FileInputButton from "@layouts/components/FileInputButton";
+import { SubmitButton } from "@layouts/components/SubmitButton";
+import { TextInputWithSend } from "@layouts/components/TextInputWithSend";
 import ClearIcon from '@mui/icons-material/Clear';
 import { Button, Card, FormControl, FormHelperText, Skeleton, Stack, TextField, Typography } from "@mui/material";
 import { Fragment, SyntheticEvent, useCallback, useContext, useRef, useState } from "react";

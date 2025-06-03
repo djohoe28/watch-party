@@ -1,6 +1,6 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
-import { Room } from "@components/Room/Room";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
 import { useParams } from "react-router";
+import { Room } from "./Room";
 
 export function RoomWrapper() {
 	// Hooks

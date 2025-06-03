@@ -1,6 +1,6 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { AuthUserContext } from "@contexts/AuthContext";
 import { useAuthState } from "@hooks/useAuthState";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
 import { Skeleton } from "@mui/material";
 import { ReactNode } from "react";
 

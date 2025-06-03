@@ -7,7 +7,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			// '@': '/src',
-			"@components": "/src/components",
+			"@layouts": "/src/layouts",
 			"@configs": "/src/configs",
 			"@contexts": "/src/contexts",
 			"@hooks": "/src/hooks",

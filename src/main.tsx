@@ -1,7 +1,7 @@
-import { App } from '@components/App';
-import { Home } from '@components/Home/Home';
-import { PageNotFound } from '@components/PageNotFound';
-import { RoomWrapper } from '@components/Room/RoomWrapper';
+import { App } from '@layouts/App';
+import { Home } from '@layouts/Home/Home';
+import { PageNotFound } from '@layouts/PageNotFound';
+import { RoomWrapper } from '@layouts/Room/RoomWrapper';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';

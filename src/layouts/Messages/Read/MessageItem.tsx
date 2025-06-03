@@ -1,4 +1,4 @@
-import { MemberAvatar } from "@components/Members/Read/MemberAvatar";
+import { MemberAvatar } from "@layouts/Members/Read/MemberAvatar";
 import { MemberModel } from "@models/App/Member.model";
 import { MessageModel } from "@models/App/Message.model";
 import { ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";

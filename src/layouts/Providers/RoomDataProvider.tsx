@@ -1,6 +1,6 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { RoomDataContext } from "@contexts/RoomDataContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
 import { Skeleton } from "@mui/material";
 import { ReactNode, useContext, useMemo } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";

@@ -1,13 +1,13 @@
-import { MessageItem } from "@components/Messages/Read/MessageItem";
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { AuthUserContext } from "@contexts/AuthContext";
 import { MembersContext } from "@contexts/MembersContext";
 import { RoomReferencesContext } from "@contexts/RoomReferencesContext";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box, Divider, Fab, List, Skeleton } from "@mui/material";
 import { orderBy, query } from "firebase/firestore";
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { MessageItem } from "./MessageItem";
 
 export function MessageList() {
 	// Contexts

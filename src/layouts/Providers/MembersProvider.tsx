@@ -1,5 +1,5 @@
-import { ErrorDisplay } from "@components/Utilities/ErrorDisplay";
 import { MembersContext } from "@contexts/MembersContext";
+import { ErrorDisplay } from "@layouts/components/ErrorDisplay";
 import { MembersCollectionReference } from "@models/DB/MembersCollection.model";
 import { Skeleton } from "@mui/material";
 import { ReactNode } from "react";
