@@ -1,14 +1,17 @@
 {
-  "name": "material-ui-vite-ts",
+  "name": "covid-player",
   "private": true,
   "version": "5.0.0",
   "type": "module",
   "scripts": {
+    "login": "firebase login",
+    "init": "firebase init",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "emulate-firestore": "firebase emulators:start --only auth,firestore",
     "emulate-firestore:import": "firebase emulators:start --only auth,firestore --import ./firestore.local",
+    "emulate-firestore:io": "firebase emulators:start --only auth,firestore --import ./firestore.local --export-on-exit firestore.local",
     "emulate-firestore:export": "firebase emulators:start --only auth,firestore --import ./firestore.local --export-on-exit firestore.local"
   },
   "dependencies": {
@@ -25,8 +28,16 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.28.0",
+    "@types/estree": "^1.0.8",
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@types/react-transition-group": "^4.4.12",
     "@vitejs/plugin-react": "latest",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",

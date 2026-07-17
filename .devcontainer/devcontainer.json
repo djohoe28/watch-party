@@ -6,8 +6,15 @@
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
 	"features": {
 		"ghcr.io/devcontainers/features/git-lfs:1": {},
-		"ghcr.io/devcontainers/features/github-cli:1": {}
-	}
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers-extra/features/firebase-cli:2": {},
+		"ghcr.io/devcontainers/features/java:1": {}
+	},
+	"forwardPorts": [
+		5173,  // Vite dev server
+        8080,  // Firestore emulator
+        9099   // Auth emulator
+	]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
