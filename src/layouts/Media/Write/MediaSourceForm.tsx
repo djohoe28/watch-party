@@ -52,7 +52,7 @@ export function MediaSourceForm({ titleId, descriptionId }: { titleId?: string, 
 					// fileRadioRef.current?.click();
 					// TODO: IMPLEMENT THIS.
 					sendRoomMediaState({
-						src: undefined, // FIXME: Send file? Handle in MediaPlayer?
+						src: "", // FIXME: Send file? Handle in MediaPlayer? // HACK: Uncaught FirebaseError: Function setDoc() called with invalid data. Unsupported field value: undefined
 						isPaused: true,
 						currentTime: 0,
 						isFile: true,
