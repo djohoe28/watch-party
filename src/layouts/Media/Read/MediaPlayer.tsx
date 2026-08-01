@@ -154,7 +154,7 @@ export function MediaPlayer() {
 			>
 				<CircularProgress size="20rem" />
 			</Backdrop>
-			<Stack direction="row" spacing={2} alignItems="center">
+			<Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
 				<IconButton onClick={handlePlayingToggle}>
 					{playingIcon}
 				</IconButton>
@@ -171,7 +171,7 @@ export function MediaPlayer() {
 					valueLabelFormat={volumeValueLabelFormatter}
 				/>
 			</Stack>
-			<Stack direction="row" spacing={2} alignItems="center">
+			<Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
 				<Typography>{currentTimeString}</Typography>
 				<Slider
 					// Props

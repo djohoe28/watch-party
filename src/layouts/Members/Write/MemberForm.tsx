@@ -53,7 +53,7 @@ export function MemberForm() {
 			documentValue={documentData?.color}
 			sendMemberSettings={sendMemberSettings}
 		/>
-		<Grid container textAlign='center'>
+		<Grid container sx={{ textAlign: 'center' }}>
 			<Grid size='grow'>
 				<Button type='reset'>Reset</Button>
 			</Grid>
