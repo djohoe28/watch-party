@@ -1,14 +1,15 @@
 import { RoomDataContext } from "@contexts/RoomDataContext";
 import { RoomModel } from "@models/App/Room.model";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Timestamp } from "firebase/firestore";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { MediaPlayer } from "./MediaPlayer";
 
 const sendRoomMediaState = vi.fn();
+const sendingState = vi.hoisted(() => ({ current: false }));
 vi.mock("@hooks/useSendRoomMediaState", () => ({
-	useSendRoomMediaState: () => ({ sendRoomMediaState, sending: false, error: null }),
+	useSendRoomMediaState: () => ({ sendRoomMediaState, sending: sendingState.current, error: null }),
 }));
 
 // A minimal, directly-controllable stand-in for `react-player`. Unlike
@@ -44,18 +45,21 @@ function renderPlayer(media: Partial<NonNullable<RoomModel["media"]>>) {
 			...media,
 		},
 	};
-	render(
-		<RoomDataContext.Provider value={roomData}>
-			<MediaPlayer />
-		</RoomDataContext.Provider>
-	);
-	return roomData;
+	const makeTree = () => <RoomDataContext.Provider value={roomData}><MediaPlayer /></RoomDataContext.Provider>;
+	const result = render(makeTree());
+	return { roomData, rerender: () => { result.rerender(makeTree()); } };
+}
+
+function backdropOpacity() {
+	const backdrop = document.querySelector(".MuiBackdrop-root");
+	return backdrop ? window.getComputedStyle(backdrop).opacity : "0";
 }
 
 beforeEach(() => {
 	sendRoomMediaState.mockClear();
 	stub.latestProps = undefined;
 	stub.handle.currentTime = 0;
+	sendingState.current = false;
 });
 
 describe("MediaPlayer", () => {
@@ -114,5 +118,43 @@ describe("MediaPlayer", () => {
 		});
 		stub.latestProps?.onEnded?.();
 		expect(sendRoomMediaState).toHaveBeenCalledWith({ isPaused: true, currentTime: 42 });
+	});
+
+	describe("sending backdrop", () => {
+		it("does not show the backdrop immediately when a send starts", () => {
+			const { rerender } = renderPlayer({ isPaused: true });
+			expect(backdropOpacity()).toBe("0");
+			sendingState.current = true;
+			act(() => { rerender(); });
+			expect(backdropOpacity()).toBe("0");
+		});
+
+		it("shows the backdrop once a send is still pending past the debounce delay", async () => {
+			const { rerender } = renderPlayer({ isPaused: true });
+			sendingState.current = true;
+			act(() => { rerender(); });
+			await waitFor(() => { expect(backdropOpacity()).toBe("1"); });
+		});
+
+		it("never shows the backdrop for a send that finishes within the debounce delay", async () => {
+			const { rerender } = renderPlayer({ isPaused: true });
+			sendingState.current = true;
+			act(() => { rerender(); });
+			sendingState.current = false;
+			act(() => { rerender(); });
+			// Give it more than the debounce delay to (incorrectly) flip open, then confirm it never did.
+			await new Promise((resolve) => setTimeout(resolve, 400));
+			expect(backdropOpacity()).toBe("0");
+		});
+
+		it("hides the backdrop again once a slow send finishes", async () => {
+			const { rerender } = renderPlayer({ isPaused: true });
+			sendingState.current = true;
+			act(() => { rerender(); });
+			await waitFor(() => { expect(backdropOpacity()).toBe("1"); });
+			sendingState.current = false;
+			act(() => { rerender(); });
+			await waitFor(() => { expect(backdropOpacity()).toBe("0"); });
+		});
 	});
 });
