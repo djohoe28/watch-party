@@ -9,7 +9,7 @@ import { MembersList } from "./Read/MembersList";
 import { MemberForm } from "./Write/MemberForm";
 
 export function MemberControls() {
-	return <Stack direction="row" spacing={2} textAlign='center' justifyContent="space-between">
+	return <Stack direction="row" spacing={2} sx={{ textAlign: 'center', justifyContent: "space-between" }}>
 		<DrawerWithToggle
 			icon={<SettingsIcon />}
 			tooltip="Member Settings"

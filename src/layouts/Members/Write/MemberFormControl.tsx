@@ -45,7 +45,7 @@ export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, i
 		setValue(documentValue ?? defaultValue);
 	}, [documentValue, defaultValue, setValue]);
 
-	return <Stack direction="row" spacing={2} alignItems="center">
+	return <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
 		<InputLabel htmlFor={fieldName.toString()}>{capitalizedName}{isChanged ? "*" : ""}</InputLabel>
 		<Input
 			sx={{ flexGrow: 1 }}
