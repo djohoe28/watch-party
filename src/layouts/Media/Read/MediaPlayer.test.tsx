@@ -1,3 +1,4 @@
+import { Temporal } from "@js-temporal/polyfill";
 import { RoomDataContext } from "@contexts/RoomDataContext";
 import { RoomModel } from "@models/App/Room.model";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
@@ -91,7 +92,7 @@ describe("MediaPlayer", () => {
 	});
 
 	it("applies drift correction on mount when media was left playing while unattended", () => {
-		const fiveSecondsAgo = Timestamp.fromMillis(Date.now() - 5000);
+		const fiveSecondsAgo = Timestamp.fromMillis(Temporal.Now.instant().subtract({ seconds: 5 }).epochMilliseconds);
 		renderPlayer({ isPaused: false, currentTime: 50, duration: 100, lastUpdated: fiveSecondsAgo });
 		// ~5s have passed since `lastUpdated` server-side; the player should fast-forward to catch up.
 		expect(stub.handle.currentTime).toBeCloseTo(55, 0);

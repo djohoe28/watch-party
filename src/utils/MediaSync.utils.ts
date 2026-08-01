@@ -1,3 +1,4 @@
+import { Temporal } from "@js-temporal/polyfill";
 import { Timestamp } from "firebase/firestore";
 
 export interface SyncableMediaState {
@@ -15,9 +16,11 @@ export function computeSyncTargetTime(
 	media: SyncableMediaState,
 	localCurrentTime: number | undefined,
 	maxDelta: number,
-	now: number = Date.now()
+	now: Temporal.Instant = Temporal.Now.instant()
 ): number {
-	const deltaSeconds = media.lastUpdated ? (now - media.lastUpdated.toDate().getTime()) / 1000 : 0;
+	const deltaSeconds = media.lastUpdated
+		? now.since(Temporal.Instant.fromEpochMilliseconds(media.lastUpdated.toMillis())).total("seconds")
+		: 0;
 	const isDelayed = !media.isPaused && media.currentTime - (localCurrentTime ?? 0) + deltaSeconds > maxDelta;
 	return media.currentTime + (isDelayed ? deltaSeconds : 0);
 }

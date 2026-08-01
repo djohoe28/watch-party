@@ -1,11 +1,12 @@
+import { Temporal } from "@js-temporal/polyfill";
 import { Timestamp } from "firebase/firestore";
 import { describe, expect, it } from "vitest";
 import { toDisplayString, toTimespanString } from "./Timestamp.utils";
 
 describe("toDisplayString", () => {
-	it("formats a Date", () => {
-		const date = new Date(Date.UTC(2026, 0, 2, 3, 4, 5));
-		expect(toDisplayString(date)).toBe("2026-01-02 03:04:05");
+	it("formats a Temporal.Instant", () => {
+		const instant = Temporal.Instant.from("2026-01-02T03:04:05Z");
+		expect(toDisplayString(instant)).toBe("2026-01-02 03:04:05");
 	});
 
 	it("formats a numeric epoch", () => {
@@ -14,8 +15,7 @@ describe("toDisplayString", () => {
 	});
 
 	it("formats a Firestore Timestamp", () => {
-		const date = new Date(Date.UTC(2026, 0, 2, 3, 4, 5));
-		const timestamp = Timestamp.fromDate(date);
+		const timestamp = Timestamp.fromMillis(Date.UTC(2026, 0, 2, 3, 4, 5));
 		expect(toDisplayString(timestamp)).toBe("2026-01-02 03:04:05");
 	});
 });

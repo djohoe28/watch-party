@@ -1,3 +1,4 @@
+import { Temporal } from "@js-temporal/polyfill";
 import { expect, Page, test } from "@playwright/test";
 
 /**
@@ -12,7 +13,7 @@ import { expect, Page, test } from "@playwright/test";
  */
 
 function randomRoomId(): string {
-	return `e2e-${Date.now().toString()}-${Math.random().toString(36).slice(2, 8)}`;
+	return `e2e-${Temporal.Now.instant().epochMilliseconds.toString()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 async function openRoom(page: Page, roomId: string) {
