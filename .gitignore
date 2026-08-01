@@ -25,3 +25,10 @@ dist-ssr
 
 # Firebase emulator export dumps
 firebase-export-*/
+
+# Test tooling output
+coverage
+test-results/
+playwright-report/
+blob-report/
+*.tsbuildinfo
