@@ -3,6 +3,9 @@ import { ReactNode } from "react";
 
 export function ModalBox({ children }: { children: ReactNode }) {
 	return <Box
+		role="dialog"
+		aria-modal="true"
+		tabIndex={-1}
 		sx={{
 			position: 'absolute',
 			top: '50%',

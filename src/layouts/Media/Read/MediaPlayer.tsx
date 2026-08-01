@@ -6,6 +6,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { Backdrop, CircularProgress, IconButton, Slider, Stack, Typography } from "@mui/material";
+import { computeSyncTargetTime } from "@utils/MediaSync.utils";
 import { toTimespanString } from "@utils/Timestamp.utils";
 import { SyntheticEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from 'react-player';
@@ -78,9 +79,7 @@ export function MediaPlayer() {
 			setInitialized(true); // TODO: Fix race condition.
 			// NOTE: `delta` is updated twice by Firestore.
 			// SEE: https://firebase.google.com/docs/reference/node/firebase.firestore.SnapshotOptions#optional-servertimestamps
-			const delta = roomData.media.lastUpdated ? Date.now() - roomData.media.lastUpdated.toDate().getTime() : 0;
-			const isDelayed = !roomData.media.isPaused && roomData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
-			const targetTime = roomData.media.currentTime + (isDelayed ? delta / 1000 : 0);
+			const targetTime = computeSyncTargetTime(roomData.media, currentTime, maxDelta);
 			// SEE: `useEffect` alert.
 			if (playerRef.current) playerRef.current.currentTime = targetTime;
 		}
@@ -90,9 +89,12 @@ export function MediaPlayer() {
 		// NOTE: If no client was available to trigger this, this will be triggered by the next client.
 		// SEE: `useEffect` alert.
 		if (roomData?.media?.isPaused === false) {
-			sendRoomMediaState({ isPaused: true, currentTime: roomData.media.duration });
+			// NOTE: `roomData.media.duration` isn't always set server-side (e.g. MediaSourceForm
+			// doesn't write it), so fall back to the locally observed player duration - it's
+			// always known by the time playback can end.
+			sendRoomMediaState({ isPaused: true, currentTime: roomData.media.duration ?? duration });
 		}
-	}, [sendRoomMediaState, roomData?.media?.isPaused, roomData?.media?.duration]);
+	}, [sendRoomMediaState, roomData?.media?.isPaused, roomData?.media?.duration, duration]);
 	// Formatters
 	const timeValueLabelFormatter = useCallback((value: number) => {
 		return toTimespanString(value, showHours);
@@ -108,9 +110,7 @@ export function MediaPlayer() {
 		if (playerRef.current && roomData?.media) {
 			setSrc(roomData.media.src); // TODO: Make sure this doesn't trigger unnecessarily!
 			setPlaying(!roomData.media.isPaused);
-			const delta = roomData.media.lastUpdated ? Date.now() - roomData.media.lastUpdated.toDate().getTime() : 0;
-			const isDelayed = !roomData.media.isPaused && roomData.media.currentTime - (currentTime ?? 0) + delta > maxDelta;
-			const targetTime = roomData.media.currentTime + (isDelayed ? delta / 1000 : 0);
+			const targetTime = computeSyncTargetTime(roomData.media, currentTime, maxDelta);
 			if (roomData.media.duration && targetTime > roomData.media.duration) {
 				// NOTE: Edge-case where media was ended without a client to trigger `onEnded`.
 				// FIXME: This assumes that `duration` is set on `roomData.media`.
@@ -154,10 +154,10 @@ export function MediaPlayer() {
 				<CircularProgress size="20rem" />
 			</Backdrop>
 			<Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
-				<IconButton onClick={handlePlayingToggle}>
+				<IconButton onClick={handlePlayingToggle} aria-label={playing ? "Pause" : "Play"}>
 					{playingIcon}
 				</IconButton>
-				<IconButton onClick={handleMutedToggle}>
+				<IconButton onClick={handleMutedToggle} aria-label={muted ? "Unmute" : "Mute"}>
 					{mutedIcon}
 				</IconButton>
 				<Slider
@@ -168,6 +168,7 @@ export function MediaPlayer() {
 					// Style
 					valueLabelDisplay='auto'
 					valueLabelFormat={volumeValueLabelFormatter}
+					aria-label="Volume"
 				/>
 			</Stack>
 			<Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
@@ -185,6 +186,7 @@ export function MediaPlayer() {
 					valueLabelDisplay='auto'
 					valueLabelFormat={timeValueLabelFormatter}
 					color={seeking ? "secondary" : undefined}
+					aria-label="Media time"
 				// disabled
 				/>
 				<Typography>{durationString}</Typography>
