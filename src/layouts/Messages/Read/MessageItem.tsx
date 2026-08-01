@@ -1,3 +1,4 @@
+import { Temporal } from "@js-temporal/polyfill";
 import { MemberAvatar } from "@layouts/Members/Read/MemberAvatar";
 import { MemberModel } from "@models/App/Member.model";
 import { MessageModel } from "@models/App/Message.model";
@@ -8,7 +9,7 @@ import { Fragment } from "react/jsx-runtime";
 
 export function MessageItem({ message, isSelf, memberModel }: { message: MessageModel, isSelf: boolean, memberModel?: MemberModel | undefined }) {
 	// Memos (Derived Props)
-	const timestampDisplayString = useMemo(() => toDisplayString(message.sentAt ?? Date.now()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp). // LINTODO
+	const timestampDisplayString = useMemo(() => toDisplayString(message.sentAt ?? Temporal.Now.instant()), [message.sentAt]); // NOTE: Default to current time if sentAt is null (waiting for serverTimestamp). // LINTODO
 
 	return <ListItem
 		alignItems="flex-start"

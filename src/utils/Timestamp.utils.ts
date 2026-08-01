@@ -1,15 +1,14 @@
+import { Temporal } from "@js-temporal/polyfill";
 import { Timestamp } from "firebase/firestore";
 
-export function toDisplayString(timestamp: number | Date | Timestamp): string {
-	let date: Date;
-	if (timestamp instanceof Date) {
-		date = timestamp;
-	} else if (typeof timestamp === "number") {
-		date = new Date(timestamp);
-	} else {
-		date = timestamp.toDate();
-	}
-	return date.toISOString().replace("T", " ").substring(0, 19);
+export function toDisplayString(timestamp: number | Temporal.Instant | Timestamp): string {
+	const instant =
+		timestamp instanceof Temporal.Instant
+			? timestamp
+			: Temporal.Instant.fromEpochMilliseconds(
+					typeof timestamp === "number" ? timestamp : timestamp.toMillis()
+				);
+	return instant.toString({ smallestUnit: "second" }).replace("T", " ").replace("Z", "");
 }
 
 export function toTimespanString(
@@ -20,7 +19,9 @@ export function toTimespanString(
 		// LINT: `!seconds` catches `seconds=0`...
 		return showHours ? "??:??:??" : "??:??";
 	}
-	return new Date(seconds * 1000)
-		.toISOString()
-		.slice(seconds > 3600 || showHours ? 11 : 14, 19);
+	const duration = Temporal.Duration.from({ seconds: Math.trunc(seconds) }).round({ largestUnit: "hours" });
+	const pad = (value: number) => value.toString().padStart(2, "0");
+	return showHours || duration.hours > 0
+		? `${pad(duration.hours)}:${pad(duration.minutes)}:${pad(duration.seconds)}`
+		: `${pad(duration.minutes)}:${pad(duration.seconds)}`;
 }
