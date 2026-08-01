@@ -6,14 +6,6 @@ import { HTMLInputTypeAttribute, useCallback, useEffect, useMemo, useState } fro
 
 type FieldType = keyof MemberDocument
 
-type FieldMap = Record<FieldType, HTMLInputTypeAttribute>
-
-// TODO: Leverage FIELD_MAP, or keep compartmentalized?
-const FIELD_MAP: FieldMap = {
-	name: "text",
-	color: "color",
-}
-
 interface MemberFormControlProps<T> {
 	fieldName: FieldType;
 	inputType: HTMLInputTypeAttribute;
@@ -22,12 +14,12 @@ interface MemberFormControlProps<T> {
 	sendMemberSettings: (settings: MemberModel, merge?: boolean) => void; // HACK: Assumes MemberModel is a subset of MemberDocument
 }
 
-export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, inputType = FIELD_MAP[fieldName], sendMemberSettings }: MemberFormControlProps<T>) {
+export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, inputType, sendMemberSettings }: MemberFormControlProps<T>) {
 	// States
 	const [value, setValue] = useState<T>(documentValue ?? defaultValue);
 	// Memos
 	const isChanged = useMemo(() => (documentValue ?? defaultValue) !== value, [documentValue, defaultValue, value]);
-	const capitalizedName = useMemo(() => fieldName.toString().charAt(0).toUpperCase() + fieldName.toString().slice(1), [fieldName]);
+	const capitalizedName = useMemo(() => fieldName.charAt(0).toUpperCase() + fieldName.slice(1), [fieldName]);
 	const tooltipText = useMemo(() => `Restore ${capitalizedName}`, [capitalizedName]);
 	// Callbacks
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,10 +38,10 @@ export function MemberFormControl<T>({ documentValue, defaultValue, fieldName, i
 	}, [documentValue, defaultValue, setValue]);
 
 	return <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
-		<InputLabel htmlFor={fieldName.toString()}>{capitalizedName}{isChanged ? "*" : ""}</InputLabel>
+		<InputLabel htmlFor={fieldName}>{capitalizedName}{isChanged ? "*" : ""}</InputLabel>
 		<Input
 			sx={{ flexGrow: 1 }}
-			name={fieldName.toString()}
+			name={fieldName}
 			type={inputType}
 			value={value}
 			onChange={handleChange}

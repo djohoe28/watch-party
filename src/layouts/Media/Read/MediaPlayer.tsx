@@ -11,6 +11,11 @@ import { toTimespanString } from "@utils/Timestamp.utils";
 import { SyntheticEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from 'react-player';
 
+// Sends usually resolve near-instantly (play/pause, seek, volume...); only show the
+// full-screen loading Backdrop if a send is still in flight after this delay, so routine
+// writes don't cause it to flash on every interaction.
+const SENDING_BACKDROP_DELAY_MS = 300;
+
 export function MediaPlayer() {
 	// Contexts
 	const roomData = useContext(RoomDataContext);
@@ -28,6 +33,7 @@ export function MediaPlayer() {
 	const [maxDelta, setMaxDelta] = useState<number>(0);
 	const [seeking, setSeeking] = useState<boolean>(false);
 	const [initialized, setInitialized] = useState<boolean>(false);
+	const [showSendingBackdrop, setShowSendingBackdrop] = useState<boolean>(false);
 	// Memos (Derivative States)
 	const volumeAsFraction = useMemo(() => volume / 100, [volume]);
 	const showHours = useMemo(() => duration ? duration > 3600 : false, [duration]);
@@ -39,7 +45,7 @@ export function MediaPlayer() {
 	// UI Event Handlers
 	const handlePlayingToggle = useCallback(() => {
 		setPlaying(playing => {
-			sendRoomMediaState({ isPaused: !!playing, currentTime: playerRef.current?.currentTime });
+			sendRoomMediaState({ isPaused: playing, currentTime: playerRef.current?.currentTime });
 			// TODO: Handle strict mode w/ DB effect correctly.
 			// FIXME: Time slider update is a bit lagged. Pause also goes back 1 frame. Connected? Debounce?
 			return !playing;
@@ -104,6 +110,14 @@ export function MediaPlayer() {
 	}, []);
 	// Effects
 	useEffect(() => {
+		if (!hookSending) {
+			setShowSendingBackdrop(false);
+			return;
+		}
+		const timeout = setTimeout(() => { setShowSendingBackdrop(true); }, SENDING_BACKDROP_DELAY_MS);
+		return () => { clearTimeout(timeout); };
+	}, [hookSending]);
+	useEffect(() => {
 		console.log("Media Effect", roomData?.media);
 		// TODO: Compartmentalize effects by prop changes?
 		// TODO: Handle source change (source is set in `ReactPlayer` prop; add buffer?)
@@ -140,7 +154,7 @@ export function MediaPlayer() {
 				controls={false} // NOTE: Controls are handled below, for better-specified handling.
 			/>
 			<Backdrop
-				open={hookSending}
+				open={showSendingBackdrop}
 				sx={{
 					position: "absolute",
 					top: 0,

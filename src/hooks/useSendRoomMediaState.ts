@@ -1,6 +1,5 @@
 import { MediaState } from "@models/App/MediaState.model";
 import { RoomModel } from "@models/App/Room.model";
-import { MediaStateMap } from "@models/DB/MediaStateMap.model";
 import { ErrorType } from "@mytypes/ErrorType";
 import { deleteField, serverTimestamp, setDoc } from "firebase/firestore";
 import { useCallback, useState } from "react";
@@ -18,9 +17,14 @@ export function useSendRoomMediaState(
 				setError("No Room Document context provided");
 				return;
 			}
-			if(roomData.media == settings) {
-				// TODO: Prevent if settings is same as server?
-				// (each field in settings is same as roomData.media)
+			const currentMedia = roomData.media;
+			if (
+				settings &&
+				currentMedia &&
+				(Object.entries(settings) as [keyof MediaState, MediaState[keyof MediaState]][]).every(
+					([key, value]) => currentMedia[key] === value
+				)
+			) {
 				console.log("You're good.");
 				return;
 			}

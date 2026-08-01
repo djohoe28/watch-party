@@ -77,10 +77,6 @@ describe("useSendRoomMediaState", () => {
 		expect(setDocMock).toHaveBeenCalledWith(fakeRef, { media: "DELETE_FIELD_SENTINEL" }, { merge: true });
 	});
 
-	// NOTE: The hook's own TODO ("Prevent if settings is same as server?") says this dedup guard
-	// is meant to do a field-by-field comparison; today it only catches literal reference equality,
-	// which callers never actually hit. This test documents the current (incomplete) guard as-is -
-	// it isn't a stand-in for the deep-equality behavior the hook is intended to eventually have.
 	it("is a no-op when settings is referentially the same object as the current media", () => {
 		const media = { src: "video.mp4", isFile: false, isPaused: true, currentTime: 1, lastUpdated: null };
 		const roomData: RoomModel = { createdAt: null, ref: fakeRef, media };
@@ -89,6 +85,33 @@ describe("useSendRoomMediaState", () => {
 			result.current.sendRoomMediaState(media);
 		});
 		expect(setDocMock).not.toHaveBeenCalled();
+	});
+
+	it("is a no-op when every field in settings already matches the current media (deep equality)", () => {
+		const roomData: RoomModel = {
+			createdAt: null,
+			ref: fakeRef,
+			media: { src: "video.mp4", isFile: false, isPaused: true, currentTime: 1, lastUpdated: null },
+		};
+		const { result } = renderHook(() => useSendRoomMediaState(roomData));
+		act(() => {
+			// A fresh object literal, not the same reference as roomData.media, but equal field-by-field.
+			result.current.sendRoomMediaState({ isPaused: true, currentTime: 1 });
+		});
+		expect(setDocMock).not.toHaveBeenCalled();
+	});
+
+	it("sends when settings differ from the current media in at least one field", () => {
+		const roomData: RoomModel = {
+			createdAt: null,
+			ref: fakeRef,
+			media: { src: "video.mp4", isFile: false, isPaused: true, currentTime: 1, lastUpdated: null },
+		};
+		const { result } = renderHook(() => useSendRoomMediaState(roomData));
+		act(() => {
+			result.current.sendRoomMediaState({ isPaused: true, currentTime: 2 });
+		});
+		expect(setDocMock).toHaveBeenCalled();
 	});
 
 	it("clears sending and error after a successful write", async () => {
